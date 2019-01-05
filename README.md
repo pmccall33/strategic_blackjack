@@ -4,7 +4,7 @@
 
 ![start screen and bet screen wireframes](https://imgur.com/2zcSjdB)
 
-![play-hand and win/lose screen wireframes](https://i.imgur.com/2zcSjdB.jpg)
+![play-hand and win/lose screen wireframes](https://imgur.com/5yPaH2Q)
 
 ## User Story
 
