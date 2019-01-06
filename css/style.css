@@ -1,0 +1,51 @@
+body {
+	background-color: black;
+}
+
+div {
+	display: flex;
+	margin: 0 auto;
+	align-content: center;
+	flex-direction: column;
+}
+
+.message-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	height: 300px;
+	margin: 200px 120px;
+	background-color: grey;
+	border: 6px solid orange;
+	border-radius: 20px;
+}
+
+#host-image {
+
+}
+
+#welcome-message {
+	font-size: 20px;
+}
+
+#input-name {
+	height: 24px;
+	border: 2px solid orange;
+	border-radius: 2px;
+	background-color: lightgrey;
+	margin: 20px 0 10px 0;
+}
+
+#submit-btn {
+	background-color: lightgrey;
+	border: 2px solid ;
+}
+
+
+
+
+
+
+
+
