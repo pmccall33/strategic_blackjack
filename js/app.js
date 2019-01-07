@@ -84,13 +84,17 @@ class Deck {
 		
 		let randomIndex = Math.floor(Math.random() * this.deck.length);
 		
-		// TODO: why it takes many iterations
+		console.log(this.deck);
+		const shuffledDeck = [];
 		let x = 0;
 		for (let i = 0; i < (this.deck.length * 100); i++) {
-			let testVar = this.deck.splice(Math.floor(Math.random() * this.deck.length), 1)[0];
-			console.log(++x, testVar);
-			// this.deck.push(this.deck.splice(Math.floor(Math.random() * this.deck.length), 1)[0]);
+			// let testVar = this.deck.splice(Math.floor(Math.random() * this.deck.length), 1)[0];
+			// console.log(++x, testVar);
+			// console.log(this.deck);
+			shuffledDeck.push(this.deck.splice(Math.floor(Math.random() * this.deck.length), 1)[0]);
 		}
+		this.deck = shuffledDeck;
+		// console.log(this.deck);
 		console.log(this.deck);
 	}
 
@@ -195,19 +199,20 @@ const game = {
 		const newDeck = new Deck();
 		this.deck = newDeck;
 
+		// console.log(newDeck.shuffledDeck);
 		this.deck.shuffleCards();
-		console.log(this.deck);
-
+		console.log(newDeck.deck);
+		this.deck = newDeck.deck;
 		// Inititial deal
-		// this.startDeal();
+		this.startDeal();
 
 	},
 
 	togglePlayer() {
 		if (playerOne) {
-			this.currentPlayer = playerTwo;
+			this.currentPlayer = this.playerTwo;
 		} else {
-			this.currentPlayer = playerOne;
+			this.currentPlayer = this.playerOne;
 		}
 		console.log(currentPlayer);
 	},
@@ -227,7 +232,8 @@ const game = {
 
 	dealCard() {
 		//add a card to playerHand from shuffleDeck
-		// this.playerOneHand.push(this.deck.pop());
+		console.log(this.deck);
+		this.playerOneHand.push(this.deck.pop());
 		// console.log(this.playerOneHand);
 		// console.log(this.shuffledDeck);
 	},
