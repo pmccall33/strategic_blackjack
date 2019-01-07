@@ -28,14 +28,26 @@ class Card {
 		this.value = value;
 		// this.image = image;
 	}
+	getValue(card) {
+		if (this.rank === 'K' ||
+			this.rank === 'Q' ||
+			this.rank === 'J') {
+			this.value = 10;
+		} else if (this.rank === 'A') {
+			this.value = 11;
+		} else {
+			this. value = this.rank;
+
+		}
+	}
 }
 const newCard = new Card('Ace', 'hearts', 11);
 console.log(newCard);
 
 class DeckOfCards {	
 	
-	constructor(card) {
-		this.card = card;
+	constructor() {
+		
 		// this.suit = suit;
 		this.cardNumValue = 0;
 		this.deck = [];
@@ -51,55 +63,57 @@ class DeckOfCards {
 	      for (let card in cards) {
 	      	//new Card
 	        const newCard = new Card(cards[card], suits[suit]);
+	        newCard.getValue();
 	        this.deck.push(newCard);
 	        // this.deck.push(`${cards[card]} - ${suits[suit]}`);		      
 	      }
 	    }
+	    // console.log(this.deck)
 	    
-	    for (let i = 0; i < (this.deck.length/ 4); i++) {
-	    	this.deck[i].value = values[i];
-	    }
-	    for (let i = 13; i < (this.deck.length/ 2); i++) {
-	    	this.deck[i].value = values[i - 13];
-	    }
-	    for (let i = 26; i < (this.deck.length * .75); i++) {
-	    	this.deck[i].value = values[i - 26];
-	    }
-	    for (let i = 39; i < (this.deck.length); i++) {
-	    	this.deck[i].value = values[i - 39];
-	    }
+	    // for (let i = 0; i < (this.deck.length/ 4); i++) {
+	    // 	this.deck[i].value = values[i];
+	    // }
+	    // for (let i = 13; i < (this.deck.length/ 2); i++) {
+	    // 	this.deck[i].value = values[i - 13];
+	    // }
+	    // for (let i = 26; i < (this.deck.length * .75); i++) {
+	    // 	this.deck[i].value = values[i - 26];
+	    // }
+	    // for (let i = 39; i < (this.deck.length); i++) {
+	    // 	this.deck[i].value = values[i - 39];
+	    // }
 	}	
  
 	// Get Cards numeric value
 
-	getNumValue(card) {
-		console.log(card)
-		 // this.cardNumValue = 0;
-		for (let i = 0; i < this.deck.length; i++) {
-			// console.log(this.deck[i])=
-			if (this.deck[i][0] === 'J' ||
-				this.deck[i][0] === 'Q' ||
-				this.deck[i][0] === 'K' ||
-				this.deck[i][0] === '1') {
-					// console.log("face card or ace ten")
-					this.cardNumValue = 10;
-				// console.log(this.cardValue);
-			} else if (this.deck[i][0] === 'A') {
-				// console.log("A")
-				this.cardNumValue = 11;
-			} else {
-				// console.log("not an ace or face card")
-				this.cardNumValue = this.deck[i][0];
-			}
-			// console.log(this.cardNumValue);
-		}
-		return this.cardNumValue;
-	}
+	// getNumValue(card) {
+	// 	console.log(card)
+	// 	 // this.cardNumValue = 0;
+	// 	for (let i = 0; i < this.deck.length; i++) {
+	// 		// console.log(this.deck[i])=
+	// 		if (this.deck[i][0] === 'J' ||
+	// 			this.deck[i][0] === 'Q' ||
+	// 			this.deck[i][0] === 'K' ||
+	// 			this.deck[i][0] === '1') {
+	// 				// console.log("face card or ace ten")
+	// 				this.cardNumValue = 10;
+	// 			// console.log(this.cardValue);
+	// 		} else if (this.deck[i][0] === 'A') {
+	// 			// console.log("A")
+	// 			this.cardNumValue = 11;
+	// 		} else {
+	// 			// console.log("not an ace or face card")
+	// 			this.cardNumValue = this.deck[i][0];
+	// 		}
+	// 		// console.log(this.cardNumValue);
+	// 	}
+	// 	return this.cardNumValue;
+	// }
 	
 };
 
 const newDeck = new DeckOfCards();
-console.log(newDeck.deck);
+// console.log(newDeck.deck);
 // console.log(newDeck.deck.length);
 // console.log(newDeck.deck[0], newDeck.deck[13], newDeck.deck[26], newDeck.deck[39]);
 // console.log(newDeck)
@@ -173,9 +187,11 @@ const game = {
 		console.log(randomIndex);
 		// console.log(newDeck.deck);
 		
+
+		// fisher-yates
 		// TODO: why it takes many iterations
 		for (let i = 0; i < (newDeck.deck.length * 100); i++) {
-			this.shuffledDeck.push(newDeck.deck.splice(Math.floor(Math.random() * newDeck.deck.length), 1));
+			this.shuffledDeck.push(newDeck.deck.splice(Math.floor(Math.random() * newDeck.deck.length), 1)[0]);
 		}
 		console.log(this.shuffledDeck);
 	},
@@ -236,8 +252,8 @@ const game = {
 
 game.shuffleCards();
 // game.dealCard();
-game.startDeal();
-game.checkForAce();
+// game.startDeal();
+// game.checkForAce();
 // console.log(game.playerOneHand.includes('A - hearts'));
 // console.log(game.playerOneHand.includes('A - spades'));
 // console.log(game.playerOneHand.includes('A - diamonds'));
