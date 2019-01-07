@@ -19,7 +19,7 @@ console.log('Howdy- Blackjack');
 		// }
 		// console.log(deck);
 
-// Create Deck - Class  - array of objects?
+// Create Card class
 
 class Card {
 	constructor(rank, suit, value) {
@@ -41,20 +41,15 @@ class Card {
 		}
 	}
 }
-const newCard = new Card('Ace', 'hearts', 11);
-console.log(newCard);
 
 class DeckOfCards {	
 	
 	constructor() {
-		
-		// this.suit = suit;
-		this.cardNumValue = 0;
 		this.deck = [];
-	
+
 		// Suits - Hearts, Spades, Diamonds, Clubs
 		const suits = ['hearts', 'spades', 'diamonds', 'clubs'];
-		// Cards - A - K  - Array?
+		// Cards - A - K  - Array
 		const cards = ['A', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K'];
 		// Card values
 		const values = [11, 2 ,3 , 4, 5, 6, 7, 8, 9, 10, 10, 10, 10];
@@ -68,54 +63,26 @@ class DeckOfCards {
 	        // this.deck.push(`${cards[card]} - ${suits[suit]}`);		      
 	      }
 	    }
-	    // console.log(this.deck)
-	    
-	    // for (let i = 0; i < (this.deck.length/ 4); i++) {
-	    // 	this.deck[i].value = values[i];
-	    // }
-	    // for (let i = 13; i < (this.deck.length/ 2); i++) {
-	    // 	this.deck[i].value = values[i - 13];
-	    // }
-	    // for (let i = 26; i < (this.deck.length * .75); i++) {
-	    // 	this.deck[i].value = values[i - 26];
-	    // }
-	    // for (let i = 39; i < (this.deck.length); i++) {
-	    // 	this.deck[i].value = values[i - 39];
-	    // }
-	}	
- 
-	// Get Cards numeric value
+	}
 
-	// getNumValue(card) {
-	// 	console.log(card)
-	// 	 // this.cardNumValue = 0;
-	// 	for (let i = 0; i < this.deck.length; i++) {
-	// 		// console.log(this.deck[i])=
-	// 		if (this.deck[i][0] === 'J' ||
-	// 			this.deck[i][0] === 'Q' ||
-	// 			this.deck[i][0] === 'K' ||
-	// 			this.deck[i][0] === '1') {
-	// 				// console.log("face card or ace ten")
-	// 				this.cardNumValue = 10;
-	// 			// console.log(this.cardValue);
-	// 		} else if (this.deck[i][0] === 'A') {
-	// 			// console.log("A")
-	// 			this.cardNumValue = 11;
-	// 		} else {
-	// 			// console.log("not an ace or face card")
-	// 			this.cardNumValue = this.deck[i][0];
-	// 		}
-	// 		// console.log(this.cardNumValue);
-	// 	}
-	// 	return this.cardNumValue;
-	// }
-	
+	shuffleCards () {
+		// create new array of randomized cards from deck
+		
+		const tempDeck = this.deck;
+		let randomIndex = Math.floor(Math.random() * newDeck.deck.length);
+		
+		// fisher-yates
+		// TODO: why it takes many iterations
+		for (let i = 0; i < (newDeck.deck.length * 100); i++) {
+			this.deck.push(newDeck.deck.splice(Math.floor(Math.random() * newDeck.deck.length), 1)[0]);
+		}
+		console.log(this.deck);
+	}		
 };
 
 const newDeck = new DeckOfCards();
 // console.log(newDeck.deck);
-// console.log(newDeck.deck.length);
-// console.log(newDeck.deck[0], newDeck.deck[13], newDeck.deck[26], newDeck.deck[39]);
+newDeck.shuffleCards();
 // console.log(newDeck)
 // console.log(newDeck.deck[5][0]);
 // console.log("here it is", newDeck.getNumValue(newDeck.deck[5]));
@@ -181,20 +148,20 @@ const game = {
 	playerHasAce: false,
 
 
-	shuffleCards () {
-		// create new array of randomized cards from deck array
-		let randomIndex = Math.floor(Math.random() * newDeck.deck.length);
-		console.log(randomIndex);
-		// console.log(newDeck.deck);
+	// shuffleCards () {
+	// 	// create new array of randomized cards from deck array
+	// 	let randomIndex = Math.floor(Math.random() * newDeck.deck.length);
+	// 	// console.log(randomIndex);
+	// 	// console.log(newDeck.deck);
 		
 
-		// fisher-yates
-		// TODO: why it takes many iterations
-		for (let i = 0; i < (newDeck.deck.length * 100); i++) {
-			this.shuffledDeck.push(newDeck.deck.splice(Math.floor(Math.random() * newDeck.deck.length), 1)[0]);
-		}
-		console.log(this.shuffledDeck);
-	},
+	// 	// fisher-yates
+	// 	// TODO: why it takes many iterations
+	// 	for (let i = 0; i < (newDeck.deck.length * 100); i++) {
+	// 		this.shuffledDeck.push(newDeck.deck.splice(Math.floor(Math.random() * newDeck.deck.length), 1)[0]);
+	// 	}
+	// 	console.log(this.shuffledDeck);
+	// },
 
 	togglePlayer() {
 		if (playerOne) {
@@ -250,7 +217,7 @@ const game = {
 
 }
 
-game.shuffleCards();
+// game.shuffleCards();
 // game.dealCard();
 // game.startDeal();
 // game.checkForAce();
