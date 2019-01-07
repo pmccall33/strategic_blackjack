@@ -28,7 +28,7 @@ class Card {
 		this.value = value;
 		// this.image = image;
 	}
-	getValue(card) {
+	getValue() {
 		if (this.rank === 'K' ||
 			this.rank === 'Q' ||
 			this.rank === 'J') {
@@ -42,7 +42,7 @@ class Card {
 	}
 }
 
-class DeckOfCards {	
+class Deck {	
 	
 	constructor() {
 		this.deck = [];
@@ -65,24 +65,43 @@ class DeckOfCards {
 	    }
 	}
 
+	// shuffleCards () {
+	// 	// create new array of randomized cards from deck
+
+	// 	const tempDeck = this.deck;
+	// 	let randomIndex = Math.floor(Math.random() * newDeck.deck.length);
+
+	// 	// fisher-yates
+	// 	// TODO: why it takes many iterations
+	// 	for (let i = 0; i < (newDeck.deck.length * 100); i++) {
+	// 		this.deck.push(newDeck.deck.splice(Math.floor(Math.random() * newDeck.deck.length), 1)[0]);
+	// 	}
+	// 	console.log(this.deck);
+	// }	
+
 	shuffleCards () {
 		// create new array of randomized cards from deck
 		
-		const tempDeck = this.deck;
-		let randomIndex = Math.floor(Math.random() * newDeck.deck.length);
+		let randomIndex = Math.floor(Math.random() * this.deck.length);
 		
-		// fisher-yates
 		// TODO: why it takes many iterations
-		for (let i = 0; i < (newDeck.deck.length * 100); i++) {
-			this.deck.push(newDeck.deck.splice(Math.floor(Math.random() * newDeck.deck.length), 1)[0]);
+		let x = 0;
+		for (let i = 0; i < (this.deck.length * 100); i++) {
+			let testVar = this.deck.splice(Math.floor(Math.random() * this.deck.length), 1)[0];
+			console.log(++x, testVar);
+			// this.deck.push(this.deck.splice(Math.floor(Math.random() * this.deck.length), 1)[0]);
 		}
 		console.log(this.deck);
-	}		
+	}
+
+
 };
 
-const newDeck = new DeckOfCards();
+// const newDeck = new DeckOfCards();
 // console.log(newDeck.deck);
-newDeck.shuffleCards();
+// console.log(newDeck.deck.length);
+// console.log(newDeck.deck[0], newDeck.deck[13], newDeck.deck[26], newDeck.deck[39]);
+// newDeck.shuffleCards();
 // console.log(newDeck)
 // console.log(newDeck.deck[5][0]);
 // console.log("here it is", newDeck.getNumValue(newDeck.deck[5]));
@@ -92,9 +111,9 @@ newDeck.shuffleCards();
 
 class Player {
 	// status - current hand, chip stack
-	constructor(currentHand, chipStack) {
+	constructor(currentHand) {
 		this.currentHand = currentHand;
-		this.chipStack = chipstack;
+		// this.chipStack = chipstack;
 	}
 
 	recieveHand() {
@@ -103,6 +122,20 @@ class Player {
 	
 	tallyHand() {
 
+	}
+
+	checkForAce() {
+		console.log(this.currentHand[0].rank);
+		if ((this.playerOneHand('A - hearts')) ||
+			(this.playerOneHand.includes('A - spades')) ||
+			(this.playerOneHand.includes('A - diamonds')) ||
+			(this.playerOneHand.includes('A - clubs'))) {
+				this.playerHasAce = true;
+			} else {
+				this.playerHasAce = false;
+			}
+			console.log(this.playerHasAce);
+			return this.playerHasAce;
 	}
 
 	decideStatus() {
@@ -134,7 +167,6 @@ class Dealer extends Player {
 const game = {
 	gameOn: false,
 	deck: null,
-	shuffledDeck: [],
 	numOfPlayers: 2,
 	dealerHand: [],
 	dealerHandTotal: 0,
@@ -143,25 +175,33 @@ const game = {
 	playerTwoHand: [],
 	playerTwoHandTotal: 0,
 	currentPlayer: null,
+	currentHand: [],
 	playerOne: null,
 	playerTwo: null,
 	playerHasAce: false,
 
+	printDeck() {
+		console.log(this.deck)
+	},
 
-	// shuffleCards () {
-	// 	// create new array of randomized cards from deck array
-	// 	let randomIndex = Math.floor(Math.random() * newDeck.deck.length);
-	// 	// console.log(randomIndex);
-	// 	// console.log(newDeck.deck);
-		
+	startGame() {
+		this.gameOn = true;
 
-	// 	// fisher-yates
-	// 	// TODO: why it takes many iterations
-	// 	for (let i = 0; i < (newDeck.deck.length * 100); i++) {
-	// 		this.shuffledDeck.push(newDeck.deck.splice(Math.floor(Math.random() * newDeck.deck.length), 1)[0]);
-	// 	}
-	// 	console.log(this.shuffledDeck);
-	// },
+		//Create players 
+		const playerOne = new Player(this.currentHand);
+		const playerTwo = new Player(this.currentHand);
+
+		// Create and shuffle Deck
+		const newDeck = new Deck();
+		this.deck = newDeck;
+
+		this.deck.shuffleCards();
+		console.log(this.deck);
+
+		// Inititial deal
+		// this.startDeal();
+
+	},
 
 	togglePlayer() {
 		if (playerOne) {
@@ -180,20 +220,6 @@ const game = {
 			return this.playerOneHand;
 
 	},
-
-	checkForAce() {
-		console.log(this.playerOneHand[0].rank);
-		if ((this.playerOneHand.includes('A - hearts')) ||
-			(this.playerOneHand.includes('A - spades')) ||
-			(this.playerOneHand.includes('A - diamonds')) ||
-			(this.playerOneHand.includes('A - clubs'))) {
-				this.playerHasAce = true;
-			} else {
-				this.playerHasAce = false;
-			}
-			console.log(this.playerHasAce);
-			return this.playerHasAce;
-	},
 	
 	checkForBlackjack() {
 
@@ -201,7 +227,7 @@ const game = {
 
 	dealCard() {
 		//add a card to playerHand from shuffleDeck
-		this.playerOneHand.push(this.shuffledDeck.pop());
+		// this.playerOneHand.push(this.deck.pop());
 		// console.log(this.playerOneHand);
 		// console.log(this.shuffledDeck);
 	},
@@ -216,6 +242,9 @@ const game = {
 
 
 }
+game.startGame();
+
+
 
 // game.shuffleCards();
 // game.dealCard();
