@@ -81,9 +81,10 @@ class DeckOfCards {
 const newDeck = new DeckOfCards();
 
 console.log(newDeck.deck);
+console.log(newDeck.deck.length);
 console.log(newDeck.deck[0], newDeck.deck[13], newDeck.deck[26], newDeck.deck[39]);
 console.log(newDeck.deck[1][0]);
-console.log(newDeck.getNumValue(newDeck.deck[1]));
+console.log(newDeck.getNumValue(newDeck.deck[4]));
 
 
 // Create PLayer Class 
@@ -129,15 +130,30 @@ class Dealer extends Player {
 const game = {
 	gameOn: false,
 	deck: null,
+	shuffledDeck: [],
 	numOfPlayers: 0,
+	dealerHand: [],
 	dealerHandTotal: 0,
+	playerHand: [],
 	playerHandTotal: 0,
 	currentPlayer: null,
 
 
 
-	startDeal () {
+	shuffleCards () {
+		// create new array of randomized cards from deck array
+		let randomIndex = Math.floor(Math.random() * newDeck.deck.length);
+		console.log(randomIndex);
+		// console.log(newDeck.deck);
+		// TODO: why it takes many iterations
+		for (let i = 0; i < (newDeck.deck.length * 100); i++) {
+			this.shuffledDeck.push(newDeck.deck.splice(Math.floor(Math.random() * newDeck.deck.length), 1));
+		}
+		console.log(this.shuffledDeck);
+	},
 
+	startDeal () {
+		
 	},
 
 	checkForAce() {
@@ -149,7 +165,10 @@ const game = {
 	},
 
 	dealCard() {
-
+		//add a card to playerHand from shuffleDeck
+		this.playerHand.push(this.shuffledDeck.pop());
+		console.log(this.playerHand);
+		console.log(this.shuffledDeck);
 	},
 
 	checkForBust() {
@@ -163,7 +182,8 @@ const game = {
 
 }
 
-
+game.shuffleCards();
+game.dealCard();
 
 
 
