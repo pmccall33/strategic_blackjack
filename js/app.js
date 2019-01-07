@@ -1,25 +1,14 @@
 console.log('Howdy- Blackjack');
 
 
-// swift
-	// struct Deck {
-	//     var cards: [Card]
-	    
-	//     init() {
-	//         // create cards, assign to a temporary array, then assign to cards var
-	//         var tempCardsArray = [Card]()
-	//         for suit in Suit.allSuits() {
-	//             for number in Number.allNumbers() {
-	//                 let card = Card(suit: suit, number: number)
-	//                 tempCardsArray.append(card)
-	//             }
-	//         }
-	//         cards = tempCardsArray
-	//     }
-
-
-
-
+// create object deck
+// const deck = [
+// 	{
+// 	card: 'A - hearts',
+// 	cardNumValue: 11, 
+// 	cardImage: null,	
+// 	}
+// ]
 		
 	// let deck = {}
 
@@ -42,10 +31,10 @@ console.log('Howdy- Blackjack');
 
 class DeckOfCards {	
 	
-	constructor() {
-		// this.card = card;
+	constructor(card) {
+		this.card = card;
 		// this.suit = suit;
-		this.cardValue = cardValue;
+		this.cardNumValue = 0;
 		this.deck = [];
 	
 		// Suits - Hearts, Spades, Diamonds, Clubs
@@ -61,12 +50,28 @@ class DeckOfCards {
 
 	}	
 	
-	
+
 	// Get Cards numeric value
-		get numValue() {
-			if 
+
+		getNumValue(card) {
+			 // this.cardNumValue = 0;
+			 for (let i = 0; i < this.deck.length; i++) {
+			 	if (this.deck[i][0] === 'J' ||
+			 		this.deck[i][0] === 'Q' ||
+			 		this.deck[i][0] === 'K' ||
+			 		this.deck[i][0] === '1') {
+			 			this.cardNumValue = 10;
+			 		// console.log(this.cardValue);
+			 	} else if (this.deck[i][0] === 'A') {
+			 		this.cardNumValue = 11;
+			 	} else {
+			 		this.cardNumValue = this.deck[i][0];
+			 	}
+			 	// console.log(this.cardNumValue);
+			 }
+			 return this.cardNumValue;
 		}
-	}
+	
 
 
 
@@ -77,6 +82,8 @@ const newDeck = new DeckOfCards();
 
 console.log(newDeck.deck);
 console.log(newDeck.deck[0], newDeck.deck[13], newDeck.deck[26], newDeck.deck[39]);
+console.log(newDeck.deck[1][0]);
+console.log(newDeck.getNumValue(newDeck.deck[1]));
 
 
 // Create PLayer Class 
@@ -119,42 +126,42 @@ class Dealer extends Player {
 
 // Create Game Object 
 
-// const game = {
-// 	gameOn = false,
-// 	deck = null,
-// 	numOfPlayers = 0,
-// 	dealerHandTotal = 0,
-// 	playerHandTotal = 0,
-// 	currentPlayer = null,
+const game = {
+	gameOn: false,
+	deck: null,
+	numOfPlayers: 0,
+	dealerHandTotal: 0,
+	playerHandTotal: 0,
+	currentPlayer: null,
 
 
 
-// 	startDeal () {
+	startDeal () {
 
-// 	},
+	},
 
-// 	checkForAce() {
+	checkForAce() {
 		
-// 	},
+	},
 	
-// 	checkForBlackjack() {
+	checkForBlackjack() {
 
-// 	},
+	},
 
-// 	dealCard() {
+	dealCard() {
 
-// 	},
+	},
 
-// 	checkForBust() {
+	checkForBust() {
 
-// 	},
+	},
 
-// 	playerStatus() {
+	playerStatus() {
 
-// 	},
+	},
 
 
-// }
+}
 
 
 
