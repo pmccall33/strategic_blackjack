@@ -104,6 +104,7 @@ class Player {
 		this.currentHand = currentHand;
 		this.currentTally = 0;
 		this.playerHasAce = false;
+		this.playerBlackjack = false;
 		// this.chipStack = chipstack;
 	}
 
@@ -130,7 +131,21 @@ class Player {
 					this.playerHasAce = true;
 				}
 			}
-			console.log(this.playerHasAce);
+			// console.log(this.playerHasAce, ' - player has and ace');
+	}
+
+	checkForBlackjack() {
+		// Check after initial deal for a blackjack
+		console.log(this.currentTally, ' - checkForBlackjack -');
+		if (this.currentTally === 21) {
+			this.playerBlackjack = true;
+			console.log('Player has a BLACKJACK!');
+		}
+		console.log(this.playerBlackjack, '- check for blackjack');
+	}
+
+	hit() {
+
 	}
 
 	decideStatus() {
@@ -174,6 +189,7 @@ const game = {
 	playerTwoHandTotal: 0,
 	currentHand: [],
 	playerHasAce: false,
+	playerBlackjack: false,
 
 	printDeck() {
 		console.log(this.deck)
@@ -222,6 +238,7 @@ const game = {
 				this.currentPlayer.recieveHand();
 				this.currentPlayer.tallyHand();
 				this.currentPlayer.checkForAce();
+				this.currentPlayer.checkForBlackjack();
 				this.togglePlayer();
 			} 
 			
@@ -230,7 +247,10 @@ const game = {
 	},
 	
 	checkForBlackjack() {
-
+		console.log(this.tallyHand);
+		if (this.tallyHand === 21) {
+			this.playerBlackjack = true;
+		}
 	},
 
 	dealCard() {
