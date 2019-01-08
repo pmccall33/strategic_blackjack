@@ -103,6 +103,7 @@ class Player {
 	constructor(currentHand) {
 		this.currentHand = currentHand;
 		this.currentTally = 0;
+		this.playerHasAce = false;
 		// this.chipStack = chipstack;
 	}
 
@@ -122,17 +123,14 @@ class Player {
 	}
 
 	checkForAce() {
-		console.log(this.currentHand[0].rank);
-		if ((this.playerOneHand('A - hearts')) ||
-			(this.playerOneHand.includes('A - spades')) ||
-			(this.playerOneHand.includes('A - diamonds')) ||
-			(this.playerOneHand.includes('A - clubs'))) {
-				this.playerHasAce = true;
-			} else {
-				this.playerHasAce = false;
+		// Check players hand for an Ace
+		// console.log(this.currentHand[0].rank);
+			for (let i = 0; i < this.currentHand.length; i++) {
+				if (this.currentHand[i].rank === 'A') {
+					this.playerHasAce = true;
+				}
 			}
 			console.log(this.playerHasAce);
-			return this.playerHasAce;
 	}
 
 	decideStatus() {
@@ -223,6 +221,7 @@ const game = {
 				this.dealCard();
 				this.currentPlayer.recieveHand();
 				this.currentPlayer.tallyHand();
+				this.currentPlayer.checkForAce();
 				this.togglePlayer();
 			} 
 			
