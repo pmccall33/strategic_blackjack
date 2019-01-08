@@ -70,7 +70,7 @@ class Deck {
 		
 		let randomIndex = Math.floor(Math.random() * this.deck.length);
 		
-		console.log(this.deck);
+		// console.log(this.deck);
 		const shuffledDeck = [];
 		let x = 0;
 		for (let i = 0; i < (this.deck.length * 100); i++) {
@@ -80,7 +80,7 @@ class Deck {
 			shuffledDeck.push(this.deck.splice(Math.floor(Math.random() * this.deck.length), 1)[0]);
 		}
 		this.deck = shuffledDeck;
-		console.log(this.deck);
+		// console.log(this.deck);
 	}
 
 
@@ -102,6 +102,7 @@ class Player {
 	// status - current hand, chip stack
 	constructor(currentHand) {
 		this.currentHand = currentHand;
+		this.currentTally = 0;
 		// this.chipStack = chipstack;
 	}
 
@@ -111,7 +112,13 @@ class Player {
 	}
 	
 	tallyHand() {
-
+		// Get the numerical value of cards in player's hand
+		// console.log(this.currentHand[0].value);
+		this.currentTally = 0;
+		for (let i = 0; i < this.currentHand.length; i++) {
+			this.currentTally += this.currentHand[i].value;
+		}
+		console.log(this.currentTally, ' - player tallyHand');
 	}
 
 	checkForAce() {
@@ -215,7 +222,7 @@ const game = {
 				this.dealCard();
 				this.dealCard();
 				this.currentPlayer.recieveHand();
-				// this.playerTwo.recieveHand();
+				this.currentPlayer.tallyHand();
 				this.togglePlayer();
 			} 
 			
