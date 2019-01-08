@@ -1,25 +1,6 @@
 console.log('Howdy- Blackjack');
 
-
-
-	// let deck = {}
-
-	// // Suits - Hearts, Spades, Diamonds, Clubs
-	// const suits = ['hearts', 'spades', 'diamonds', 'clubs'];
-	
-	// // Cards - A - K  - Array?
-
-
-		
-
-		// for (let i = 0; i < cards.length; i++) {
-		// 	cards.forEach(function(value, index) {
-		// 		deck[value] = suits[index];
-		// 	});
-		// }
-		// console.log(deck);
-
-// Create Card class
+// Create Card class 						<<<=============== Card Class =============
 
 class Card {
 	constructor(rank, suit, value) {
@@ -42,6 +23,7 @@ class Card {
 	}
 }
 
+// Create Deck Class 							<<<================ Deck Class ========
 class Deck {	
 	
 	constructor() {
@@ -96,7 +78,7 @@ class Deck {
 // console.log("here it is", newDeck.getNumValue(newDeck.deck[5]));
 // console.log(newDeck.deck[0]);
 
-// Create PLayer Class 
+// Create PLayer Class 					<<<================== Player Class =============
 
 class Player {
 	// status - current hand, chip stack
@@ -105,12 +87,15 @@ class Player {
 		this.currentTally = 0;
 		this.playerHasAce = false;
 		this.playerBlackjack = false;
+		this.currentPlayerStatus = null;
+		this.playerIsPlaying = true;
+		this.playerMove = 'stay';
 		// this.chipStack = chipstack;
 	}
 
 	recieveHand() {
 		// this.currentHand = this.playerOneHand;
-		console.log(this.currentHand, ' - player recieveHand');
+		// console.log(this.currentHand, ' - player recieveHand');
 	}
 	
 	tallyHand() {
@@ -120,7 +105,7 @@ class Player {
 		for (let i = 0; i < this.currentHand.length; i++) {
 			this.currentTally += this.currentHand[i].value;
 		}
-		console.log(this.currentTally, ' - player tallyHand');
+		// console.log(this.currentTally, ' - player tallyHand');
 	}
 
 	checkForAce() {
@@ -136,20 +121,51 @@ class Player {
 
 	checkForBlackjack() {
 		// Check after initial deal for a blackjack
-		console.log(this.currentTally, ' - checkForBlackjack -');
+		// console.log(this.currentTally, ' - checkForBlackjack -');
 		if (this.currentTally === 21) {
 			this.playerBlackjack = true;
 			console.log('Player has a BLACKJACK!');
+			this.currentPlayerStatus = 'blackjack';
+			console.log(this.currentPlayerStatus, ' - check for blackjack currentPlayerStatus');
 		}
-		console.log(this.playerBlackjack, '- check for blackjack');
+		// console.log(this.playerBlackjack, '- check for blackjack');
 	}
 
-	hit() {
+	// checkForBust() {
+	// 	if (this.currentTally > 21) {
+	// 		this.playerStatus = 'busted';
+	// 	}
+	// }
 
+	getPlayerMove() {
+		if (this.playerMove === 'hit') {
+
+		}
 	}
 
-	decideStatus() {
+	playerStatus() {
+		// Check hand for status
+		if (this.playerBlackjack) {
+			this.currentPlayerStatus = 'blackjack';
+		} else if (this.tallyHand > 21) {
+			this.currentPlayerStatus = 'busted';
+		} else {
+			this.currentPlayerStatus = 'playing';
+		}
+		console.log(this.currentPlayerStatus);
+	// }
 
+		// switch (this.playerStatus) {
+		// 	case blackjack:
+		// 		console.log('- BLACKJACK! - You win!');
+		// 		break;
+		// 	case busted:
+		// 		console.log('- Busted out, dude.');
+		// 		break;
+		//	case playing:
+		// 		console.log('- hit or stay?')
+		// }
+	
 	}
 
 	showHand() {
@@ -172,10 +188,12 @@ class Dealer extends Player {
 // 	let rndmIdx = Math.floor(Math.random() * arr.length);
 //  	return rndmIdx;
 // }
-// Create Game Object 
+// Create Game Object 						<<<=================== Game Object ==========
 
 const game = {
 	gameOn: false,
+	playerOneIsPlaying: false,
+	playerTwoIsPlaying: false,
 	deck: null,
 	numOfPlayers: 2,
 	currentPlayer: null,
@@ -190,6 +208,7 @@ const game = {
 	currentHand: [],
 	playerHasAce: false,
 	playerBlackjack: false,
+	currentPlayerStatus: null,
 
 	printDeck() {
 		console.log(this.deck)
@@ -197,6 +216,9 @@ const game = {
 
 	startGame() {
 		this.gameOn = true;
+		this.playerOneIsPlaying = true;
+		this.playerTwoIsPlaying = true;
+
 		// this.playerOneTurn = true;
 		// this.playerTwoTurn = false;
 		
@@ -213,12 +235,19 @@ const game = {
 
 		// console.log(newDeck.shuffledDeck);
 		this.deck.shuffleCards();
-		console.log(newDeck.deck);
+		// console.log(newDeck.deck);
 		this.deck = newDeck.deck;
 		
 		// Inititial deal
 		this.startDeal();
 
+		//get player status and play
+		this.playerStatus();
+
+		// Deal playing round to players (hit or stay)
+		this.currentPlayer = playerOne;
+		this.dealPlayerMove();
+		this.dealPlayerMove();
 	},
 
 	togglePlayer() {
@@ -233,12 +262,14 @@ const game = {
 	startDeal () {
 			//deal 2 cards to player
 			for (let i = 0; i < this.numOfPlayers; i++) {
+				this.currentPlayerStatus = 'playing';
 				this.dealCard();
 				this.dealCard();
 				this.currentPlayer.recieveHand();
 				this.currentPlayer.tallyHand();
 				this.currentPlayer.checkForAce();
 				this.currentPlayer.checkForBlackjack();
+				this.playerStatus();
 				this.togglePlayer();
 			} 
 			
@@ -246,12 +277,24 @@ const game = {
 			console.log(this.playerTwoHand, ' - player two hand');
 	},
 	
-	checkForBlackjack() {
-		console.log(this.tallyHand);
-		if (this.tallyHand === 21) {
-			this.playerBlackjack = true;
-		}
-	},
+	// checkForBlackjack() {
+	// 	console.log(this.tallyHand);
+	// 	if (this.tallyHand === 21) {
+	// 		this.playerBlackjack = true;
+	// 		this.
+	// 	}
+	// },
+
+	// checkForAce() {
+	// 	// Check players hand for an Ace
+	// 	// console.log(this.currentHand[0].rank);
+	// 		for (let i = 0; i < this.currentHand.length; i++) {
+	// 			if (this.currentHand[i].rank === 'A') {
+	// 				this.playerHasAce = true;
+	// 			}
+	// 		}
+	// 		// console.log(this.playerHasAce, ' - player has and ace');
+	// },	
 
 	dealCard() {
 		//add a card to playerHand from shuffledDeck
@@ -271,12 +314,58 @@ const game = {
 	},
 
 	checkForBust() {
-
+		if (this.currentTally > 21) {
+			this.currentPlayerStatus = 'busted';
+		}
 	},
 
 	playerStatus() {
+		// console.log(this.currentPlayer);
+		// console.log(this.csurrentPlayerStatus, 'playerStatus was called');
+		// this.currentPlayerStatus = 'busted';
+		if (this.currentPlayer.playerBlackjack) {
+			this.currentPlayerStatus = 'blackjack';
+		} else if (this.currentPlayer.currentTally > 21) {
+			this.currentPlayerStatus = 'busted';
+		} else {
+			this.currentPlayerStatus = 'playing';
+		}
 
+
+		switch (this.currentPlayerStatus) {
+			case 'blackjack':
+				console.log('- BLACKJACK! - You win!');
+				this.currentPlayer.playerIsPlaying = false;
+				break;
+			case 'busted':
+				console.log('- Busted out.');
+				this.currentPlayer.playerIsPlaying = false;
+				break;
+			case 'playing':
+				console.log('- hit or stay?');
+				break;
+		}
 	},
+
+	dealPlayerMove() {
+		// console.log(this.currentPlayer, ' - begin dealPlayerMove');
+		for (let i = 0; i < 3; i++) {
+			if (this.currentPlayer.playerIsPlaying) {
+				if (this.currentPlayer.playerMove === 'hit') {
+					this.dealCard();
+					this.currentPlayer.tallyHand(); 
+					this.playerStatus();
+					// console.log(this.currentHand, ' - hit was called');
+				}	else if (this.currentPlayer.playerMove === 'stay') {
+					this.playerStatus();
+					this.currentPlayer.playerIsPlaying = false;
+					console.log(this.currentHand, ' - stay was called');
+				}
+			}
+		}
+		this.togglePlayer();
+		// console.log(this.currentPlayer, ' - end dealPlayerMove');
+	}
 
 
 }
