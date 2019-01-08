@@ -65,20 +65,6 @@ class Deck {
 	    }
 	}
 
-	// shuffleCards () {
-	// 	// create new array of randomized cards from deck
-
-	// 	const tempDeck = this.deck;
-	// 	let randomIndex = Math.floor(Math.random() * newDeck.deck.length);
-
-	// 	// fisher-yates
-	// 	// TODO: why it takes many iterations
-	// 	for (let i = 0; i < (newDeck.deck.length * 100); i++) {
-	// 		this.deck.push(newDeck.deck.splice(Math.floor(Math.random() * newDeck.deck.length), 1)[0]);
-	// 	}
-	// 	console.log(this.deck);
-	// }	
-
 	shuffleCards () {
 		// create new array of randomized cards from deck
 		
@@ -94,7 +80,6 @@ class Deck {
 			shuffledDeck.push(this.deck.splice(Math.floor(Math.random() * this.deck.length), 1)[0]);
 		}
 		this.deck = shuffledDeck;
-		// console.log(this.deck);
 		console.log(this.deck);
 	}
 
@@ -121,7 +106,8 @@ class Player {
 	}
 
 	recieveHand() {
-
+		// this.currentHand = this.playerOneHand;
+		console.log(this.currentHand, ' - player recieveHand');
 	}
 	
 	tallyHand() {
@@ -172,16 +158,16 @@ const game = {
 	gameOn: false,
 	deck: null,
 	numOfPlayers: 2,
+	currentPlayer: null,
+	playerOne: null,
+	playerTwo: null,
 	dealerHand: [],
 	dealerHandTotal: 0,
 	playerOneHand: [],
 	playerOneHandTotal: 0,
 	playerTwoHand: [],
 	playerTwoHandTotal: 0,
-	currentPlayer: null,
 	currentHand: [],
-	playerOne: null,
-	playerTwo: null,
 	playerHasAce: false,
 
 	printDeck() {
@@ -190,10 +176,15 @@ const game = {
 
 	startGame() {
 		this.gameOn = true;
-
-		//Create players 
-		const playerOne = new Player(this.currentHand);
-		const playerTwo = new Player(this.currentHand);
+		// this.playerOneTurn = true;
+		// this.playerTwoTurn = false;
+		
+		//Create players and set current player
+		const playerOne = new Player(this.playerOneHand);
+		const playerTwo = new Player(this.playerTwoHand);
+		this.playerOne = playerOne;
+		this.playerTwo = playerTwo;
+		this.currentPlayer = this.playerOne;
 
 		// Create and shuffle Deck
 		const newDeck = new Deck();
@@ -203,27 +194,33 @@ const game = {
 		this.deck.shuffleCards();
 		console.log(newDeck.deck);
 		this.deck = newDeck.deck;
+		
 		// Inititial deal
 		this.startDeal();
 
 	},
 
 	togglePlayer() {
-		if (playerOne) {
+		if (this.playerOne) {
 			this.currentPlayer = this.playerTwo;
 		} else {
 			this.currentPlayer = this.playerOne;
 		}
-		console.log(currentPlayer);
+		// console.log(this.currentPlayer);
 	},
 
 	startDeal () {
 			//deal 2 cards to player
-			this.dealCard();
-			this.dealCard();
-			console.log(this.playerOneHand);
-			return this.playerOneHand;
-
+			for (let i = 0; i < this.numOfPlayers; i++) {
+				this.dealCard();
+				this.dealCard();
+				this.currentPlayer.recieveHand();
+				// this.playerTwo.recieveHand();
+				this.togglePlayer();
+			} 
+			
+			console.log(this.playerOneHand, ' - player one hand');
+			console.log(this.playerTwoHand, ' - player two hand');
 	},
 	
 	checkForBlackjack() {
@@ -231,9 +228,18 @@ const game = {
 	},
 
 	dealCard() {
-		//add a card to playerHand from shuffleDeck
-		console.log(this.deck);
-		this.playerOneHand.push(this.deck.pop());
+		//add a card to playerHand from shuffledDeck
+		// console.log(this.deck);
+		if (this.currentPlayer === this.playerOne) {
+			this.playerOneHand.push(this.deck.pop());
+			// console.log('dealt to player one');
+		} 
+
+		if (this.currentPlayer === this.playerTwo) {
+			this.playerTwoHand.push(this.deck.pop());
+			// console.log('dealt to player two');
+		}
+
 		// console.log(this.playerOneHand);
 		// console.log(this.shuffledDeck);
 	},
@@ -249,7 +255,7 @@ const game = {
 
 }
 game.startGame();
-
+// game.togglePlayer();
 
 
 // game.shuffleCards();
