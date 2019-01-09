@@ -95,7 +95,7 @@ class Player {
 		this.playerBlackjack = false;
 		this.playerStatus = null;
 		this.playerIsPlaying = true;
-		this.playerMove = 'hit';
+		this.playerAction = 'stay';
 		// this.chipStack = chipStack;
 	}
 
@@ -121,7 +121,7 @@ class Player {
 					this.playerHasAce = true;
 				}
 			}
-			console.log(this.playerHasAce, ' - player has and ace');
+			// console.log(this.playerHasAce, ' - player has and ace');
 	}
 
 	checkForBlackjack() {
@@ -143,8 +143,8 @@ class Player {
 	// 	}
 	// }
 
-	getPlayerMove() {
-		if (this.playerMove === 'hit') {
+	getPlayerAction() {
+		if (this.playerAction === 'hit') {
 
 		}
 	}
@@ -250,19 +250,19 @@ const game = {
 		this.playerStatus();
 
 		// Deal playing round to players (hit or stay)
-		// this.currentPlayer = playerOne;
-		// this.dealPlayerMove();
-		// this.dealPlayerMove();
+	
+		this.dealPlayerAction();
+		// this.dealPlayerAction();
 	},
 
-	togglePlayer() {
-		if (this.playerOne) {
-			this.currentPlayer = this.playerTwo;
-		} else {
-			this.currentPlayer = this.playerOne;
-		}
-		// console.log(this.currentPlayer);
-	},
+	// togglePlayer() {
+	// 	if (this.playerOne) {
+	// 		this.currentPlayer = this.playerTwo;
+	// 	} else {
+	// 		this.currentPlayer = this.playerOne;
+	// 	}
+	// 	// console.log(this.currentPlayer);
+	// },
 
 	startDeal () {
 		// for all players
@@ -308,16 +308,16 @@ const game = {
 	// 	// console.log(this.shuffledDeck);
 	// },
 
-	checkForBust() {
-		if (this.currentTally > 21) {
-			this.currentPlayerStatus = 'busted';
-		}
-	},
+	// checkForBust() {
+	// 	if (this.currentTally > 21) {
+	// 		this.currentPlayerStatus = 'busted';
+	// 	}
+	// },
 
 	playerStatus() {
 		console.log(this.players);
 
-
+		// Get player status
 		for (let i = 0; i < this.players.length; i++) {
 			// if (this.players[i].playerStatus = 'blackjack') {
 			// 	this.playerStatus = 
@@ -350,32 +350,45 @@ const game = {
 		// 		break;
 		// }
 	
+	hit() {
+		// console.log('card dealt');
+	
+	},
 
-	dealPlayerMove() {
+	stay() {
+		// this.players[i].playerIsPlaying = false;
+		// console.log('stay was clicked');
+	},
+
+	dealPlayerAction() {
 		// console.log(this.currentPlayer, ' - begin dealPlayerMove');
+		
 		for (let i = 0; i < 3; i++) {
-			if (this.currentPlayer.playerIsPlaying) {
-				if (this.currentPlayer.playerMove === 'hit') {
-					this.deck.dealCard();
-					this.currentPlayer.recieveCard();
-					this.currentPlayer.tallyHand(); 
-					this.playerStatus();
-					// console.log(this.currentHand, ' - hit was called');
-				}	else if (this.currentPlayer.playerMove === 'stay') {
-					this.playerStatus();
-					this.currentPlayer.playerIsPlaying = false;
-					console.log(this.currentHand, ' - stay was called');
+
+		
+			for (let i = 0; i < this.players.length; i++) {
+				if (this.players[i].playerIsPlaying) {
+					if (this.players[i].playerAction === 'hit') {
+						// this.deck.dealCard();
+						this.hit(players[i]);
+						this.players[i].receiveCard(this.deck.dealCard());
+						this.players[i].tallyHand(); 
+						// this.players[i].playerStatus();
+						console.log(' - hit was called');
+					}	else if (this.players[i].playerAction === 'stay') {
+							// this.playerStatus();
+							this.players[i].playerIsPlaying = false;
+							console.log(' - stay was called');
+					}
 				}
 			}
 		}
-		this.togglePlayer();
+		// this.togglePlayer();
 		// console.log(this.currentPlayer, ' - end dealPlayerMove');
 	}
 }
 game.startGame();
 // game.togglePlayer();
-
-
 // game.shuffleCards();
 // game.dealCard();
 // game.startDeal();
@@ -389,9 +402,45 @@ game.startGame();
 
 
 	
+// Event Listeners ==========================
+
+const $hitBtn = $('#hit-btn');
+const $stayBtn = $('#stay-btn');
+const $betBtn = $('#bet-btn');
 
 
+$('#hit-btn-two').on('click', () => {
+	console.log('hit-two was clicked');
+	// deal another card
+	// game.players[i].playerAction = 'hit';
+	game.dealPlayerAction();
+	// game.hit();	
+});
 
+$('#stay-btn-two').on('click', () => {
+	console.log('stay-two was clicked');
+	// stand pat with current hand
+	game.stay();	
+});
+
+$('#hit-btn-one').on('click', () => {
+	console.log('hit-one was clicked');
+	// deal another card
+	// game.players[i].playerAction = 'hit';
+	game.dealPlayerAction();
+	// game.hit();	
+});
+
+$('#stay-btn-one').on('click', () => {
+	console.log('stay-one was clicked');
+	// stand pat with current hand
+	game.stay();	
+});
+// $('#bet-btn').on('click', () => {
+// 	console.log('bet was clicked');
+// 	// deal another card
+// 	game.tom1.hit();	
+// });
 
 
 

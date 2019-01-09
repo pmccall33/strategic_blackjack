@@ -10,10 +10,18 @@
 <body>
 
 <header>
-	
+	<h1>Welcome to the Table</h1>
 </header>
 
-<div class="message-container" id="welcome-container">
+<div class="card-container" id="dealer-container">
+	<div id="dealer-cards">
+		<div class="card" id="card-one">Dealer Card One</div>
+		<div class="card" id="card-two">Dealer Card Two</div>
+	</div>
+
+</div>
+
+<!-- <div class="message-container" id="welcome-container">
 	<img id="host-image"src="">
 	<div id="welcome-message">Welcome to the my table care to join?</div>
 
@@ -21,15 +29,37 @@
 	<input type="submit" value=" Deal " id="submit-btn">
 
 	<div id="lets-play-message"></div>
-
-
-
-
 </div>
+ -->
+<div class="player-container">
+	<div class="action-btn">
+			<h5>Your Play</h5>
+			<button class="hit-btn" id="hit-btn-one">Hit me</button>
+			<button class="stay-btn" id="stay-btn-one">I'll stay</button>
+			<!-- <button id="bet-btn">Bet</button> -->
+	</div>
+	
+	<div class="card-container">
+	
+		<div id="player-one-cards">
+			<div class="card" id="card-one">Card One</div>
+			<div class="card" id="card-two">Card Two</div>
+		</div>
 
-
-
-
+		<div id="player-two-cards">
+			<div class="card" id="card-one">Card One</div>
+			<div class="card" id="card-two">Card Two</div>
+		</div>
+	
+	</div>
+	
+	<div class="action-btn">
+			<h5>Your Play</h5>
+			<button class="hit-btn" id="hit-btn-two">Hit me</button>
+			<button class="stay-btn" id="stay-btn-two">I'll stay</button>
+			<!-- <button id="bet-btn">Bet</button> -->
+	</div>
+</div>
 
 
 
