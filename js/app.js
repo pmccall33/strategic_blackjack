@@ -26,10 +26,9 @@ class Card {
 	drawCard() {
 		console.log(this)
 		// card <img> elment
-		let $cardImage = $('<img>', {id: `${this.rank}-${this.suit}`, class: "card", src: `${this.image}`});
+		const $cardImage = $('<img>', {id: `${this.rank}-${this.suit}`, class: "card", src: `${this.image}`});
 		console.log($cardImage);
-		$('#player-two-cards .card-two').append($cardImage);
-		// $("#card-one-image").html($cardImage);
+		// $('#player-two-cards .card-two').append($cardImage);
 	}
 }
 
@@ -124,6 +123,7 @@ class Player {
 
 	receiveCard(card) {
 		this.currentHand.push(card);
+		
 		// console.log(this.currentHand, ' - player recieveCard');
 	}
 	
@@ -226,22 +226,10 @@ class Dealer extends Player {
 
 const game = {
 	gameOn: false,
-	// playerOneIsPlaying: false,
-	// playerTwoIsPlaying: false,
 	deck: null,
 	players: [],
 	numOfPlayers: 2,
-	// currentPlayer: null,
-	// playerOne: null,
-	// playerTwo: null,
 	dealerHand: [],
-	// dealerHandTotal: 0,
-	// playerOneHand: [],
-	// playerOneHandTotal: 0,
-	// playerTwoHand: [],
-	// playerTwoHandTotal: 0,
-	// currentHand: [],
-	// playerHasAce: false,
 	playerBlackjack: false,
 	currentPlayerStatus: null,
 
@@ -268,9 +256,9 @@ const game = {
 		
 		//
 		// this.deck.drawCard(this.deck.dealCard());
-		const newCard = this.deck.dealCard();
-		console.log(newCard.image)
-		newCard.drawCard();
+		// const newCard = this.deck.dealCard();
+		// console.log(newCard.image)
+		// newCard.drawCard();
 
 		// Inititial deal
 		this.startDeal();
@@ -284,67 +272,23 @@ const game = {
 		// this.dealPlayerAction();
 	},
 
-	// togglePlayer() {
-	// 	if (this.playerOne) {
-	// 		this.currentPlayer = this.playerTwo;
-	// 	} else {
-	// 		this.currentPlayer = this.playerOne;
-	// 	}
-	// 	// console.log(this.currentPlayer);
-	// },
-
 	startDeal () {
 		// for all players
 			// deal 2 cards to each player
 			// using Deck.dealCard and Player.receiveCard in a loop
 		for (let i = 0; i < this.players.length; i++) {
-			this.players[i].receiveCard(this.deck.dealCard());
-			this.players[i].receiveCard(this.deck.dealCard());
+			let card1 = (this.deck.dealCard());
+			$(`#player-${i + 1}-cards .card-one`).append($('<img>', {id: `${this.rank}-${this.suit}`, class: "card", src: `${card1.image}`}));
+			let card2 = (this.deck.dealCard());
+			$(`#player-${i + 1}-cards .card-two`).append($('<img>', {id: `${this.rank}-${this.suit}`, class: "card", src: `${card2.image}`}));
+			this.players[i].receiveCard(card2);
 		}
-		// console.log(this.players);
-		//deal 2 cards to player
-		// for (let i = 0; i < this.numOfPlayers; i++) {
-		// 	// this.currentPlayerStatus = 'playing';
-		// 	// this.deck.dealCard();
-		// 	// console.log(this.deck, '---------');
-		// 	this.currentPlayer.recieveCard(this.deck.dealCard());
-		// 	// this.currentPlayer.tallyHand();
-		// 	// this.currentPlayer.checkForAce();
-		// 	// this.currentPlayer.checkForBlackjack();
-		// 	// this.playerStatus();
-		// 	// this.togglePlayer();
-		// } 
+		let $cardImage = $('<img>', {id: `${this.rank}-${this.suit}`, class: "card", src: `${this.image}`});
+		console.log(this.players); 
 	},	
-		// console.log(this.playerOneHand, ' - player one hand');
-		// console.log(this.playerTwoHand, ' - player two hand');
-	
-	
-
-	// dealCard() {
-	// 	//add a card to playerHand from shuffledDeck
-	// 	// console.log(this.deck);
-	// 	if (this.currentPlayer === this.playerOne) {
-	// 		this.playerOneHand.push(this.deck.pop());
-	// 		// console.log('dealt to player one');
-	// 	} 
-
-	// 	if (this.currentPlayer === this.playerTwo) {
-	// 		this.playerTwoHand.push(this.deck.pop());
-	// 		// console.log('dealt to player two');
-	// 	}
-
-	// 	// console.log(this.playerOneHand);
-	// 	// console.log(this.shuffledDeck);
-	// },
-
-	// checkForBust() {
-	// 	if (this.currentTally > 21) {
-	// 		this.currentPlayerStatus = 'busted';
-	// 	}
-	// },
 
 	playerStatus() {
-		console.log(this.players);
+		// console.log(this.players);
 
 		// Get player status
 		for (let i = 0; i < this.players.length; i++) {
@@ -356,28 +300,6 @@ const game = {
 		}
 	},
 
-		// if (this.currentPlayer.playerBlackjack) {
-		// 	this.currentPlayerStatus = 'blackjack';
-		// } else if (this.currentPlayer.currentTally > 21) {
-		// 	this.currentPlayerStatus = 'busted';
-		// } else {
-		// 	this.currentPlayerStatus = 'playing';
-		// }
-
-
-		// switch (this.currentPlayerStatus) {
-		// 	case 'blackjack':
-		// 		console.log('- BLACKJACK! - You win!');
-		// 		this.currentPlayer.playerIsPlaying = false;
-		// 		break;
-		// 	case 'busted':
-		// 		console.log('- Busted out.');
-		// 		this.currentPlayer.playerIsPlaying = false;
-		// 		break;
-		// 	case 'playing':
-		// 		console.log('- hit or stay?');
-		// 		break;
-		// }
 	
 	hit() {
 		// console.log('card dealt');
@@ -390,7 +312,7 @@ const game = {
 	},
 
 	dealPlayerAction() {
-		console.log(this.players, ' - begin dealPlayerMove');
+		// console.log(this.players, ' - begin dealPlayerMove');
 			
 			for (let i = 0; i < this.players.length; i++) {
 				if (this.players[i].playerIsPlaying) {
@@ -410,8 +332,6 @@ const game = {
 				}
 			}
 
-		// this.togglePlayer();
-		// console.log(this.currentPlayer, ' - end dealPlayerMove');
 	}
 }
 game.startGame();
