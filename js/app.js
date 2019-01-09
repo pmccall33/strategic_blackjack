@@ -314,12 +314,13 @@ const game = {
 		// add card img element to card div
 		$(`#player-${player + 1}-cards .card-two`).append($('<img>', {id: `${this.rank}-${this.suit}`, class: "card", src: `${card.image}`}));
 
+		this.players[player].tallyHand();
 		console.log('card dealt');
 		
 	},
 
-	stay() {
-		this.players[i].playerIsPlaying = false;
+	stay(player) {
+		this.players[player].playerIsPlaying = false;
 		console.log('stay was clicked');
 	},
 
@@ -329,9 +330,7 @@ const game = {
 			for (let i = 0; i < this.players.length; i++) {
 				if (this.players[i].playerIsPlaying) {
 					if (this.players[i].playerAction === 'hit') {
-						// this.deck.dealCard();
-						// this.hit(this.players[i]);
-						// this.players[i].receiveCard(this.deck.dealCard());
+						
 						this.players[i].tallyHand(); 
 						// this.players[i].playerStatus();
 						// console.log(' - hit was called');
