@@ -3,12 +3,13 @@ console.log('Howdy- Blackjack');
 // Create Card class 						<<<=============== Card Class =============
 
 class Card {
-	constructor(rank, suit, value) {
+	constructor(rank, suit) {
 		this.rank = rank;
 		this.suit = suit;
-		this.value = value;
+		// this.value = value;
 		// this.image = image;
 	}
+	
 	getValue() {
 		if (this.rank === 'K' ||
 			this.rank === 'Q' ||
@@ -17,11 +18,22 @@ class Card {
 		} else if (this.rank === 'A') {
 			this.value = 11;
 		} else {
-			this. value = this.rank;
+			this.value = this.rank;
 
 		}
 	}
+
+	drawCard() {
+		console.log(this)
+		// card <img> elment
+		let $cardImage = $('<img>', {id: `${this.rank}-${this.suit}`, class: "card", src: `${this.image}`});
+		console.log($cardImage);
+		$('#player-two-cards .card-two').append($cardImage);
+		// $("#card-one-image").html($cardImage);
+	}
 }
+
+
 
 // Create Deck Class 							<<<================ Deck Class ========
 class Deck {	
@@ -36,14 +48,22 @@ class Deck {
 		// Card values
 		const values = [11, 2 ,3 , 4, 5, 6, 7, 8, 9, 10, 10, 10, 10];
 
+		// Create 'deck' from arrays of suits and ranks
 		for (let suit in suits) {
-	      for (let card in cards) {
-	      	//new Card
-	        const newCard = new Card(cards[card], suits[suit]);
-	        newCard.getValue();
-	        this.deck.push(newCard);
-	        // this.deck.push(`${cards[card]} - ${suits[suit]}`);		      
+	     	for (let card in cards) {
+		      	//new Card
+		        const newCard = new Card(cards[card], suits[suit]);
+		        newCard.getValue();
+		        this.deck.push(newCard);
+		        // this.deck.push(`${cards[card]} - ${suits[suit]}`);		      
 	      }
+	    }
+
+	    //set card image
+	    let j = 0;
+	    for (let i = 0; i < this.deck.length; i++) {
+	    	this.deck[i].image = `assets/PNG-cards-1.3/${images[j]}`;
+	    	j++;
 	    }
 	}
 
@@ -71,7 +91,10 @@ class Deck {
 		return card;
 	}
 
-
+	// drawCard(card) {
+	// 	let $cardImage = $('<img>', {id: "`${this.rank}-${this.suit}", class: "card", src: "this.deck[card].image"});
+	// 			$("#card-one-image").html($cardImage);
+	// }
 };
 
 // const newDeck = new DeckOfCards();
@@ -228,8 +251,7 @@ const game = {
 
 	startGame() {
 		this.gameOn = true;
-		// this.playerOneIsPlaying = true;
-		// this.playerTwoIsPlaying = true;
+		
 		
 		// Create players and store in an array
 		for (let i = 1; i <= this.numOfPlayers; i++) {
@@ -240,8 +262,15 @@ const game = {
 
 		// Create and shuffle Deck
 		this.deck = new Deck();
+		console.log(this.deck);
 		this.deck.shuffleCards();
 		// console.log(this.deck);
+		
+		//
+		// this.deck.drawCard(this.deck.dealCard());
+		const newCard = this.deck.dealCard();
+		console.log(newCard.image)
+		newCard.drawCard();
 
 		// Inititial deal
 		this.startDeal();
@@ -351,8 +380,6 @@ const game = {
 		// }
 	
 	hit() {
-		
-
 		// console.log('card dealt');
 	
 	},

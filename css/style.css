@@ -134,7 +134,10 @@ h5 {
 	width: 60px;
 }
 
-
+img {
+	max-width: 100%;
+	height: auto;
+}
 
 
 
