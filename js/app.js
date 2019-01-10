@@ -24,7 +24,7 @@ class Card {
 	}
 	// getHTML --
 	drawCard() {
-		console.log(this)
+		// console.log(this)
 		// card <img> elment
 		const $cardImage = $('<img>', {id: `${this.rank}-${this.suit}`, class: "card", src: `${this.image}`});
 		return $cardImage
@@ -102,8 +102,7 @@ class Player {
 	}
 
 	receiveCard(card) {
-		this.currentHand.push(card);
-		
+		this.currentHand.push(card);	
 	}
 	
 	checkForBlackjack() {
@@ -123,8 +122,9 @@ class Player {
 
 const game = {
 	deck: null,
-	players: [],
 	numOfPlayers: 2,
+	players: [],
+	currentPlayerIndex: null,
 	dealerHand: [],
 
 	startGame() {
@@ -181,11 +181,19 @@ const game = {
 		console.log('stay was clicked');
 	},
 
-
+	nextPlayer() {
+	    // this.currentPlayerIndex = 0;
+	    if (this.currentPlayerIndex < (this.numOfPlayers - 1)) {
+	      this.currentPlayerIndex += 1;
+	    } else {
+	      this.dealerPlayer()
+	    }
+	}
 }
+
 game.startGame();
-
-
+// game.nextPlayer();
+// console.log(game.currentPlayerIndex);
 
 	
 // Event Listeners ==========================
