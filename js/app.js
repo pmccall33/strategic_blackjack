@@ -304,11 +304,28 @@ const game = {
 	    const card2 = (this.deck.dealCard());
 		$('#dealer-cards #card-two').append(card2.getHTML());
 		this.dealer.receiveCard(card2);
-	    // while < 17
-	    //   dealer hit
+	    
+		// get dealers currentTally
+		this.dealer.currentTally = 0;
+		for (let i = 0; i < this.dealer.currentHand.length; i++) {
+          this.dealer.currentTally += this.dealer.currentHand[i].value;
+          // return this.currentTally;
+        }
+
+	    console.log(this.dealer.currentTally);
+
 	    while (this.dealer.currentTally < 17) {
-	    	this.dealer.hit(this.dealer);
+	    	// dealer hits
+	    	const card = (this.deck.dealCard());
+	    	$('#dealer-cards #card-two').append(card.getHTML());
+			this.dealer.receiveCard(card2);
+
+			//update dealer current tally
+			this.dealer.currentTally += card.value
+			console.log(this.dealer.currentTally);
+	    	console.log('dealer hit');
 	    }
+	    console.log('end round reached');
 	    // end round()
 	 },
 
@@ -360,7 +377,12 @@ $('#stay-btn-two').on('click', () => {
 // 	console.log('bet was clicked');
 // });
 
-
+$('#dealer-hit').on('click', () => {
+	// console.log('hit-one was clicked');
+	// deal another card
+	const player = dealer;
+	game.hit(player);
+});
 
 
 
