@@ -129,14 +129,23 @@ class Player {
           // return this.currentTally;
         }
         console.log(this.currentTally, '<-- checkForBust currentTally');
-		// const numAces = this.countAces();
-		// console.log(numAces);
-		// // for each ace check 
-		// console.log(this.currentTally);
-		// for (let i = 0; i < numAces; i++) {
-  //         this.currentTally -= 10;
-  //         console.log(this.currentTally, ' -checkForBust tally');
-  //     }
+		
+		// create possible values array 
+		let possibleValuesArray = [this.currentTally];
+		console.log(possibleValuesArray);
+
+        // update currentTally possiblity for number of aces
+		const numAces = this.countAces();
+		console.log(numAces, ' <--numAces');
+		
+		// for each ace check 
+		console.log(this.currentTally, ' <--- first currentTally');
+		for (let i = 0; i < numAces; i++) {
+          this.currentTally -= 10;
+          console.log(this.currentTally, ' -checkForBust tally');
+          possibleValuesArray.push(this.currentTally);
+          console.log(possibleValuesArray, ' <--- possibleValuesArray');
+      }
     }
 
 	handValue() {
