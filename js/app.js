@@ -176,7 +176,7 @@ const game = {
 	hit(player) {
 		// Allow only if its players turn
 		// player = 1
-		console.log(player);
+		// console.log(player);
 		if (player === this.currentPlayerIndex) {		
 			// player dealt a card
 			const card = this.deck.dealCard();
@@ -187,8 +187,10 @@ const game = {
 	},
 
 	stay(player) {
-			
-		console.log('stay was clicked');
+		if (player === this.currentPlayerIndex)	{
+			console.log('stay was clicked');
+		}
+		
 	},
 
 	nextPlayer() {
@@ -216,28 +218,28 @@ const $betBtn = $('#bet-btn');
 
 
 $('#hit-btn-one').on('click', () => {
-	console.log('hit-one was clicked');
+	// console.log('hit-one was clicked');
 	// deal another card
 	const player = 0;
 	game.hit(player);	
 });
 // 
 $('#stay-btn-one').on('click', () => {
-	console.log('stay-one was clicked');
+	// console.log('stay-one was clicked');
 	// stand pat with current hand
 	const player = 0;
 	game.stay(player);	
 });
 
 $('#hit-btn-two').on('click', () => {
-	console.log('hit-one was clicked');
+	// console.log('hit-one was clicked');
 	// deal another card
 	const player = 1;
 	game.hit(player);
 });
 
 $('#stay-btn-two').on('click', () => {
-	console.log('stay-one was clicked');
+	// console.log('stay-one was clicked');
 	// stand pat with current hand
 	const player = 1;
 	game.stay(player);	
