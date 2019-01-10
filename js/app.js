@@ -116,7 +116,7 @@ class Player {
           if (card.rank === 'A') {
             aceCounter++;
           }
-        console.log(aceCounter, '- ace counter');
+        // console.log(aceCounter, '- ace counter');
         });
         return aceCounter;
 	}
@@ -128,24 +128,50 @@ class Player {
           this.currentTally += this.currentHand[i].value;
           // return this.currentTally;
         }
-        console.log(this.currentTally, '<-- checkForBust currentTally');
+        // console.log(this.currentTally, '<-- checkForBust currentTally');
 		
 		// create possible values array 
 		let possibleValuesArray = [this.currentTally];
-		console.log(possibleValuesArray);
+		// console.log(possibleValuesArray);
 
         // update currentTally possiblity for number of aces
 		const numAces = this.countAces();
-		console.log(numAces, ' <--numAces');
-		
+		// console.log(numAces, ' <--numAces');
+
+		// Check for bust and return for the case no aces	
+		if (numAces === 0) {
+			console.log(possibleValuesArray, '<-- no ace possibleValuesArray');
+			if (possibleValuesArray[0] > 21) {
+				console.log(possibleValuesArray[0], ' - BUST')
+				return
+			}
+		}
+	
 		// for each ace check 
-		console.log(this.currentTally, ' <--- first currentTally');
+		// console.log(this.currentTally, ' <--- first currentTally');
 		for (let i = 0; i < numAces; i++) {
-          this.currentTally -= 10;
-          console.log(this.currentTally, ' -checkForBust tally');
-          possibleValuesArray.push(this.currentTally);
-          console.log(possibleValuesArray, ' <--- possibleValuesArray');
-      }
+          	this.currentTally -= 10;
+        	// console.log(this.currentTally, ' -checkForBust tally');
+        	possibleValuesArray.push(this.currentTally);
+        	console.log(possibleValuesArray, ' <--- possibleValuesArray');
+
+      	}
+
+      	let bust = true;
+
+        // iterate over possibleValuesArray to check for !bust value
+        possibleValuesArray.forEach(function(value) {
+        	
+	        // Check possibleValues for bust
+        	if (value <= 21) {
+        		console.log(bust, ' - NO bust');
+        		bust = false;
+        		// return false;
+        	} 
+        });
+        console.log(bust);
+        return bust;
+
     }
 
 	handValue() {
@@ -201,7 +227,7 @@ const game = {
 	
 	hit(player) {
 		// Allow only if its players turn
-		console.log(this.players[player].currentHand);
+		// console.log(this.players[player].currentHand);
 		if (player === this.currentPlayerIndex) {		
 			if (this.players[player].currentHand.length < 5) {
 				// player dealt a card
@@ -242,7 +268,7 @@ game.startGame();
 // console.log(game.currentPlayerIndex);
 // console.log(game.players[0].currentHand[0].value)
 // console.log(game.players[0].countAces());
-// game.players[0].checkForBust();
+// console.log(game.players[0].checkForBust())	;
 	
 // Event Listeners ==========================
 
