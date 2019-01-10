@@ -122,12 +122,21 @@ class Player {
 	}
 
 	checkForBust() {
-		const numAces = this.countAces();
-		console.log(numAces);
-		for (let i = 0; i <= numAces; i++) {
-          console.log(this.currentTally, ' -checkForBust tally');
-          this.currentTally -= 10;
-      }
+		// get players currentTally
+		this.currentTally = 0;
+		for (let i = 0; i < this.currentHand.length; i++) {
+          this.currentTally += this.currentHand[i].value;
+          // return this.currentTally;
+        }
+        console.log(this.currentTally, '<-- checkForBust currentTally');
+		// const numAces = this.countAces();
+		// console.log(numAces);
+		// // for each ace check 
+		// console.log(this.currentTally);
+		// for (let i = 0; i < numAces; i++) {
+  //         this.currentTally -= 10;
+  //         console.log(this.currentTally, ' -checkForBust tally');
+  //     }
     }
 
 	handValue() {
@@ -223,8 +232,8 @@ game.startGame();
 // game.nextPlayer();
 // console.log(game.currentPlayerIndex);
 // console.log(game.players[0].currentHand[0].value)
-console.log(game.players[0].countAces());
-game.players[0].checkForBust();
+// console.log(game.players[0].countAces());
+// game.players[0].checkForBust();
 	
 // Event Listeners ==========================
 
