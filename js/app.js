@@ -184,11 +184,16 @@ const game = {
 	numOfPlayers: 2,
 	players: [],
 	currentPlayerIndex: 0,
+	player: null,
 	dealerHand: [],
 
 	startGame() {
 		this.gameOn = true;
+
+		// instantiate dealer
+		this.dealer = new Player();
 		
+		console.log(this.dealer);
 		// Create players and store in an array
 		for (let i = 1; i <= this.numOfPlayers; i++) {
 			let player = new Player();
@@ -221,7 +226,18 @@ const game = {
 			this.players[i].receiveCard(card2);
 		}
 
-		// set player 0 turn
+		//deal to dealer
+		const card1 = (this.deck.dealCard());
+		console.log(card1);
+
+		// $(`#dealer .card-one`).append(card1.getHTML());
+		// this.dealer.receiveCard(card1);
+
+		// const card2 = (this.deck.dealCard());
+		// $(`#dealer .card-two`).append(card2.getHTML());
+		// this.dealer.receiveCard(card2);
+
+		this.dealerHand();
 	},	
 	
 	hit(player) {
@@ -263,10 +279,39 @@ const game = {
 	      this.currentPlayerIndex += 1;
 	    } else {
 	      console.log(' dealer turn');
-	      this.dealerPlayer()
+	      this.dealerPlay()
 	    }
 	    // console.log(this.currentPlayerIndex);
-	}
+	},
+
+	dealerHand() {
+		// dealer initial deal
+		
+		// Add card element to the dealer card div
+		const card1 = (this.deck.dealCard());
+		$('#dealer-cards #card-one').append(card1.getHTML());
+		this.dealer.receiveCard(card1);
+
+		// const card2 = (this.deck.dealCard());
+		// $('#dealer-cards #card-two').append(card2.getHTML());
+		// this.dealer.receiveCard(card2);
+
+		console.log(this.dealer.currentHand);
+	},
+
+	dealerPlay() {
+	    // show hole card
+	    const card2 = (this.deck.dealCard());
+		$('#dealer-cards #card-two').append(card2.getHTML());
+		this.dealer.receiveCard(card2);
+	    // while < 17
+	    //   dealer hit
+	    while (this.dealer.currentTally < 17) {
+	    	this.dealer.hit(this.dealer);
+	    }
+	    // end round()
+	 },
+
 }
 
 game.startGame();
