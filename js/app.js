@@ -22,8 +22,8 @@ class Card {
 
 		}
 	}
-	// getHTML --
-	drawCard() {
+
+	getHTML() {
 		// console.log(this)
 		// card <img> elment
 		const $cardImage = $('<img>', {id: `${this.rank}-${this.suit}`, class: "card", src: `${this.image}`});
@@ -138,38 +138,37 @@ class Player {
 		const numAces = this.countAces();
 		// console.log(numAces, ' <--numAces');
 
+		let bust = true;
+
 		// Check for bust and return for the case no aces	
 		if (numAces === 0) {
-			console.log(possibleValuesArray, '<-- no ace possibleValuesArray');
+			// console.log(possibleValuesArray, '<-- no ace possibleValuesArray');
 			if (possibleValuesArray[0] > 21) {
-				console.log(possibleValuesArray[0], ' - BUST')
-				return
+				// console.log(possibleValuesArray[0], ' - BUST')	
+				return bust;
 			}
 		}
 	
 		// for each ace check 
-		// console.log(this.currentTally, ' <--- first currentTally');
 		for (let i = 0; i < numAces; i++) {
           	this.currentTally -= 10;
         	// console.log(this.currentTally, ' -checkForBust tally');
         	possibleValuesArray.push(this.currentTally);
-        	console.log(possibleValuesArray, ' <--- possibleValuesArray');
+        	// console.log(possibleValuesArray, ' <--- possibleValuesArray');
 
       	}
-
-      	let bust = true;
 
         // iterate over possibleValuesArray to check for !bust value
         possibleValuesArray.forEach(function(value) {
         	
 	        // Check possibleValues for bust
         	if (value <= 21) {
-        		console.log(bust, ' - NO bust');
+        		// console.log(bust, ' - NO bust');
         		bust = false;
         		// return false;
         	} 
         });
-        console.log(bust);
+        // console.log(bust);
         return bust;
 
     }
@@ -214,11 +213,11 @@ const game = {
 		for (let i = 0; i < this.players.length; i++) {
 			let card1 = (this.deck.dealCard());
 			// Add card element to the card div
-			$(`#player-${i + 1}-cards .card-one`).append(card1.drawCard());
+			$(`#player-${i + 1}-cards .card-one`).append(card1.getHTML());
 			this.players[i].receiveCard(card1);
 
 			let card2 = (this.deck.dealCard());
-			$(`#player-${i + 1}-cards .card-two`).append(card2.drawCard());
+			$(`#player-${i + 1}-cards .card-two`).append(card2.getHTML());
 			this.players[i].receiveCard(card2);
 		}
 
@@ -235,10 +234,17 @@ const game = {
 				this.players[player].receiveCard(card);
 				
 				// add card img element to card div
-				$(`#player-${player + 1}-cards .card-two`).append($('<img>', {id: `${this.rank}-${this.suit}`, class: "card", src: `${card.image}`}));
+				$(`#player-${player + 1}-cards .card-two`).append(card.getHTML());
 
 				// check player currentHand for bust
 				this.players[player].checkForBust();
+				console.log(this.players[player].checkForBust());
+				
+				// if bust === true alert player and call nextPlayer
+				if (this.players[player].checkForBust()) {
+					alert(`Sorry Player ${player +1}, You busted.`);
+					this.nextPlayer();
+				}
 			}
 		}
 	},
