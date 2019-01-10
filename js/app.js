@@ -128,7 +128,7 @@ class Player {
           this.currentTally += this.currentHand[i].value;
           // return this.currentTally;
         }
-        // console.log(this.currentTally, '<-- checkForBust currentTally');
+        console.log(this.currentTally, '<-- checkForBust currentTally');
 		
 		// create possible values array 
 		let possibleValuesArray = [this.currentTally];
@@ -168,7 +168,7 @@ class Player {
         		// return false;
         	} 
         });
-        // console.log(bust);
+        // console.log(this.currentTally, ' ---bust');
         return bust;
 
     }
@@ -300,30 +300,43 @@ const game = {
 	},
 
 	dealerPlay() {
-	    // show hole card
+	    // show hole card add to dealer hand
 	    const card2 = (this.deck.dealCard());
 		$('#dealer-cards #card-two').append(card2.getHTML());
 		this.dealer.receiveCard(card2);
-	    
+	    this.dealer.checkForBust();
+		
 		// get dealers currentTally
 		this.dealer.currentTally = 0;
 		for (let i = 0; i < this.dealer.currentHand.length; i++) {
           this.dealer.currentTally += this.dealer.currentHand[i].value;
-          // return this.currentTally;
         }
+	    console.log(this.dealer.currentTally, 'dealers initial deal tally');
 
-	    console.log(this.dealer.currentTally);
+		   	for (let i = 0; i < 3; i++) { 
+		    	if (this.dealer.currentTally < 17) {
+			    	// dealer hits
+			    	card = (this.deck.dealCard());
+			    	$('#dealer-cards #card-two').append(card.getHTML());
+					this.dealer.receiveCard(card);
 
-	    while (this.dealer.currentTally < 17) {
-	    	// dealer hits
-	    	const card = (this.deck.dealCard());
-	    	$('#dealer-cards #card-two').append(card.getHTML());
-			this.dealer.receiveCard(card2);
+					//update dealer current tally
+					this.dealer.currentntTally += card.value
+					
+					console.log('dealer hit');
+					console.log(this.dealer.currentTally, 'dealer hit tally');
+			    	
+			    	if (this.dealer.currentTally > 21) {
+			    		alert('Dealer Busts');
+			    		// return;
+			    	}
 
-			//update dealer current tally
-			this.dealer.currentTally += card.value
-			console.log(this.dealer.currentTally);
-	    	console.log('dealer hit');
+				    this.dealer.checkForBust();
+		    	}
+		   	}
+
+	    if (this.dealer.checkForBust()) {
+	    	alert('Dealer busts')
 	    }
 	    console.log('end round reached');
 	    // end round()
