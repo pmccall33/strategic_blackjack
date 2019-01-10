@@ -164,25 +164,18 @@ const game = {
 
 		// set player 0 turn
 	},	
-	// hit(thePlayer) --
- //    if it's thePlayer's turn (thePlayer param === currentPlayerIndex)
- //      if(player doesn't have 5 or more cards)
- //        adds a card to player's hand
- //        if player.checkForBust()
- //          some func that changes display to say you blew it
- //          turnOver/nextPlayer()
-
 	
 	hit(player) {
 		// Allow only if its players turn
-		// player = 1
-		// console.log(player);
+		console.log(this.players[player].currentHand);
 		if (player === this.currentPlayerIndex) {		
-			// player dealt a card
-			const card = this.deck.dealCard();
-			this.players[player].receiveCard(card);
-			// add card img element to card div
-			$(`#player-${player + 1}-cards .card-two`).append($('<img>', {id: `${this.rank}-${this.suit}`, class: "card", src: `${card.image}`}));
+			if (this.players[player].currentHand.length < 5) {
+				// player dealt a card
+				const card = this.deck.dealCard();
+				this.players[player].receiveCard(card);
+				// add card img element to card div
+				$(`#player-${player + 1}-cards .card-two`).append($('<img>', {id: `${this.rank}-${this.suit}`, class: "card", src: `${card.image}`}));
+			}
 		}
 	},
 
