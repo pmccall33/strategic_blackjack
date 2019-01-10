@@ -98,6 +98,7 @@ class Player {
 		this.playerStatus = null;
 		this.playerIsPlaying = true;
 		this.playerAction = null;
+		// this.aceCounter = 0;
 		// this.chipStack = chipStack;
 	}
 
@@ -109,16 +110,31 @@ class Player {
 
 	}
 
-	checkForBust() {
-
+	countAces () {
+        let aceCounter = 0;
+        this.currentHand.forEach(function(card) {
+          if (card.rank === 'A') {
+            aceCounter++;
+          }
+        console.log(aceCounter, '- ace counter');
+        });
+        return aceCounter;
 	}
+
+	checkForBust() {
+		const numAces = this.countAces();
+		console.log(numAces);
+		for (let i = 0; i <= numAces; i++) {
+          console.log(this.currentTally, ' -checkForBust tally');
+          this.currentTally -= 10;
+      }
+    }
 
 	handValue() {
 
 	}
 
-}
-
+};
 
 const game = {
 	deck: null,
@@ -173,14 +189,19 @@ const game = {
 				// player dealt a card
 				const card = this.deck.dealCard();
 				this.players[player].receiveCard(card);
+				
 				// add card img element to card div
 				$(`#player-${player + 1}-cards .card-two`).append($('<img>', {id: `${this.rank}-${this.suit}`, class: "card", src: `${card.image}`}));
+
+				// check player currentHand for bust
+				this.players[player].checkForBust();
 			}
 		}
 	},
 
 	stay(player) {
 		if (player === this.currentPlayerIndex)	{
+			this.nextPlayer();
 			console.log('stay was clicked');
 		}
 		
@@ -201,7 +222,9 @@ const game = {
 game.startGame();
 // game.nextPlayer();
 // console.log(game.currentPlayerIndex);
-
+// console.log(game.players[0].currentHand[0].value)
+console.log(game.players[0].countAces());
+game.players[0].checkForBust();
 	
 // Event Listeners ==========================
 
