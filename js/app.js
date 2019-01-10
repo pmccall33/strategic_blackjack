@@ -124,7 +124,7 @@ const game = {
 	deck: null,
 	numOfPlayers: 2,
 	players: [],
-	currentPlayerIndex: null,
+	currentPlayerIndex: 0,
 	dealerHand: [],
 
 	startGame() {
@@ -164,30 +164,42 @@ const game = {
 
 		// set player 0 turn
 	},	
-
+	// hit(thePlayer) --
+ //    if it's thePlayer's turn (thePlayer param === currentPlayerIndex)
+ //      if(player doesn't have 5 or more cards)
+ //        adds a card to player's hand
+ //        if player.checkForBust()
+ //          some func that changes display to say you blew it
+ //          turnOver/nextPlayer()
 
 	
 	hit(player) {
-		// player dealt a card
-		const card = this.deck.dealCard();
-		this.players[player].receiveCard(card);
-		// add card img element to card div
-		$(`#player-${player + 1}-cards .card-two`).append($('<img>', {id: `${this.rank}-${this.suit}`, class: "card", src: `${card.image}`}));
-		
+		// Allow only if its players turn
+		// player = 1
+		console.log(player);
+		if (player === this.currentPlayerIndex) {		
+			// player dealt a card
+			const card = this.deck.dealCard();
+			this.players[player].receiveCard(card);
+			// add card img element to card div
+			$(`#player-${player + 1}-cards .card-two`).append($('<img>', {id: `${this.rank}-${this.suit}`, class: "card", src: `${card.image}`}));
+		}
 	},
 
 	stay(player) {
-		
+			
 		console.log('stay was clicked');
 	},
 
 	nextPlayer() {
-	    // this.currentPlayerIndex = 0;
+	    // this.currentPlayerIndex = 2;
 	    if (this.currentPlayerIndex < (this.numOfPlayers - 1)) {
 	      this.currentPlayerIndex += 1;
 	    } else {
+	      console.log(' dealer turn');
 	      this.dealerPlayer()
 	    }
+	    // console.log(this.currentPlayerIndex);
 	}
 }
 
