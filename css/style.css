@@ -1,6 +1,9 @@
 body {
-	background-color: grey;
-	background-image: 
+	font-family: ;
+	/*background-color: grey;*/
+	background-image: url("https://static1.squarespace.com/static/56ec48a420c64724c36d2e67/5706f67aab48de09bc40538a/5706f7ae044262231702c2fe/1460074424397/IMG_9230.JPG?format=750w");
+	background-repeat: no-repeat;
+	background-size: cover; 
 }
 
 div {
@@ -10,6 +13,27 @@ div {
 	flex-direction: column;
 }
 
+header {
+	display: flex;
+	margin: 0 auto;
+	align-items: center;
+	width: 80%;
+}
+
+h1 {
+	color: orchid;
+}
+
+.play-field-heading {
+	color: lightyellow;
+}
+
+#dealer-heading {
+	display: flex;
+	margin: 0 auto;
+	align-items: center;
+	width: 90%;
+}
 .message-container {
 	display: flex;
 	justify-content: center;
@@ -50,27 +74,46 @@ div {
 	flex-direction: row;
 	align-items: center;
 	justify-content: space-between;
-	background-color: cadetblue;
-	margin: 100px 20px 0 20px;
+	background-color: transparent;
+	margin: 0 20px 0 20px;
 	padding-top: 10px;
 	width: 96%;
 	height: 200px;
 }
 
+#hit-cards {
+	display: inline-flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-between;
+	background-color: transparent;
+	margin: 0 20px -60px 20px;
+	padding-top: 0;
+	width: 86%;
+	height: 200px;
+}
+
+#player-1-cards {
+	diplay: inline-flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	width: 100%;	
+}
+
 .action-btn {
 	display: inline-flex;
-	background-color: lightblue;
-	border: 2px solid blue;
+	background-color: cadetblue;
+	border: 2px solid lightgrey;
 	border-radius: 6px;
 	height:60%;
-	margin: 10px 20px 80px 20px;
+	margin: -60px 60px 80px 60px;
 	padding: 4px;
 }
 
 #hit-btn-one, #hit-btn-two {
-	background-color: blue;
-	color: white;
-	border: 2px solid purple;
+	background-color: lightyellow;
+	color: black;
+	border: 1px solid purple;
 	border-radius: 4px;
 	margin: 2px;
 	padding: 2px;
@@ -78,8 +121,8 @@ div {
 
 #stay-btn-one, #stay-btn-two {
 	background-color: lightyellow;
-	color: blue;
-	border: 2px solid red;
+	color: black;
+	border: 1px solid purple;
 	border-radius: 4px;
 }
 
@@ -106,10 +149,21 @@ h5 {
 	margin: 20px auto;
 }
 
+/*#dealer-card-two {
+	display: inline-flex;
+	flex-direction: row;
+	background-color: transparent;
+	color: white;
+	border: 1px solid lightgrey;
+	border-radius: 6px;
+	margin:0 4px;
+	height: 100px;
+	width: 60px;
+}
+*/
 #player-1-cards {
 	diplay: inline-flex;
 	flex-direction: row;
-	/*align-items: flex-end;*/
 	justify-content: flex-start;
 	width: 100%;	
 }
@@ -125,21 +179,23 @@ h5 {
 #card-one, #card-two {
 	display: inline-flex;
 	flex-direction: row;
-	background-color: black;
-	color: white;
-	border: 2px solid orange;
+	background-color: transparent;
+	/*color: white;
+	border: 2px solid orange;*/
 	border-radius: 6px;
 	margin:0 4px;
 	height: 100px;
 	width: 60px;
 }
 
+
+
 .card {
 	display: inline-flex;
 	flex-direction: row;
-	background-color: black;
+	background-color: transparent;
 	color: white;
-	border: 2px solid orange;
+	/*border: 2px solid orange;*/
 	border-radius: 6px;
 	margin:0 4px;
 	height: 100px;

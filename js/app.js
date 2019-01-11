@@ -266,7 +266,7 @@ const game = {
 				this.players[player].receiveCard(card);
 				
 				// add card img element to card div
-				$(`#player-${player + 1}-cards .card-two`).append(card.getHTML());
+				$(`#player-${player + 1}-hit-cards .card`).append(card.getHTML());
 
 				// check player currentHand for bust
 				this.players[player].checkForBust();
@@ -314,15 +314,15 @@ const game = {
 	},
 
 	endRound() {
-		console.log('-- endRound was called');
+		// console.log('-- endRound was called');
 		const dealerTotal = this.dealer.handValue();
-		console.log(dealerTotal, 'endRound <-- dealerHand()');
+		// console.log(dealerTotal, 'endRound <-- dealerHand()');
 		// console.log(this.players[0].handValue());
 
 		// get player final scores
 		for (let i = 0; i < this.players.length; i++) {
 			 let playerTotal = this.players[i].handValue();
-			console.log(playerTotal, '<-- endRound player hand - for');
+			// console.log(playerTotal, '<-- endRound player hand - for');
 
 			// Compare values to dealer final tally
 			if (playerTotal > dealerTotal) {
@@ -377,9 +377,9 @@ const game = {
 	    if (this.dealer.checkForBust()) {
 	    	alert('Dealer busts')
 	    }
-	    console.log('end round reached');
+	    // console.log('end round reached');
 	    this.endRound();											//<----- endRound() called --
-	    console.log(this.dealer.currentTally, 'end round tally');
+	    // console.log(this.dealer.currentTally, 'end round tally');
 	    // const dealerFinalTally = this.dealer.currentTally;
 	 },
 

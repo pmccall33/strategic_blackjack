@@ -6,12 +6,15 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/2.0.5/velocity.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/2.0.5/velocity.ui.js"></script>
 	<link rel="stylesheet" href="css/style.css">
+	<link href='https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:500,500italic|Exo+2:400,100,400italic' rel='stylesheet' type='text/css'>
 </head>
 <body>
 
 <header>
-	<h1>Welcome to the Table - You should not be here. It's not finished yet. Go away.</h1>
+	<h1>Howdy and welcome to the Table - Let's , shall we?</h1>
 </header>
+
+<div class="play-field-heading" id="dealer-heading">-- Dealer --</div>
 
 <div class="card-container" id="dealer-container">
 	<div id="dealer-cards">
@@ -20,32 +23,29 @@
 	</div>
 </div>
 
-<!-- <div class="message-container" id="welcome-container">
-	<img id="host-image"src="">
-	<div id="welcome-message">Welcome to the my table care to join?</div>
+<div class="player-container hit-card-container" id="hit-cards">						
+	<div class="card-container hit-card-container">	
+		<div id="player-1-hit-cards">
+			<div class="card hit-card">
+			</div>
+		</div>
 
-	<input type="text" name="" id="input-name" placeholder="Name">
-	<input type="submit" value=" Deal " id="submit-btn">
-
-	<div id="lets-play-message"></div>
-</div>
- -->
-<div class="hit-cards-container">
-	<div class="card-container hit-cards">
-		
+		<div id="player-2-hit-cards">
+			<div class="card hit-card">
+			</div>
+		</div>	
 	</div>
-	<div class="card-container hit-cards">
-		
-	</div>
-
+	
+	
 </div>
 
+<div class="play-field-heading" id="dealer-heading">-- Players --	</div>
 
 <div class="player-container">
 	<div class="action-btn">
 			<h5>Your Play</h5>
-			<button class="hit-btn" id="hit-btn-one">Hit me</button>
-			<button class="stay-btn" id="stay-btn-one">I'll stay</button>
+			<button class="hit-btn" id="hit-btn-one">Hit</button>
+			<button class="stay-btn" id="stay-btn-one">Stay</button>
 			<!-- <button id="bet-btn">Bet</button> -->
 	</div>
 	
@@ -69,8 +69,8 @@
 	
 	<div class="action-btn">
 			<h5>Your Play</h5>
-			<button class="hit-btn" id="hit-btn-two">Hit me</button>
-			<button class="stay-btn" id="stay-btn-two">I'll stay</button>
+			<button class="hit-btn" id="hit-btn-two">Hit</button>
+			<button class="stay-btn" id="stay-btn-two">Stay</button>
 			<!-- <button id="bet-btn">Bet</button> -->
 	</div>
 
