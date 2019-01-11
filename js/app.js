@@ -353,7 +353,7 @@ const game = {
 	    // console.log(this.dealer.currentTally, 'dealers initial deal tally');
 
 		   	for (let i = 0; i < 3; i++) { 
-		    	if (this.dealer.currentTally < 17) {
+		    	if (this.dealer.currentTally < 17 && this.dealer.currentTally  != 21) {
 			    	// dealer hits
 			    	card = (this.deck.dealCard());
 			    	$('#dealer-cards #card-two').append(card.getHTML());
@@ -365,6 +365,7 @@ const game = {
 					// console.log('dealer hit');
 					// console.log(this.dealer.currentTally, 'dealer hit tally');
 			    	
+
 			    	if (this.dealer.currentTally > 21) {
 			    		alert('Dealer Busts');
 			    		// return;
