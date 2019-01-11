@@ -98,6 +98,7 @@ class Player {
 		this.playerStatus = null;
 		this.playerIsPlaying = true;
 		this.playerAction = null;
+		this.possibleValuesArray = null
 		// this.aceCounter = 0;
 		// this.chipStack = chipStack;
 	}
@@ -126,40 +127,35 @@ class Player {
 		this.currentTally = 0;
 		for (let i = 0; i < this.currentHand.length; i++) {
           this.currentTally += this.currentHand[i].value;
-          // return this.currentTally;
         }
-        console.log(this.currentTally, '<-- checkForBust currentTally');
 		
 		// create possible values array 
-		let possibleValuesArray = [this.currentTally];
-		// console.log(possibleValuesArray);
+		this.possibleValuesArray = [this.currentTally];
 
         // update currentTally possiblity for number of aces
 		const numAces = this.countAces();
-		// console.log(numAces, ' <--numAces');
 
 		let bust = true;
 
 		// Check for bust and return for the case no aces	
 		if (numAces === 0) {
 			// console.log(possibleValuesArray, '<-- no ace possibleValuesArray');
-			if (possibleValuesArray[0] > 21) {
+			if (this.possibleValuesArray[0] > 21) {
 				// console.log(possibleValuesArray[0], ' - BUST')	
 				return bust;
 			}
 		}
 	
-		// for each ace check 
+		// for each ace check and push value into possibleValues
 		for (let i = 0; i < numAces; i++) {
           	this.currentTally -= 10;
-        	// console.log(this.currentTally, ' -checkForBust tally');
-        	possibleValuesArray.push(this.currentTally);
+        	this.possibleValuesArray.push(this.currentTally);
         	// console.log(possibleValuesArray, ' <--- possibleValuesArray');
 
       	}
-
+      	// console.log(this.possibleValuesArray, ' -- checkForBust possibles');
         // iterate over possibleValuesArray to check for !bust value
-        possibleValuesArray.forEach(function(value) {
+        this.possibleValuesArray.forEach(function(value) {
         	
 	        // Check possibleValues for bust
         	if (value <= 21) {
@@ -169,14 +165,36 @@ class Player {
         	} 
         });
         // console.log(this.currentTally, ' ---bust');
+        // console.log(this.possibleValuesArray, ' -- end checkForBust possibles');
         return bust;
 
     }
 
-	handValue() {
+	handValue() {										/// ------------------------TODO
+		
+		// get players possible tally array
+		this.currentTally = 0;
+		for (let i = 0; i < this.currentHand.length; i++) {
+          this.currentTally += this.currentHand[i].value;
+          // console.log(this.currentTally, '<--- handValue current tally');
+        }	
+		
+        // create possible values array 
+		this.possibleValuesArray = [this.currentTally];
+		// console.log(this.possibleValuesArray, ' <--- handValue possibleValuesArray')
+        // update currentTally possiblity for number of aces
+		const numAces = this.countAces();
 
+		// for each ace check and push value into possibleValues
+		for (let i = 0; i < numAces; i++) {
+          	this.currentTally -= 10;
+        	this.possibleValuesArray.push(this.currentTally);
+        	// console.log(this.possibleValuesArray,' <--for ace loop possibleValuesArray')
+        }
+
+        console.log(this.possibleValuesArray, '<--stay return value');
+        return this.possibleValuesArray;		
 	}
-
 };
 
 const game = {
@@ -193,7 +211,6 @@ const game = {
 		// instantiate dealer
 		this.dealer = new Player();
 		
-		console.log(this.dealer);
 		// Create players and store in an array
 		for (let i = 1; i <= this.numOfPlayers; i++) {
 			let player = new Player();
@@ -203,14 +220,10 @@ const game = {
 
 		// Create and shuffle Deck
 		this.deck = new Deck();
-		console.log(this.deck);
 		this.deck.shuffleCards();
 		
 		// Initial deal
-		this.startDeal();
-
-				
-
+		this.startDeal();			
 	},
 
 	startDeal () {
@@ -227,15 +240,7 @@ const game = {
 		}
 
 		//deal to dealer
-		const card1 = (this.deck.dealCard());
-		console.log(card1);
-
-		// $(`#dealer .card-one`).append(card1.getHTML());
-		// this.dealer.receiveCard(card1);
-
-		// const card2 = (this.deck.dealCard());
-		// $(`#dealer .card-two`).append(card2.getHTML());
-		// this.dealer.receiveCard(card2);
+		// const card1 = (this.deck.dealCard());
 
 		this.dealerHand();
 	},	
@@ -254,7 +259,6 @@ const game = {
 
 				// check player currentHand for bust
 				this.players[player].checkForBust();
-				console.log(this.players[player].checkForBust());
 				
 				// if bust === true alert player and call nextPlayer
 				if (this.players[player].checkForBust()) {
@@ -267,10 +271,14 @@ const game = {
 
 	stay(player) {
 		if (player === this.currentPlayerIndex)	{
+			this.players[player].checkForBust();
+			// console.log(this.players[player].possibleValuesArray, '- stay ppossible'); // <-- this
+			// console.log(this.players[player].currentTally, '-current tally on stay');
+			this.players[player].handValue();
+			// console.log(this.player.handValue(), '-handValue');
+			// this.players[player].handValue();
 			this.nextPlayer();
-			console.log('stay was clicked');
-		}
-		
+		}		
 	},
 
 	nextPlayer() {
@@ -278,10 +286,8 @@ const game = {
 	    if (this.currentPlayerIndex < (this.numOfPlayers - 1)) {
 	      this.currentPlayerIndex += 1;
 	    } else {
-	      console.log(' dealer turn');
 	      this.dealerPlay()
 	    }
-	    // console.log(this.currentPlayerIndex);
 	},
 
 	dealerHand() {
@@ -291,12 +297,6 @@ const game = {
 		const card1 = (this.deck.dealCard());
 		$('#dealer-cards #card-one').append(card1.getHTML());
 		this.dealer.receiveCard(card1);
-
-		// const card2 = (this.deck.dealCard());
-		// $('#dealer-cards #card-two').append(card2.getHTML());
-		// this.dealer.receiveCard(card2);
-
-		console.log(this.dealer.currentHand);
 	},
 
 	dealerPlay() {
@@ -311,7 +311,7 @@ const game = {
 		for (let i = 0; i < this.dealer.currentHand.length; i++) {
           this.dealer.currentTally += this.dealer.currentHand[i].value;
         }
-	    console.log(this.dealer.currentTally, 'dealers initial deal tally');
+	    // console.log(this.dealer.currentTally, 'dealers initial deal tally');
 
 		   	for (let i = 0; i < 3; i++) { 
 		    	if (this.dealer.currentTally < 17) {
@@ -323,8 +323,8 @@ const game = {
 					//update dealer current tally
 					this.dealer.currentntTally += card.value
 					
-					console.log('dealer hit');
-					console.log(this.dealer.currentTally, 'dealer hit tally');
+					// console.log('dealer hit');
+					// console.log(this.dealer.currentTally, 'dealer hit tally');
 			    	
 			    	if (this.dealer.currentTally > 21) {
 			    		alert('Dealer Busts');
@@ -340,6 +340,8 @@ const game = {
 	    }
 	    console.log('end round reached');
 	    // end round()
+	    console.log(this.dealer.currentTally, 'end round tally');
+	    const dealerFinalTally = this.dealer.currentTally;
 	 },
 
 }
@@ -349,7 +351,8 @@ game.startGame();
 // console.log(game.currentPlayerIndex);
 // console.log(game.players[0].currentHand[0].value)
 // console.log(game.players[0].countAces());
-// console.log(game.players[0].checkForBust())	;
+// console.log(game.players[0].checkForBust();
+console.log(game.players[0].possibleValuesArray);
 	
 // Event Listeners ==========================
 
