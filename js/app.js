@@ -170,7 +170,7 @@ class Player {
 
     }
 
-	handValue() {										/// ------------------------TODO
+	handValue() {										
 		
 		// get players possible tally array
 		this.currentTally = 0;
@@ -192,8 +192,19 @@ class Player {
         	// console.log(this.possibleValuesArray,' <--for ace loop possibleValuesArray')
         }
 
-        console.log(this.possibleValuesArray, '<--stay return value');
-        return this.possibleValuesArray;		
+        // console.log(this.possibleValuesArray, '<--stay return value');
+        // return this.possibleValuesArray;	
+
+        // iterate over posssibleValuesArray to return the highest valid score
+        let highestValue = 0;
+        for (let i= 0; i < this.possibleValuesArray.length; i++) {
+        	if (this.possibleValuesArray[i] <= 21 &&
+        		this.possibleValuesArray[i] > highestValue) {
+        		highestValue = this.possibleValuesArray[i];
+        	}
+        }
+        // console.log(highestValue, '<--- highestValue')
+        return highestValue;	
 	}
 };
 
@@ -242,7 +253,7 @@ const game = {
 		//deal to dealer
 		// const card1 = (this.deck.dealCard());
 
-		this.dealerHand();
+		this.dealerInitialDeal();
 	},	
 	
 	hit(player) {
@@ -290,13 +301,41 @@ const game = {
 	    }
 	},
 
-	dealerHand() {
-		// dealer initial deal
-		
+	dealerInitialDeal() {											
 		// Add card element to the dealer card div
 		const card1 = (this.deck.dealCard());
 		$('#dealer-cards #card-one').append(card1.getHTML());
 		this.dealer.receiveCard(card1);
+	},
+
+	dealerHand() {												
+		this.dealer.handValue();
+		console.log(this.dealer.handValue(), '<--- dealerHand value');
+	},
+
+	endRound() {
+		console.log('-- endRound was called');
+		const dealerTotal = this.dealer.handValue();
+		console.log(dealerTotal, 'endRound <-- dealerHand()');
+		// console.log(this.players[0].handValue());
+
+		// get player final scores
+		for (let i = 0; i < this.players.length; i++) {
+			 let playerTotal = this.players[i].handValue();
+			console.log(playerTotal, '<-- endRound player hand - for');
+
+			// Compare values to dealer final tally
+			if (playerTotal > dealerTotal) {
+				//player wins
+				alert(`Player ${i + 1} Wins! Huzzahs and Hosannahs!`);
+			} else if (playerTotal < dealerTotal) {
+				//player loses
+				alert(`Player ${[i + 1]} Loses! Harrumph and Shucks-gollygeeze-darn-it-to-heck.`);
+			} else if (playerTotal === dealerTotal) {
+				//It's a push
+				alert(`It's a push, Player${[i + 1]}.`);
+			}
+		}
 	},
 
 	dealerPlay() {
@@ -339,9 +378,9 @@ const game = {
 	    	alert('Dealer busts')
 	    }
 	    console.log('end round reached');
-	    // end round()
+	    this.endRound();											//<----- endRound() called --
 	    console.log(this.dealer.currentTally, 'end round tally');
-	    const dealerFinalTally = this.dealer.currentTally;
+	    // const dealerFinalTally = this.dealer.currentTally;
 	 },
 
 }
@@ -352,7 +391,7 @@ game.startGame();
 // console.log(game.players[0].currentHand[0].value)
 // console.log(game.players[0].countAces());
 // console.log(game.players[0].checkForBust();
-console.log(game.players[0].possibleValuesArray);
+// console.log(game.players[0].possibleValuesArray);
 	
 // Event Listeners ==========================
 
