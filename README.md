@@ -8,8 +8,9 @@
 ## What - 
 ### Project-One- blackjack game.
 
+
 ## Why - 
-### To demonstrate some game logic.
+### To demonstrate some basic game logic and have an extendable platform to furtherimp;emet and explore the possiblities of a 'simple' card game's increasing complexity.
 
 ## Requirements -
 ### None really.

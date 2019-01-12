@@ -117,8 +117,8 @@ class Player {
           if (card.rank === 'A') {
             aceCounter++;
           }
-        // console.log(aceCounter, '- ace counter');
         });
+        
         return aceCounter;
 	}
 
@@ -141,7 +141,7 @@ class Player {
 		if (numAces === 0) {
 			// console.log(possibleValuesArray, '<-- no ace possibleValuesArray');
 			if (this.possibleValuesArray[0] > 21) {
-				// console.log(possibleValuesArray[0], ' - BUST')	
+					
 				return bust;
 			}
 		}
@@ -150,50 +150,42 @@ class Player {
 		for (let i = 0; i < numAces; i++) {
           	this.currentTally -= 10;
         	this.possibleValuesArray.push(this.currentTally);
-        	// console.log(possibleValuesArray, ' <--- possibleValuesArray');
 
       	}
-      	// console.log(this.possibleValuesArray, ' -- checkForBust possibles');
+
         // iterate over possibleValuesArray to check for !bust value
         this.possibleValuesArray.forEach(function(value) {
         	
 	        // Check possibleValues for bust
         	if (value <= 21) {
-        		// console.log(bust, ' - NO bust');
         		bust = false;
         		// return false;
         	} 
         });
-        // console.log(this.currentTally, ' ---bust');
-        // console.log(this.possibleValuesArray, ' -- end checkForBust possibles');
+      
         return bust;
 
     }
 
-	handValue() {										
+	handValue() {														//<------ Ace Logic
 		
-		// get players possible tally array
+		// get players possible current hand tally
 		this.currentTally = 0;
 		for (let i = 0; i < this.currentHand.length; i++) {
           this.currentTally += this.currentHand[i].value;
-          // console.log(this.currentTally, '<--- handValue current tally');
         }	
 		
         // create possible values array 
 		this.possibleValuesArray = [this.currentTally];
-		// console.log(this.possibleValuesArray, ' <--- handValue possibleValuesArray')
-        // update currentTally possiblity for number of aces
+
+		//number of aces in the hand
 		const numAces = this.countAces();
 
 		// for each ace check and push value into possibleValues
 		for (let i = 0; i < numAces; i++) {
           	this.currentTally -= 10;
         	this.possibleValuesArray.push(this.currentTally);
-        	// console.log(this.possibleValuesArray,' <--for ace loop possibleValuesArray')
         }
-
-        // console.log(this.possibleValuesArray, '<--stay return value');
-        // return this.possibleValuesArray;	
 
         // iterate over posssibleValuesArray to return the highest valid score
         let highestValue = 0;
@@ -203,7 +195,6 @@ class Player {
         		highestValue = this.possibleValuesArray[i];
         	}
         }
-        // console.log(highestValue, '<--- highestValue')
         return highestValue;	
 	}
 };
@@ -314,10 +305,8 @@ const game = {
 	},
 
 	endRound() {
-		// console.log('-- endRound was called');
+		//declare variable for dealers total
 		const dealerTotal = this.dealer.handValue();
-		// console.log(dealerTotal, 'endRound <-- dealerHand()');
-		// console.log(this.players[0].handValue());
 
 		// get player final scores
 		for (let i = 0; i < this.players.length; i++) {
@@ -350,7 +339,6 @@ const game = {
 		for (let i = 0; i < this.dealer.currentHand.length; i++) {
           this.dealer.currentTally += this.dealer.currentHand[i].value;
         }
-	    // console.log(this.dealer.currentTally, 'dealers initial deal tally');
 
 		   	for (let i = 0; i < 3; i++) { 
 		    	if (this.dealer.currentTally < 17 && this.dealer.currentTally  != 21) {
@@ -361,10 +349,6 @@ const game = {
 
 					//update dealer current tally
 					this.dealer.currentntTally += card.value
-					
-					// console.log('dealer hit');
-					// console.log(this.dealer.currentTally, 'dealer hit tally');
-			    	
 
 			    	if (this.dealer.currentTally > 21) {
 			    		alert('Dealer Busts');
@@ -378,10 +362,8 @@ const game = {
 	    if (this.dealer.checkForBust()) {
 	    	alert('Dealer busts')
 	    }
-	    // console.log('end round reached');
-	    this.endRound();											//<----- endRound() called --
-	    // console.log(this.dealer.currentTally, 'end round tally');
-	    // const dealerFinalTally = this.dealer.currentTally;
+	    this.endRound();											
+
 	 },
 
 }
