@@ -28,11 +28,12 @@
 </div>
 
 <div class="message-container">
+	<div class="message"></div>
 </div>
 
-<div class="new-deal-container">
+<!-- <div class="new-deal-container">
 	<button id="deal-button"> Deal 'em </button>	
-</div>
+</div> -->
 
 <div class="player-container hit-card-container hit-cards">						
 	<div class="card-container hit-card-container">	
@@ -49,13 +50,26 @@
 </div>
 
 <div class="chip-total-box-container">
-	<div id="chip-total-player-one-box"></div><!--
- --><div id="chip-total-player-two-box"></div>
+	<p id="chip-box-label-one">Chips</p>
+	<div id="chip-total-player-one-box">
+		<div class="chip-total-player-1"></div>
+	</div><!--
+ --><p id="chip-box-label-two">Chips</p>
+ 	<div id="chip-total-player-two-box">
+ 		<div class="chip-total-player-2"></div>
+ 	</div>
 </div>
 
 <div class="play-field-heading" id="player-heading"><!--
  --><h3>Player One</h3><!--
  --><h3>Player Two</h3>
+</div>
+
+<div class="bet-box-container">
+	<p id="bet-box-one-label">Bet</p>
+	<div class="bet-box-1"></div><!--
+<--><p id="bet-box-two-label">Bet</p>
+	<div class="bet-box-2"></div>
 </div>
 
 <div class="card-container">
@@ -64,16 +78,15 @@
 			<h5>Your Play</h5>
 			<button class="hit-btn"  id="hit-btn-one">Hit</button>
 			<button class="stay-btn" id="stay-btn-one">Stay</button>
-			<button class="stay-btn" id="bet-btn-one">Bet</button>
+			<button class="bet-btn" id="bet-btn-one">Bet</button>
+			<button class="clr-bet-btn" id="clr-bet-btn-one">Clear Bet</button>
 		</div>			
 		<div id="player-1-cards">
 			<div class="card card-one"></div>
 			<div class="card card-two"></div>
 		</div>
-
 		<div id="player-2-cards">
 			<div class="card card-one">
-
 			</div>
 				<div class="card card-two">				
 			</div>
@@ -83,6 +96,7 @@
 			<button class="hit-btn"  id="hit-btn-two">Hit</button>
 			<button class="stay-btn" id="stay-btn-two">Stay</button>
 			<button class="bet-btn"  id="bet-btn-two">Bet</button>
+			<button class="clr-bet-btn" id="clr-bet-btn-two">Clear Bet</button>
 		</div>
 	</div>
 </div>
@@ -90,7 +104,7 @@
 <footer>
 	
 </footer>
-<script src="	https://static1.squarespace.com/static/56ec48a420c64724c36d2e67/5706f67aab48de09bc40538a/5706f7ae044262231702c2fe/1460074424397/IMG_9230.JPG?format=750w 404"></script>
+	<!-- <script src="	https://static1.squarespace.com/static/56ec48a420c64724c36d2e67/5706f67aab48de09bc40538a/5706f7ae044262231702c2fe/1460074424397/IMG_9230.JPG?format=750w 404"></script> -->
 	<script src="card-images.js"></script>
 	<script src="js/app.js"></script>
 </html>

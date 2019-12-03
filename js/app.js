@@ -108,16 +108,11 @@ class Player {
 		this.currentHand.push(card);	
 	}
 	
-
 	countAces () {
-        console.log(this.currentHand, '<--- this.currentHand at countAces')
         let aceCounter = 0;
         this.currentHand.forEach(function(card) {
           if (card.rank === 'A') {
             aceCounter++;
-            // console.log(this, 'this in forEach @ countAces');
-            console.log(card, 'card in forEach');
-            // this.playerHasAce = true;
           }
         });
         if (aceCounter > 0) {
@@ -269,7 +264,21 @@ const game = {
 		// Greeting
 		this.message = 'Let\'s Play!!';
 		$(`.message`).append(this.message);
-		console.log(this.message);
+
+		players = this.players;
+		//chipStack
+		$(`.chip-total-player-1`).append(this.players[0].playerChipStack.toString());
+		$(`.chip-total-player-2`).append(this.players[1].playerChipStack.toString());
+
+		// chipStack totals
+		// console.log(this.players, 'this.players');
+		// console.log(this.players[0], ' this.players[0]');
+		console.log(this.players[0].playerChipStack.toString(), '[0].playerChipStack')
+		// for (player in this.players) {
+		// 	console.log(player, 'player in this.');
+		// 	console.log(this.players[player].playerChipstack, 'player.playerChipstack -- for in')
+		// $(`.chip-total-player-${player + 1}`).append(player.playerChipStack)
+		// }
 
 		// deal 2 cards to each player
 		for (let i = 0; i < this.players.length; i++) {
