@@ -99,8 +99,7 @@ class Player {
 		this.playerIsPlaying 	 = true;
 		this.playerAction 		 = null;
 		this.possibleValuesArray = null
-		this.playerOneChipStack  = 100;
-		this.playerTwoChipStack  = 100;
+		this.playerChipStack  	 = 100;
 		this.playerBet			 = 0;
 	}
 
@@ -115,13 +114,22 @@ class Player {
         this.currentHand.forEach(function(card) {
           if (card.rank === 'A') {
             aceCounter++;
-            this.playerHasAce = true;
+            // this.playerHasAce = true;
           }
         });
         
         return aceCounter;
 	}
 
+	// checkForBlackjack(player) {
+	// 	if ((this.currentHand.length == 2) && (this.currentTally == 21)) {
+	// 		this.players[player].playerBlackjack = true;
+	// 		this.players[player].playerChipstack += this.players[player].playerBet;
+	// 		this.message = $(`Player ${player + 1} has Blackjack!!! Hooray!`);
+	// 		console.log('blackJack!!!!!! <--------');
+	// 		this.nextPlayer();
+	// }
+	
 	checkForBust() {
 		// get players currentTally
 		this.currentTally = 0;
@@ -139,9 +147,7 @@ class Player {
 
 		// Check for bust and return for the case no aces	
 		if (numAces === 0) {
-			// console.log(possibleValuesArray, '<-- no ace possibleValuesArray');
-			if (this.possibleValuesArray[0] > 21) {
-					
+			if (this.possibleValuesArray[0] > 21) {					
 				return bust;
 			}
 		}
@@ -150,21 +156,16 @@ class Player {
 		for (let i = 0; i < numAces; i++) {
           	this.currentTally -= 10;
         	this.possibleValuesArray.push(this.currentTally);
-
       	}
 
         // iterate over possibleValuesArray to check for !bust value
         this.possibleValuesArray.forEach(function(value) {
-        	
-	        // Check possibleValues for bust
         	if (value <= 21) {
         		bust = false;
-        		// return false;
         	} 
         });
       
         return bust;
-
     }
 
 	handValue() {														//<------ Ace Logic
@@ -195,6 +196,9 @@ class Player {
         		highestValue = this.possibleValuesArray[i];
         	}
         }
+        this.currentTally = highestValue;
+        console.log(this.currentTally, 'this.currentTally');
+        console.log(highestValue, 'highestValue');
         return highestValue;	
 	}
 };
@@ -227,12 +231,42 @@ const game = {
 		// Initial deal
 		this.startDeal();
 
-		message = 'Let\'s Play';
+		this.message = 'Let\'s Play!!';
 
 		// Jquery insert chip graphic and other?			
 	},
 
-	startDeal () {
+	nextPlayer() {
+	    // this.currentPlayerIndex = 2;
+	    if (this.currentPlayerIndex < (this.numOfPlayers - 1)) {
+	      this.currentPlayerIndex += 1;
+	      this.checkForBlackjack(this.ecurrentPlayerIndex);
+	    } else {
+	      this.dealerPlay()
+	    }
+	},
+										// TODO ----------------------<<<<<<<<<<<
+	checkForBlackjack(player) {
+		// get currentTally and handValue from checkForBust() and handValue9()
+		this.players[player].checkForBust();
+		this.players[player].handValue();
+		console.log(this.players[player], '<-- player');
+		if ((this.players[player].currentHand.length === 2) && (this.players[player].currentTally === 21)) {
+			this.players[player].playerBlackjack = true;
+			this.players[player].playerChipstack += this.players[player].playerBet;
+			this.message = 'Blackjack Player' + this.players[player] + '!! ' + 'Hooray!';
+			alert(`Player ${this.players[player]} has Blackjack!!! Hooray!`);
+			console.log('blackJack!!!!!! <--------');
+			this.nextPlayer();
+		}
+	},
+
+	startDeal () {						// TODO -----------------<<<<<<<<<<<<<<<
+		// Greeting
+		this.message = 'Let\'s Play!!';
+		$(`.message`).append(this.message);
+		console.log(this.message);
+
 		// deal 2 cards to each player
 		for (let i = 0; i < this.players.length; i++) {
 			let card1 = (this.deck.dealCard());
@@ -244,16 +278,10 @@ const game = {
 			$(`#player-${i + 1}-cards .card-two`).append(card2.getHTML());
 			this.players[i].receiveCard(card2);
 		}
-
 		this.dealerInitialDeal();
+		this.checkForBlackjack(this.currentPlayerIndex);
 	},	
 
-	checkForBlackjack() {
-		if ((this.currentHand.length == 2) && (this.currentTally == 21))
-			this.playerBlackjack = true;
-			this.playerChipstack += this.playerBet;
-			$(`Player ${player + 1} has Blackjack!!! Hooray!`)
-	},
 	
 	hit(player) {
 		// Allow only if its players turn
@@ -285,15 +313,6 @@ const game = {
 			// this.players[player].handValue();
 			this.nextPlayer();
 		}		
-	},
-
-	nextPlayer() {
-	    // this.currentPlayerIndex = 2;
-	    if (this.currentPlayerIndex < (this.numOfPlayers - 1)) {
-	      this.currentPlayerIndex += 1;
-	    } else {
-	      this.dealerPlay()
-	    }
 	},
 
 	dealerInitialDeal() {											

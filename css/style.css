@@ -42,6 +42,11 @@ h5 {
 	margin: 16px 4px;
 }
 
+p {
+	font-size: 18px;
+	color: yellow;
+}
+
 .play-field-heading {
 	color: lightyellow;
 }
@@ -71,11 +76,17 @@ h5 {
 	fjustify-content: center;
 	align-items: center;
 	flex-direction: column;
-	height: 300px;
-	margin: 200px 120px;
-	background-color: grey;
-	border: 6px solid orange;
-	border-radius: 20px;
+	height: 60px;
+	width: 256px;
+	margin: 32px auto -128px auto;
+	background-color: black;
+	border: 4px solid orange;
+	border-radius: 6px;
+}
+
+.message {
+	font-size: 18px;
+	color: yellow;
 }
 
 #host-image {
@@ -142,6 +153,10 @@ h5 {
 	flex-direction: row;
 	justify-content: flex-start;
 	width: 100%;	
+}
+
+#player-1-hit-cards {
+	margin-left: 32px;
 }
 
 .action-btn {
@@ -223,7 +238,7 @@ h5 {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	width: 96%;
+	width: 80px;
 	/*height: 20%;*/
 	margin: 0 auto;
 }
