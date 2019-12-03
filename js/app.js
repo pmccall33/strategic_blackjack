@@ -212,6 +212,7 @@ const game = {
 	dealerHand: [],
 	message: '',
 
+
 	startGame() {
 		this.gameOn = true;
 
@@ -260,20 +261,19 @@ const game = {
 		}
 	},
 
+	playerBet(player) {
+		
+	},
+
 	startDeal () {						// TODO -----------------<<<<<<<<<<<<<<<
 		// Greeting
 		this.message = 'Let\'s Play!!';
 		$(`.message`).append(this.message);
 
-		players = this.players;
 		//chipStack
 		$(`.chip-total-player-1`).append(this.players[0].playerChipStack.toString());
 		$(`.chip-total-player-2`).append(this.players[1].playerChipStack.toString());
-
-		// chipStack totals
-		// console.log(this.players, 'this.players');
-		// console.log(this.players[0], ' this.players[0]');
-		console.log(this.players[0].playerChipStack.toString(), '[0].playerChipStack')
+		// possible refactor for chipstack ------
 		// for (player in this.players) {
 		// 	console.log(player, 'player in this.');
 		// 	console.log(this.players[player].playerChipstack, 'player.playerChipstack -- for in')
@@ -295,6 +295,18 @@ const game = {
 		this.checkForBlackjack(this.currentPlayerIndex);
 	},	
 	
+	playerBet(player) {
+		console.log(this.players[player].playerBet);
+		this.players[player].playerBet = this.players[player].playerBet + 5;
+		console.log(this.players[player].playerBet);
+	},
+
+	clrBet(player) {
+		console.log(this.playerBet);
+		let bet = this.player.playerBet;
+		bet = 0;
+	},
+
 	hit(player) {
 		// Allow only if its players turn
 		if (player === this.currentPlayerIndex) {		
@@ -400,7 +412,6 @@ const game = {
 	    }
 	    this.endRound();											
 	 },
-
 }
 
 game.startGame();
@@ -413,10 +424,11 @@ game.startGame();
 	
 // Event Listeners ==========================
 
-const $hitBtn  = $('#hit-btn');
-const $stayBtn = $('#stay-btn');
-const $betBtn  = $('#bet-btn');
-const $dealBtn = $('#deal-btn')
+const $hitBtn    = $('#hit-btn');
+const $stayBtn   = $('#stay-btn');
+const $betBtn    = $('#bet-btn');
+const $dealBtn   = $('#deal-btn');
+const $clrBetBtn = $('#clr-bet-btn');
 
 $('#deal-btn-one').on('click', () => {
   console.log('deal btn was clicked');
@@ -431,33 +443,47 @@ $('#hit-btn-one').on('click', () => {
 });
 // 
 $('#stay-btn-one').on('click', () => {
-	// console.log('stay-one was clicked');
-	// stand pat with current hand
 	const player = 0;
 	game.stay(player);	
 });
 
 $('#hit-btn-two').on('click', () => {
-	// console.log('hit-one was clicked');
-	// deal another card
 	const player = 1;
 	game.hit(player);
 });
 
 $('#stay-btn-two').on('click', () => {
-	// console.log('stay-one was clicked');
-	// stand pat with current hand
 	const player = 1;
 	game.stay(player);	
 });
 
 $('#bet-btn-one').on('click', () => {
 	console.log('bet was clicked');
+	const player = 0;
+	game.playerBet(player);
 });
 
 $('#bet-btn-two').on('click', () => {
 	console.log('bet two was clicked');
+	const player = 1;
+	game.playerBet(player);
 });
+
+$('#clr-bet-btn-one').on('click', () => {
+	console.log('clr-one was clicked');
+	const player = 0;
+	game.clrBet(player);
+})
+
+$('#clr-bet-btn-two').on('click', () => {
+	console.log('clr-two was clicked');
+	const player = 1;
+	game.clrBet(player);
+})
+
+
+
+
 
 $('#dealer-hit').on('click', () => {
 	// console.log('hit-one was clicked');
