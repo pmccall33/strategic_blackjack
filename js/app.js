@@ -110,14 +110,19 @@ class Player {
 	
 
 	countAces () {
+        console.log(this.currentHand, '<--- this.currentHand at countAces')
         let aceCounter = 0;
         this.currentHand.forEach(function(card) {
           if (card.rank === 'A') {
             aceCounter++;
+            // console.log(this, 'this in forEach @ countAces');
+            console.log(card, 'card in forEach');
             // this.playerHasAce = true;
           }
         });
-        
+        if (aceCounter > 0) {
+        	this.playerHasAce = true;
+        }     
         return aceCounter;
 	}
 
@@ -237,10 +242,9 @@ const game = {
 	},
 
 	nextPlayer() {
-	    // this.currentPlayerIndex = 2;
 	    if (this.currentPlayerIndex < (this.numOfPlayers - 1)) {
 	      this.currentPlayerIndex += 1;
-	      this.checkForBlackjack(this.ecurrentPlayerIndex);
+	      this.checkForBlackjack(this.currentPlayerIndex);
 	    } else {
 	      this.dealerPlay()
 	    }
@@ -281,7 +285,6 @@ const game = {
 		this.dealerInitialDeal();
 		this.checkForBlackjack(this.currentPlayerIndex);
 	},	
-
 	
 	hit(player) {
 		// Allow only if its players turn
