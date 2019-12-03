@@ -51,6 +51,9 @@ const images = [
 	'd.f.11-jack_of_clubs2.png',
 	'd.f.12-queen_of_clubs2.png',
 	'd.f.13-king_of_clubs2.png',
+	'playing-card-img.jpg',
+	'playing-card-img-2.jpg',
+	'playing-card-img-3.jpg'
 ];
 
 

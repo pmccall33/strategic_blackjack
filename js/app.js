@@ -24,7 +24,6 @@ class Card {
 	}
 
 	getHTML() {
-		// console.log(this)
 		// card <img> elment
 		const $cardImage = $('<img>', {id: `${this.rank}-${this.suit}`, class: "card", src: `${this.image}`});
 		return $cardImage
@@ -39,15 +38,12 @@ class Deck {
 	constructor() {
 		this.deck = [];
 
-		// Suits - Hearts, Spades, Diamonds, Clubs
 		const suits = ['hearts', 'spades', 'diamonds', 'clubs'];
-		// Cards - A - K  - Array
 		const cards = ['A', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K'];
 
 		// Create 'deck' from arrays of suits and ranks
 		for (let suit in suits) {
 	     	for (let card in cards) {
-		      	//new Card
 		        const newCard = new Card(cards[card], suits[suit]);
 		        newCard.getValue();
 		        this.deck.push(newCard);
@@ -60,6 +56,11 @@ class Deck {
 	    	this.deck[i].image = `assets/PNG-cards-1.3/${images[j]}`;
 	    	j++;
 	    }
+
+	    //set reverse card images
+	    this.deck[52] = `assets/PNG-cards-1.3/52`;
+	    this.deck[53] = `assets/PNG-cards-1.3/53`;
+	    this.deck[54] = `assets/PNG-cards-1.3/54`;
 	}
 
 	shuffleCards () {
@@ -74,7 +75,6 @@ class Deck {
 			shuffledDeck.push(this.deck.splice(Math.floor(Math.random() * this.deck.length), 1)[0]);
 		}
 		this.deck = shuffledDeck;
-		// console.log(this.deck);
 	}
 
 	dealCard () {
@@ -91,31 +91,31 @@ class Deck {
 class Player {
 	// status - current hand, chip stack
 	constructor() {
-		this.currentHand = [];
-		this.currentTally = 0;
-		this.playerHasAce = false;
-		this.playerBlackjack = false;
-		this.playerStatus = null;
-		this.playerIsPlaying = true;
-		this.playerAction = null;
+		this.currentHand 		 = [];
+		this.currentTally 		 = 0;
+		this.playerHasAce 	 	 = false;
+		this.playerBlackjack 	 = false;
+		this.playerStatus 		 = null;
+		this.playerIsPlaying 	 = true;
+		this.playerAction 		 = null;
 		this.possibleValuesArray = null
-		// this.aceCounter = 0;
-		// this.chipStack = chipStack;
+		this.playerOneChipStack  = 100;
+		this.playerTwoChipStack  = 100;
+		this.playerBet			 = 0;
 	}
+
 
 	receiveCard(card) {
 		this.currentHand.push(card);	
 	}
 	
-	checkForBlackjack() {
-
-	}
 
 	countAces () {
         let aceCounter = 0;
         this.currentHand.forEach(function(card) {
           if (card.rank === 'A') {
             aceCounter++;
+            this.playerHasAce = true;
           }
         });
         
@@ -206,6 +206,7 @@ const game = {
 	currentPlayerIndex: 0,
 	player: null,
 	dealerHand: [],
+	message: '',
 
 	startGame() {
 		this.gameOn = true;
@@ -219,13 +220,16 @@ const game = {
 			this.players.push(player);
 		};
 		
-
 		// Create and shuffle Deck
 		this.deck = new Deck();
 		this.deck.shuffleCards();
 		
 		// Initial deal
-		this.startDeal();			
+		this.startDeal();
+
+		message = 'Let\'s Play';
+
+		// Jquery insert chip graphic and other?			
 	},
 
 	startDeal () {
@@ -241,15 +245,18 @@ const game = {
 			this.players[i].receiveCard(card2);
 		}
 
-		//deal to dealer
-		// const card1 = (this.deck.dealCard());
-
 		this.dealerInitialDeal();
 	},	
+
+	checkForBlackjack() {
+		if ((this.currentHand.length == 2) && (this.currentTally == 21))
+			this.playerBlackjack = true;
+			this.playerChipstack += this.playerBet;
+			$(`Player ${player + 1} has Blackjack!!! Hooray!`)
+	},
 	
 	hit(player) {
 		// Allow only if its players turn
-		// console.log(this.players[player].currentHand);
 		if (player === this.currentPlayerIndex) {		
 			if (this.players[player].currentHand.length < 5) {
 				// player dealt a card
@@ -274,10 +281,7 @@ const game = {
 	stay(player) {
 		if (player === this.currentPlayerIndex)	{
 			this.players[player].checkForBust();
-			// console.log(this.players[player].possibleValuesArray, '- stay ppossible'); // <-- this
-			// console.log(this.players[player].currentTally, '-current tally on stay');
 			this.players[player].handValue();
-			// console.log(this.player.handValue(), '-handValue');
 			// this.players[player].handValue();
 			this.nextPlayer();
 		}		
@@ -297,11 +301,12 @@ const game = {
 		const card1 = (this.deck.dealCard());
 		$('#dealer-cards #card-one').append(card1.getHTML());
 		this.dealer.receiveCard(card1);
+		// $('#dealer-cards #card-reverse').append(this.deck[52].getHTML());
+		// this.dealer.receiveCard(this.deck.	    this.deck[52] = `assets/PNG-cards-1.3/52`)
 	},
 
 	dealerHand() {												
 		this.dealer.handValue();
-		console.log(this.dealer.handValue(), '<--- dealerHand value');
 	},
 
 	endRound() {
@@ -363,7 +368,6 @@ const game = {
 	    	alert('Dealer busts')
 	    }
 	    this.endRound();											
-
 	 },
 
 }
@@ -378,13 +382,18 @@ game.startGame();
 	
 // Event Listeners ==========================
 
-const $hitBtn = $('#hit-btn');
+const $hitBtn  = $('#hit-btn');
 const $stayBtn = $('#stay-btn');
-const $betBtn = $('#bet-btn');
+const $betBtn  = $('#bet-btn');
+const $dealBtn = $('#deal-btn')
 
+$('#deal-btn-one').on('click', () => {
+  console.log('deal btn was clicked');
+  game.startDeal();
+});
 
 $('#hit-btn-one').on('click', () => {
-	// console.log('hit-one was clicked');
+	console.log('hit-one was clicked');
 	// deal another card
 	const player = 0;
 	game.hit(player);	
@@ -411,9 +420,13 @@ $('#stay-btn-two').on('click', () => {
 	game.stay(player);	
 });
 
-// $('#bet-btn').on('click', () => {
-// 	console.log('bet was clicked');
-// });
+$('#bet-btn-one').on('click', () => {
+	console.log('bet was clicked');
+});
+
+$('#bet-btn-two').on('click', () => {
+	console.log('bet two was clicked');
+});
 
 $('#dealer-hit').on('click', () => {
 	// console.log('hit-one was clicked');
