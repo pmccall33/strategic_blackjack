@@ -101,6 +101,7 @@ class Player {
 		this.possibleValuesArray = null
 		this.playerChipStack  	 = 100;
 		this.playerBet			 = 0;
+		this.playerBetPlaced	 = false;
 	}
 
 
@@ -168,7 +169,7 @@ class Player {
         return bust;
     }
 
-	handValue() {														//<------ Ace Logic
+	handValue() {							//<------ Ace Logic here
 		
 		// get players possible current hand tally
 		this.currentTally = 0;
@@ -216,7 +217,7 @@ const game = {
 	startGame() {
 		this.gameOn = true;
 
-		// instantiate dealer
+		// Instantiate dealer
 		this.dealer = new Player();
 		
 		// Create players and store in an array
@@ -228,14 +229,39 @@ const game = {
 		// Create and shuffle Deck
 		this.deck = new Deck();
 		this.deck.shuffleCards();
+
+		// Welcome messages			<<----------TODO ____-------------<<<<<<
+		this.message = 'Welcome to the table, have a seat...';		
+		// $(`.message`).append(this.message);
+
+		this.message = '';			
+		$(`.message`).html('');
 		
-		// Initial deal
-		this.startDeal();
-
-		this.message = 'Let\'s Play!!';
-
-		// Jquery insert chip graphic and other?			
+		this.message = 'Place your bets, Folks...';
+		$(`.message`).append(this.message);
 	},
+
+	placeYourBets(player) {							// TODO  <<----------------<<<<<
+		// Place bets here and don't deal cards until betting is done		
+		
+		// $(`.message`).append(this.message);
+
+		// Display playerChipStacks
+		$(`.chip-total-player-1`).append(this.players[0].playerChipStack.toString());
+		$(`.chip-total-player-2`).append(this.players[1].playerChipStack.toString());
+
+		this.players[player].playerBetPlaced = true;	
+		console.log(player, this.players[player].playerBetPlaced, 'placed bet?')
+
+		// Initial deal when betting is done 				<<____TODO----------<<<<<
+		// this.startDeal();
+		if (this.players[0].playerBetPlaced === true && this.players[1].playerBetPlaced === true) {
+			this.startDeal();
+		}
+
+		// Jquery insert chip graphic and other?
+	},			
+
 
 	nextPlayer() {
 	    if (this.currentPlayerIndex < (this.numOfPlayers - 1)) {
@@ -255,7 +281,7 @@ const game = {
 			this.players[player].playerBlackjack = true;
 			this.players[player].playerChipstack += this.players[player].playerBet;
 			this.message = 'Blackjack Player' + this.players[player] + '!! ' + 'Hooray!';
-			alert(`Player ${this.players[player]} has Blackjack!!! Hooray!`);
+			alert(`Player ${player + 1} has Blackjack!!! Hooray!`);
 			console.log('blackJack!!!!!! <--------');
 			this.nextPlayer();
 		}
@@ -267,10 +293,13 @@ const game = {
 
 	startDeal () {						// TODO -----------------<<<<<<<<<<<<<<<
 		// Greeting
-		this.message = 'Let\'s Play!!';
+		$(`.message`).html('');
+		this.message = 'Sweet! Let\'s Play!!';
 		$(`.message`).append(this.message);
 
 		//chipStack
+		$(`.chip-total-player-1`).html('');
+		$(`.chip-total-player-2`).html('');
 		$(`.chip-total-player-1`).append(this.players[0].playerChipStack.toString());
 		$(`.chip-total-player-2`).append(this.players[1].playerChipStack.toString());
 		// possible refactor for chipstack ------
@@ -296,16 +325,23 @@ const game = {
 	},	
 	
 	playerBet(player) {
-		console.log(player, this.players[player], this.players[player].playerBet);
+		// console.log(player, this.players[player], this.players[player].playerBet);
 		this.players[player].playerBet = this.players[player].playerBet + 5;
 		$(`#bet-player-${player + 1}`).append(this.players[player].playerBet.toString());
-		console.log(this.players[player].playerBet);
+
+		// Subtract bet from chipstack
+		this.players[player].playerChipStack = this.players[player].playerChipStack - 5;
+		$(`.chip-total-player-${player + 1}`).append(this.players[player].playerChipStack.toString());
+
+		// console.log(this.players[player].playerBet);
 	},
 
 	clrBet(player) {
 		console.log(this.players[player].playerBet);
+		this.players[player].playerChipStack = this.players[player].playerChipStack + this.players[player].playerBet;
 		this.players[player].playerBet = 0;
 		$(`#bet-player-one`).append(this.players[player].playerBet.toString());
+		$(`.chip-total-player-${player + 1}`).append(this.players[player].playerChipStack.toString());
 	},
 
 	hit(player) {
@@ -360,12 +396,21 @@ const game = {
 		// get player final scores
 		for (let i = 0; i < this.players.length; i++) {
 			 let playerTotal = this.players[i].handValue();
-			// console.log(playerTotal, '<-- endRound player hand - for');
 
 			// Compare values to dealer final tally
 			if (playerTotal > dealerTotal) {
-				//player wins
-				alert(`Player ${i + 1} Wins! Huzzahs and Hosannahs!`);
+				//player wins/ update chipstack
+				this.players[i].playerChipStack = this.players[i].playerChipStack +
+					(this.players[i].playerBet * 2);
+				console.log(this.players[i].playerChipStack, 'new chipstack');
+				
+				setTimeout ( function() {
+					$(`.chip-total-player-${i + 1}`).html('');
+					$(`.chip-total-player-${i + 1}`).append(this.players[i].playerChipStack.toString());
+				}, 5000);
+				$(`.message`).html('');
+				$(`.message`).append(`Player ${i + 1} Wins! Huzzahs and Hosannahs!`);
+
 			} else if (playerTotal < dealerTotal) {
 				//player loses
 				alert(`Player ${[i + 1]} Loses! Harrumph and Shucks-gollygeeze-darn-it-to-heck.`);
@@ -377,6 +422,12 @@ const game = {
 	},
 
 	dealerPlay() {
+		$(`.message`).html('');
+		$(`.message`).append('Dealer has...');
+
+	    // 'Flip' down card
+	    $(`#dealer-card-reverse`).hide();
+
 	    // show hole card add to dealer hand
 	    const card2 = (this.deck.dealCard());
 		$('#dealer-cards #card-two').append(card2.getHTML());
@@ -390,7 +441,7 @@ const game = {
         }
 
 		   	for (let i = 0; i < 3; i++) { 
-		    	if (this.dealer.currentTally < 17 && this.dealer.currentTally  != 21) {
+		    	if (this.dealer.currentTally < 17 && this.dealer.currentTally  != 21 && this.dealer.currentHand.length < 5) {
 			    	// dealer hits
 			    	card = (this.deck.dealCard());
 			    	$('#dealer-cards #card-two').append(card.getHTML());
@@ -430,6 +481,7 @@ const $stayBtn   = $('#stay-btn');
 const $betBtn    = $('#bet-btn');
 const $dealBtn   = $('#deal-btn');
 const $clrBetBtn = $('#clr-bet-btn');
+const $plcBetBtn = $('#plc-bet-btn');
 
 $('#deal-btn-one').on('click', () => {
   console.log('deal btn was clicked');
@@ -462,6 +514,7 @@ $('#bet-btn-one').on('click', () => {
 	console.log('bet was clicked');
 	const player = 0;
 	$(`#bet-player-1`).html('');
+	$(`.chip-total-player-1`).html('');
 	game.playerBet(player);
 });
 
@@ -469,12 +522,14 @@ $('#bet-btn-two').on('click', () => {
 	console.log('bet two was clicked');
 	const player = 1;
 	$(`#bet-player-2`).html('');
+	$(`.chip-total-player-2`).html('');
 	game.playerBet(player);
 });
 
 $('#clr-bet-btn-one').on('click', () => {
 	console.log('clr-one was clicked');
 	const player = 0;
+	$(`.chip-total-player-1`).html('');
 	$(`#bet-player-1`).html('').html('');
 	game.clrBet(player);
 });
@@ -482,9 +537,24 @@ $('#clr-bet-btn-one').on('click', () => {
 $('#clr-bet-btn-two').on('click', () => {
 	console.log('clr-two was clicked');
 	const player = 1;
+	$(`.chip-total-player-2`).html('');
 	$(`#bet-player-2`).html('').html('');
 	game.clrBet(player);
-})
+});
+
+$('#plc-bet-btn-one').on('click', () => {
+	console.log('plc-btn-one was clicked');
+	const player = 0;
+	$(`.chip-total-player-1`).html('');
+	game.placeYourBets(player);
+});
+
+$('#plc-bet-btn-two').on('click', () => {
+	console.log('plc-btn-two was clicked');
+	const player = 1;
+	$(`.chip-total-player-2`).html('');	
+	game.placeYourBets(player);
+});
 
 
 
