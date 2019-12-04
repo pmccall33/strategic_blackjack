@@ -296,15 +296,16 @@ const game = {
 	},	
 	
 	playerBet(player) {
-		console.log(this.players[player].playerBet);
+		console.log(player, this.players[player], this.players[player].playerBet);
 		this.players[player].playerBet = this.players[player].playerBet + 5;
+		$(`#bet-player-${player + 1}`).append(this.players[player].playerBet.toString());
 		console.log(this.players[player].playerBet);
 	},
 
 	clrBet(player) {
-		console.log(this.playerBet);
-		let bet = this.player.playerBet;
-		bet = 0;
+		console.log(this.players[player].playerBet);
+		this.players[player].playerBet = 0;
+		$(`#bet-player-one`).append(this.players[player].playerBet.toString());
 	},
 
 	hit(player) {
@@ -460,24 +461,28 @@ $('#stay-btn-two').on('click', () => {
 $('#bet-btn-one').on('click', () => {
 	console.log('bet was clicked');
 	const player = 0;
+	$(`#bet-player-1`).html('');
 	game.playerBet(player);
 });
 
 $('#bet-btn-two').on('click', () => {
 	console.log('bet two was clicked');
 	const player = 1;
+	$(`#bet-player-2`).html('');
 	game.playerBet(player);
 });
 
 $('#clr-bet-btn-one').on('click', () => {
 	console.log('clr-one was clicked');
 	const player = 0;
+	$(`#bet-player-1`).html('').html('');
 	game.clrBet(player);
-})
+});
 
 $('#clr-bet-btn-two').on('click', () => {
 	console.log('clr-two was clicked');
 	const player = 1;
+	$(`#bet-player-2`).html('').html('');
 	game.clrBet(player);
 })
 

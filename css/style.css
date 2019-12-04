@@ -255,6 +255,20 @@ p {
 	margin-left: 190px ;
 }
 
+#bet-player-1  {
+	font-size: 16px;
+	color: yellow;
+	align-items: baseline;
+	margin: auto;
+}
+
+#bet-player-2 {
+	font-size: 16px;
+	color: yellow;
+	align-items: baseline;
+	margin: auto;
+}
+
 .bet-box-2 {
 	display: flex;
 	justify-content: left;
