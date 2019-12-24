@@ -63,15 +63,24 @@ p {
 #dealer-container {
 	display: inline-flex;
 	flex-direction: row;
+	justify-contect: center;
+	width: 960px;
 	margin: 0 16px 0 -38px;
 }
 
-.dealer-card , .card , #card-two {
+.dealer-card , .card, #card-two {
 	display: inline-flex;
 	flex-direction: row;
+
 	margin: 12px 0 0 -30px;
 }
 
+ #dealer-card-two {
+	display: inline-flex;
+	flex-direction: row;
+	justify-content: center;
+	margin: 16px 0 0 0px;
+ }
 .message-container {
 	display: flex;
 	fjustify-content: center;
@@ -351,6 +360,10 @@ p {
 	flex-direction: row;
 	justify-content: flex-start;
 	width: 96%;	
+}
+
+#bet-slider-2, #ebet-slider-1 {
+	
 }
 
 #player-2-cards {
