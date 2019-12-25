@@ -104,7 +104,6 @@ class Player {
 		this.playerBetPlaced	 = false;
 	}
 
-
 	receiveCard(card) {
 		this.currentHand.push(card);	
 	}
@@ -131,7 +130,7 @@ class Player {
 	// 		this.nextPlayer();
 	// }
 	
-	checkForBust() {
+	checkForBust(player) {
 		// get players currentTally
 		this.currentTally = 0;
 		for (let i = 0; i < this.currentHand.length; i++) {
@@ -169,7 +168,7 @@ class Player {
         return bust;
     }
 
-	handValue() {							//<------ Ace Logic here
+	handValue(player) {							//<------ Ace Logic here
 		
 		// get players possible current hand tally
 		this.currentTally = 0;
@@ -198,8 +197,6 @@ class Player {
         	}
         }
         this.currentTally = highestValue;
-        console.log(this.currentTally, 'this.currentTally');
-        console.log(highestValue, 'highestValue');
         return highestValue;	
 	}
 };
@@ -215,6 +212,25 @@ const game = {
 	playerBetButtonClicked: false,
 
 	
+	clearMessage() {
+		setTimeout ( function() {
+			$(`.message`).hide('slide', 1500, callback);
+			// $(`.message`).html('');
+		}, 3000);
+
+		function callback() {
+      		setTimeout(function() {
+        	$( "#effect" ).removeAttr( "style" ).hide().fadeIn();
+      	}, 1000 );
+    	};
+	},
+
+	clearCardsBlackjack() {
+		setTimeout ( function() {
+			$(`#player-${i + 1}-cards .card-one`).hide('pulsate', 1500);
+			$(`#player-${i + 1}-cards .card-two`).hide('bounce', 1500);
+		}, 2000);
+	},
 
 	startGame() {
 		this.gameOn = true;
@@ -233,20 +249,28 @@ const game = {
 		this.deck.shuffleCards();
 
 		// Welcome messages			<<----------TODO --- jQuery____-------------<<<<<<
-					
-		setTimeout ( function () {
-			this.message = 'Welcome to the table, have a seat...';		
-		}, 10000);
-
-		$(`.message`).html('');
+	
+		this.message = 'Welcome to the table, have a seat...';
+		$(`.message`).append(this.message);		
 		
-		this.message = 'Place your bets, Folks...';
-		$(`.message`).append(this.message);
+		this.clearMessage();
 
+		// setTimeout ( function () {
+		// 	$(`.message`).hide('slide', 2000);
+		// 	this.clearMessage();	
+		// }, 5000);
+
+		setTimeout ( function () {
+			$(`.message`).html('');
+			this.message = 'Place your bets, Folks...';
+			$(`.message`).append(this.message).show();
+		}, 5000);
+
+		this.clearMessage();
 		this.updateChipTotal();
 	},
 
-	updateChipTotal() {
+	updateChipTotal(player) {
 		$(`.chip-total-player-1`).html('');
 		$(`.chip-total-player-2`).html('');
 		$(`.chip-total-player-1`).append(this.players[0].playerChipStack.toString());
@@ -262,57 +286,68 @@ const game = {
 	    }
 	},
 
-	placeYourBets(player) {							// TODO  <<----------------<<<<<
-		// Place bets here and don't deal cards until betting is done		
-		
-		// $(`.message`).append(this.message);
+	placeYourBets(player) {							
 
 		// Display playerChipStacks
-		this.updateChipTotal();
+		this.updateChipTotal(player);
 
-		this.players[player].playerBetPlaced = true;	
-		console.log(player, this.players[player].playerBetPlaced, 'placed bet.')
+		// Place bets here and don't deal cards until betting is done		
+		this.players[player].playerBetPlaced = true;
 
-		// Initial deal when betting is done 				<<____TODO----------<<<<<
-		// this.startDeal();
 		if (this.players[0].playerBetPlaced && this.players[1].playerBetPlaced) {
 			this.startDeal();
 		}
 
-		// Jquery insert chip graphic and other?
+		// Jquery insert chip graphic and other?  // TODO ---------------<<<<<<
 	},			
-										// TODO ----------------------<<<<<<<<<<<
+										
 	checkForBlackjack(player) {
-		// get currentTally and handValue from checkForBust() and handValue9()
-		console.log(this.players[player]);
-		this.players[player].checkForBust();
-		this.players[player].handValue();
-		console.log(this.players[player], '<-- player');
+		// Get currentTally and handValue from checkForBust() and handValue()
+		this.players[player].checkForBust(player);
+		this.players[player].handValue(player);
+
+		// Check for blackjack conditions and add winnings to chipstack
 		if ((this.players[player].currentHand.length === 2) && (this.players[player].currentTally === 21)) {
 			this.players[player].playerBlackjack = true;
-			this.players[player].playerChipstack += this.players[player].playerBet;
+			// this.players[player].playerChipStack += (this.players[player].playerBet * 1.5);
+			
+			// Messaging
+			this.clearMessage();
+			$(`.message`).append(`Blackjack Player' + ${this.players[player] + 1} + '!! ' + 'Hooray!`);
 			setTimeout ( function() {
-				$(`.message`).html().
-				$(`.message`).append('Blackjack Player' + this.players[player] + '!! ' + 'Hooray!');
-			}, 20000);
-			console.log('blackJack!!!!!! <--------');
+				this.clearMessage();
+			}, 6000);
+
+			// Clear and update player chips
+			this.clearCardsBlackjack();
+			this.updateChipTotal();
+			console.log('blackjack ------', this.players[player].playerChipStack);
+
 			this.nextPlayer();
 		}
 	},
 
 	startDeal () {						// TODO -----------------<<<<<<<<<<<<<<<
 		// Greeting
-		$(`.message`).html('');
+		// $(`.message`).html('');
+		this.clearMessage();
+
 		this.message = 'Sweet! Let\'s Play!!';
 		$(`.message`).append(this.message);
+		setTimeout ( function() {
+			console.log('setTimeout for Sweet... clear');
+			
+		}, 4000);
+		this.clearMessage();
+
 
 		// ChipStack
 		this.updateChipTotal();
 
-		// possible refactor for chipstack ------
+		// possible refactor for playerChipStack -----------
 		// for (player in this.players) {
 		// 	console.log(player, 'player in this.');
-		// 	console.log(this.players[player].playerChipstack, 'player.playerChipstack -- for in')
+		// 	console.log(this.players[player].playerChipStack, 'player.playerChipStack -- for in')
 		// $(`.chip-total-player-${player + 1}`).append(player.playerChipStack)
 		// }
 
@@ -326,7 +361,6 @@ const game = {
 			let card2 = (this.deck.dealCard());
 			$(`#player-${i + 1}-cards .card-two`).append(card2.getHTML());
 			this.players[i].receiveCard(card2);
-			// this.player[i].handValue();
 		}
 
 		this.dealerInitialDeal();
@@ -334,21 +368,18 @@ const game = {
 	},	
 	
 	playerBet(player) {
+		// Set betting status to true and increment by 5
 		this.players[player].playerBetPlaced = true;
-
-		// console.log(player, this.players[player], this.players[player].playerBet);
 		this.players[player].playerBet = this.players[player].playerBet + 5;
 		$(`#bet-player-${player + 1}`).append(this.players[player].playerBet.toString());
 
 		// Subtract bet from chipstack
 		this.players[player].playerChipStack = this.players[player].playerChipStack - 5;
 		$(`.chip-total-player-${player + 1}`).append(this.players[player].playerChipStack.toString());
-
-		// console.log(this.players[player].playerBet);
 	},
 
 	clrBet(player) {
-		console.log(this.players[player].playerBet);
+		// Reset betting window and chipsatack
 		this.players[player].playerChipStack = this.players[player].playerChipStack + this.players[player].playerBet;
 		this.players[player].playerBet = 0;
 		$(`#bet-player-one`).append(this.players[player].playerBet.toString());
@@ -356,17 +387,16 @@ const game = {
 	},
 
 	hit(player) {
-		$('.message').html();
-		console.log('hit' + player + 'was called');
+		// $('.message').html('');
+		this.clearMessage();
+
 		// Do not allow if bet not placed or zero
 		// Allow only if its players turn
+		// console.log(player, this.currentPlayerIndex, this.players[player].playerBetPlaced, this.players[player].playerBet !== 0, this.players[player].currentHand.length);
 
-		console.log(this.currentPlayerIndex, this.players[player].playerBetPlaced, this.players[player].playerBet !== 0, this.players[player].currentHand.length);
-
-		if (player === this.currentPlayerIndex && player === this.players[player].playerBetPlaced  && this.players[player].playerBet !== 0 ) {		
+		if (player === this.currentPlayerIndex && this.players[player].playerBetPlaced && this.players[player].playerBet !== 0 ) {		
 			if (this.players[player].currentHand.length < 5) {
 				// player dealt a card
-				console.log('inside if statement');
 				const card = this.deck.dealCard();
 				this.players[player].receiveCard(card);
 				
@@ -379,9 +409,11 @@ const game = {
 				// if bust === true alert player and call nextPlayer
 				if (this.players[player].checkForBust()) {
 					// alert(`Sorry Player ${player +1}, You busted.`);
+					this.clearMessage();
+					$(`.message`).append(`Sorry ${player + 1}, you're busted. Better luck next time.`);
 
 				setTimeout ( function() {
-					$(`.message`).append(`Sorry ${player + 1}, you're busted. Better luck next time.`);
+					this.clearMessage();
 				}, 5000)
 					this.nextPlayer();
 				}
@@ -393,7 +425,6 @@ const game = {
 		if (player === this.currentPlayerIndex)	{
 			this.players[player].checkForBust();
 			this.players[player].handValue();
-			// this.players[player].handValue();
 			this.nextPlayer();
 		}		
 	},
@@ -412,10 +443,14 @@ const game = {
 	},
 
 	dealerPlay() {
+		// Get dealer's currentTally
+		this.dealer.checkForBust();
+
+		console.log(this.dealer, '<<<--- this.dealer')
 		$(`.message`).html('');
-		setTimeout(function() {
-			$(`.message`).append('Dealer has...');
-		}, 6000); 
+		// setTimeout(function() {
+		// $(`.message`).append('Dealer has... .');
+		// }, 6000); 
 
 	    // 'Flip' down card
 	    $(`#dealer-card-reverse`).hide();
@@ -425,7 +460,6 @@ const game = {
 		$('#dealer-cards #dealer-card-two').append(card2.getHTML());
 		this.dealer.receiveCard(card2);
 	    this.dealer.checkForBust();
-	    this.checkForBlackjack(this.dealer);
 		
 		// get dealers currentTally
 		this.dealer.currentTally = 0;
@@ -441,16 +475,17 @@ const game = {
 					this.dealer.receiveCard(card);
 
 					//update dealer current tally
-					this.dealer.currentntTally += card.value
+					this.dealer.currentTally += card.value
 
 			    	if (this.dealer.currentTally > 21) {
 			    		$(`.message`).html('');
 			    		$(`.message`).append('Dealer Busts. Cool.');
 			    	}
-
 				    this.dealer.checkForBust();
 		    	}
 		   	}
+		// this.dealer.checkForBust();
+		console.log(this.dealer + this.dealer.currentTally, ' this.dealer----this.dealer.currentTally ')   	
 	    this.endRound();											
 	},
 
@@ -459,9 +494,9 @@ const game = {
 		console.log(this.players, 'this.players');
 		// Clear players cards from the table
 		for (let i = 1; i < this.players.length; i++) {
-			$(`#player-${i}-cards .card-one`).html();
-			$(`#player-${i}-cards .cards-two`).html();
-			$(`#player-${i}-hit-cards .card`).html();
+			$(`#player-${i}-cards .card-one`).html('');
+			$(`#player-${i}-cards .cards-two`).html('');
+			$(`#player-${i}-hit-cards .card`).html('');
 		};
 
 		// this.players.forEach(function(player) {			<<----- forEach refactor - TODO
@@ -471,12 +506,12 @@ const game = {
 		// });
 
 		// Clear dealers cards
-		$('#dealer-cards #dealer-card-one').html();
-		$('#dealer-cards #dealer-card-two').html();
+		$('#dealer-cards #dealer-card-one').html('');
+		$('#dealer-cards #dealer-card-two').html('');
 
 		// Clear bet boxes
 		for (let i = 1; i < this.players.length; i++) {
-			$(`#bet-player-${i}`).html();
+			$(`#bet-player-${i}`).html('');
 		};
 
 		// CLear bet forEach refactor     --clear-bets TODO ------<<<<
@@ -494,60 +529,57 @@ const game = {
 
 		// get player final scores
 		for (let i = 0; i < this.players.length; i++) {
-			 let playerTotal = this.players[i].handValue();
-			 console.log(playerTotal, '<--playerTotal for player[i]');
+			 let playerFinalTotal = this.players[i].handValue();
+			 console.log(playerFinalTotal, `<--playerFinalTotal for ${this.players[i]}`);
 
 			// Compare values to dealer final tally
 			if (this.players[i].playerBlackjack = true) {
 				
-				// Player has blackjack
+				// Player has blackjack 
 				this.players[i].playerChipstack = this.players[i].playerChipStack + (this.players[i].playerBet * 2.5);
-				console.log(this.players[i].playerChipstack, '<- blackjack afterchipstack')
+				// console.log(this.players[i].playerChipstack, '<- blackjack afterchipstack')
 			} else if (playerTotal > dealerTotal) {
 				
-				//player wins/ update chipstack
+				// If player wins/ update chipstack
 				this.players[i].playerChipStack = this.players[i].playerChipStack +
 					(this.players[i].playerBet * 2);
-				console.log(this.players[i].playerChipStack, 'new chipstack');
+				// console.log(this.players[i].playerChipStack, 'new chipstack');
 				
 				this.chipTotal();
 
-				// setTimeout ( function() {	
-					$(`.message`).html('');
+				setTimeout ( function() {	
 					$(`.message`).append(`Player ${i + 1} Wins! Huzzahs and Hosannahs!`);
-				// }, 8000);
+				}, 6000);
+				this.clearMessage();
 
 			} else if (playerTotal < dealerTotal) {
 				
-				//player loses
+				// If Player loses
 				setTimeout (function() {
 				this.players[i].playerChipStack = this.players[i].playerChipStack -
 					(this.players[i].playerBet);
-				$(`.message`).html('');					
+				this.clearMessage();					
 				$(`.message`).append('Loses! Harrumph and Shucks-gollygeeze-darn-it-to-heck.');
-				}, 8000);
-				$(`.message`).html();
+				}, 6000);
+				this.clearMessage();
 			} else if (playerTotal === dealerTotal) {
 				
 				//It's a push
 				setTimeout(function() {
-					$(`.message`).html('');
+					this.clearMessage();
 					$(`.message`).append('It\'s a push, Player${[i + 1]}. Keep your chips.');
 				}, 8000);
 		}
 		
 		// End game prompt
-		setTimeout(function() {
-			console.log('first setTimeout in end game messaging');
-		}, 8000);
 
 		setTimeout( function() {
-			$(`.message`).html();
+			this.clearMessage();
 			$(`.message`).append('Good game y\'all\. Play again\?');
 		} ,8000);
 
 		// Clear Table
-		this.clearTable();	
+		// this.clearTable();	
 
 		// S how replay btns
 
@@ -593,7 +625,7 @@ $( function() {
 
 // $( function() {
     // Run the currently selected effect
-    function runEffect(playerBetting) {
+    function betButtonSlideHide(playerBetting) {
       // get effect type from
       // let selectedEffect = $('#effectType').val();
       let selectedEffect = 'slide';
@@ -618,11 +650,11 @@ $( function() {
       }, 1000 );
     };
  
-    // Set effect from select menu value
-    // $( "#plc-bet-btn-two" ).on( "click", function() {
-    //   runEffect();
-    // });
-  // });
+    function callback() {
+      setTimeout(function() {
+        $( "#effect" ).removeAttr( "style" ).hide().fadeIn();
+      }, 1000 );
+    };
 
 // Event Listeners ======================================== Event Listeners ===== //
 
@@ -700,7 +732,7 @@ $('#plc-bet-btn-one').on('click', () => {
 	const playerBetting = 'one';
 	$(`.chip-total-player`);
 	$(`.chip-total-player-1`).html('');
-	runEffect(playerBetting);
+	betButtonSlideHide(playerBetting);
 	game.placeYourBets(player);
 });
 
@@ -710,7 +742,7 @@ $('#plc-bet-btn-two').on('click', () => {
 	const player = 1;
 	const playerBetting = 'two';
 	$(`.chip-total-player-2`).html('');
-	runEffect(playerBetting);	
+	betButtonSlideHide(playerBetting);	
 	game.placeYourBets(player);
 });
 
