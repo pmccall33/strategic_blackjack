@@ -249,9 +249,9 @@ const game = {
 		this.deck.shuffleCards();
 
 		// Welcome messages			<<----------TODO --- jQuery____-------------<<<<<<
-	
+		
 		this.message = 'Welcome to the table, have a seat...';
-		$(`.message`).append(this.message);		
+		$(`.message`).append(this.message).hide().fadeIn(1600);		
 		
 		this.clearMessage();
 
@@ -263,7 +263,7 @@ const game = {
 		setTimeout ( function () {
 			$(`.message`).html('');
 			this.message = 'Place your bets, Folks...';
-			$(`.message`).append(this.message).show();
+			$(`.message`).append(this.message).fadeIn(1600);
 		}, 5000);
 
 		this.clearMessage();
@@ -307,16 +307,15 @@ const game = {
 		this.players[player].handValue(player);
 
 		// Check for blackjack conditions and add winnings to chipstack
-		if ((this.players[player].currentHand.length === 2) && (this.players[player].currentTally === 21)) {
+		if (this.players[player].currentHand.length === 2 && this.players[player].currentTally === 21) {
 			this.players[player].playerBlackjack = true;
 			// this.players[player].playerChipStack += (this.players[player].playerBet * 1.5);
 			
 			// Messaging
 			this.clearMessage();
-			$(`.message`).append(`Blackjack Player' + ${this.players[player] + 1} + '!! ' + 'Hooray!`);
-			setTimeout ( function() {
-				this.clearMessage();
-			}, 6000);
+			$(`.message`).append(`Blackjack Player' + ${this.players[player] + 1} + '!! ' + 'Hooray!`).fadeIn(1600);
+			this.clearMessage();
+
 
 			// Clear and update player chips
 			this.clearCardsBlackjack();
@@ -333,15 +332,14 @@ const game = {
 		this.clearMessage();
 
 		this.message = 'Sweet! Let\'s Play!!';
-		$(`.message`).append(this.message);
+		$(`.message`).append(this.message).fadeIn(1600);
 		setTimeout ( function() {
 			console.log('setTimeout for Sweet... clear');
 			
 		}, 4000);
 		this.clearMessage();
 
-
-		// ChipStack
+		// Display players ChipStack
 		this.updateChipTotal();
 
 		// possible refactor for playerChipStack -----------
@@ -412,9 +410,9 @@ const game = {
 					this.clearMessage();
 					$(`.message`).append(`Sorry ${player + 1}, you're busted. Better luck next time.`);
 
-				setTimeout ( function() {
+				// setTimeout ( function() {
 					this.clearMessage();
-				}, 5000)
+				// }, 5000)
 					this.nextPlayer();
 				}
 			}
@@ -524,7 +522,7 @@ const game = {
 	},
 
 	endRound() {
-		const dealerTotal = this.dealer.handValue();
+		const dealerTotal = this.dealer.currentTally;
 		console.log(dealerTotal, '<--dealerTotal');
 
 		// get player final scores
@@ -534,35 +532,34 @@ const game = {
 
 			// Compare values to dealer final tally
 			if (this.players[i].playerBlackjack = true) {
-				
-				// Player has blackjack 
-				this.players[i].playerChipstack = this.players[i].playerChipStack + (this.players[i].playerBet * 2.5);
-				// console.log(this.players[i].playerChipstack, '<- blackjack afterchipstack')
-			} else if (playerTotal > dealerTotal) {
-				
+				// Add and update player winnings
+				this.players[i].playerChipStack += (this.players[i].playerBet * 2.5);
+				console.log(this.players[i].playerChipStack, 'chipsatck blackjack ---');
+				this.updateChipTotal();
+
+			} else if (playerFinalTotal > dealerTotal) {				
 				// If player wins/ update chipstack
-				this.players[i].playerChipStack = this.players[i].playerChipStack +
-					(this.players[i].playerBet * 2);
-				// console.log(this.players[i].playerChipStack, 'new chipstack');
+				this.players[i].playerChipStack += (this.players[i].playerBet * 2);
+				console.log(this.players[i].playerChipStack, 'new chipstack at win ---');
 				
-				this.chipTotal();
+				this.clearMessage();
 
 				setTimeout ( function() {	
 					$(`.message`).append(`Player ${i + 1} Wins! Huzzahs and Hosannahs!`);
 				}, 6000);
-				this.clearMessage();
+				this.updateChipTotal();
 
-			} else if (playerTotal < dealerTotal) {
+			} else if (playerFinalTotal < dealerTotal) {
 				
 				// If Player loses
 				setTimeout (function() {
 				this.players[i].playerChipStack = this.players[i].playerChipStack -
 					(this.players[i].playerBet);
 				this.clearMessage();					
-				$(`.message`).append('Loses! Harrumph and Shucks-gollygeeze-darn-it-to-heck.');
+				$(`.message`).append('Loses! Harrumph and Shucks-gollygeeze-darn-it-to-heck.').fadeIn(1600);
 				}, 6000);
 				this.clearMessage();
-			} else if (playerTotal === dealerTotal) {
+			} else if (playerFinalTotal === dealerTotal) {
 				
 				//It's a push
 				setTimeout(function() {
@@ -573,8 +570,8 @@ const game = {
 		
 		// End game prompt
 
-		setTimeout( function() {
 			this.clearMessage();
+		setTimeout( function() {
 			$(`.message`).append('Good game y\'all\. Play again\?');
 		} ,8000);
 
