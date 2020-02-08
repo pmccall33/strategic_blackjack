@@ -1,15 +1,17 @@
-@import url("https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:500,500italic|Exo+2:400,100,400italic");
+
 
 body {
 	width: 100%;
-	height: 100%;
-	margin: 2px 0 2px 0;
-	padding: 6px 6px;
-	margin: 0 auto;
+	height: 86%;
+	margin-top: 2px;
+	/*margin: 0 auto;*/
+	font-family: ;
 	background-repeat: no-repeat;
 	background-size: cover;
-	background-color: #000000;
+/*	background-image: url("../assets/table-images/free-blackjack-table-2.png");*/
 	background-image: url("../assets/table-images/black:green-fade-2.jpeg");
+	/*background-image: url("https://imgur.com/RDK1nhb");*/
+	/*background-color: cadetblue;*/
 }
 
 div {
@@ -20,161 +22,74 @@ div {
 }
 
 header {
+	align-items: center;
 	width: 100%;
-	height: 100px;
-	margin: 4px;
-	border-radius: 8px;
-	border-bottom: 16px solid rgba(191, 86, 78);
-	background: no-repeat;
+	height: 120px;
+	margin-bottom: 2px;
+	display: flex;
 	background-size: cover;
-	background-color: rgba(112, 11, 92, .9);
-	background-image: url("../assets/table-images/header-purple-1.jpg");
+	background-image: url("../assets/table-images/possible-header-4.jpg");
+	/*background-image: url("../assets/table-images/purple-header-resize-2.jpg");*/
 }
 
-.header-container {
-	display: inline-flex;
-	flex-direction: row;
-	align-content: center;
-	justify-content: flex-end;
-}
-
-.header-title {
-	/*align-self: flex-end;*/
-	/*float: right;*/
-	/*margin: 5% 6% 6% 0;*/
-	font-size: 64px;
-	margin-right: 4%;
-	text-shadow: 
-		-1.5px -1.5px 0 #000,
-		1.5px -1.5px 0 #000,
-		-1.5px 1.5px 0 #000,
-		1.5px 1.5px 0 #000;
-}
-
-
-footer, .footer {
-	/*position: fixed;*/
-	margin-top: 6px;
+footer {
+	position: absolute;
 	bottom: 0px;
 	width: 100%;
-	height: 5%;
-	display: flex;
+	didplay: flex;
 	align-items: center;
+	margin-top: 6%;
 	background-color: black;
 	color: orange;
-	border-top: 4px solid rgba(191, 86, 78);
+	border-top: 1px solid orange;
 }
 
-a, nav {
-	font-family: Arial, Helvetica, sans-serif;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-	font-family: Alegreya;
-	text-decoration: none;
-	color: orange;
-	font-size: 22px;
-	margin-right: 12px;
-	margin-left: 8px;
-	text-shadow: 
-		-1px -1px #000,
-		-1px 1px #000,
-		1px -1px #000,
-		1px 1px #000;
+small {
+	font-size: 1.1em;
 }
 
 h1 {
-	font-family: Arial, Helvetica, sans-serif;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-	font-family: Alegreya;
-	color: orange;
+	color: black;
 }
 
 h3 {
-	font-family: Arial, Helvetica, sans-serif;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-	font-family: Alegreya;
+	color: black;
 	font-size: 24px;
-	color: orange;
-	text-shadow: 
-		-.6px -.6px #000,
-		-.6px .6px #000,
-		.6px -.6px #000,
-		.6px .6px #000;
 }
 
 h4 {
-	font-family: Arial, Helvetica, sans-serif;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-	font-family: Alegreya;
-	font-size: 20px;
-	font-weight: bold;
-	color: rgba(145, 18, 9);
+	color: black;
 	margin-bottom: 8px;
 }
 
 h5 {
-	font-family: Arial, Helvetica, sans-serif;
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-	font-family: Alegreya;
 	color: black;
 	margin: 16px 4px;
 }
 
-small {
-	font-family: Arial, Helvetica, sans-serif;	
-	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-	font-family: Alegreya;
-	font-size: 1.1em;
-}
-
 p {
 	font-size: 18px;
-	color: orange;
+	color: yellow;
 }
 
 .play-field-heading {
-	display: inline-flex;
 	color: lightyellow;
 }
 
-.dealer-container {
-	/*margin: 0 auto;*/
-	width: 96%;
-	display: flex;
-	flex-direction: column;
-	align-content: center;
-	align-items: center;
-	justify-content: center;
-	margin: 0 16px 0 -38px;
-}
-
-#dealer-img {
-	align-self: center;
-	margin: -32px 0 -16px -256px;
-	height: 78px;
-	width: 78px;
-	border: 4px solid rgba(66, 135, 245);
-	border-radius: 4px;
-}
-
-#dealer-name {
-	margin: -52px 0 20px -96px;
-	font-size: 20px;
-	color: rgba(66, 135, 245);
-	text-shadow: 
-		-.6px -.6px #000,
-		-.6px .6px #000,
-		.6px -.6px #000,
-		.6px .6px #000;
-}
-
-.dealer-heading {
+#dealer-heading {
 	display: inline-flex;
-	flex-direction: column;
-	align-content: center;
-	justify-content: center;
-	align-items: center;
 	margin: 20 auto;
+	align-items: center;
+	justify-content: center;
 	width: 96%;
+}
+
+#dealer-container {
+	display: inline-flex;
+	flex-direction: row;
+	justify-contect: center;
+	width: 960px;
+	margin: 0 16px 0 -38px;
 }
 
 .dealer-card , .card, #card-two {
@@ -190,97 +105,27 @@ p {
 	justify-content: center;
 	margin: 16px 0 0 0px;
  }
-
 .message-container {
-	display: inline-flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-	width: 100%	;
-}
-
-.message-box {
 	display: flex;
-	justify-content: center;
+	fjustify-content: center;
 	align-items: baseline;
 	flex-direction: column;
 	height: 60px;
 	width: 256px;
 	margin: 32px auto -128px auto;
-	background-color: rgba(93, 107, 97, .4);
+	background-color: black;
 	border: 4px solid orange;
 	border-radius: 6px;
-}
-
-#player-1-message {
-	margin-left: 20px;
-}
-
-#player-2-message {
-	margin-right: 20px;
-}
-
-.player-image-container {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-content: flex-start;
-	align-items: baseline;
-	width: 100%;
-	height: 6%;
-}
-
-#player-1-id {
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-start;
-	align-self: flex-start;
-	width:12%;
-	margin-left: 3%;
-}
-
-#player-2-id {
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-end;
-	align-self: flex-end;
-	width:12%;
-	margin-right: 3%;
-}
-
-#player-1-image {
-	align-self: flex-start;
-	margin: 0 16px 0 3%;
-	height: 64px;
-	width: 64px;
-	border: 4px solid rgba(66, 135, 245);
-	border-radius: 4px;
-}
-
-#player-2-image {
-	align-self: flex-end;
-	margin: 6px 3% 0 6%;
-	height: 64px;
-	width: 64px;
-	border: 4px solid rgba(66, 135, 245);
-	border-radius: 4px;
-}
-
-#player-1-name {
-	align-self: flex-start;
-	/*margin: -2% 2px 2px -36%;*/
-}
-
-#player-2-name {
-	align-self: flex-end;
-	margin-right: 6px;
-	/*margin: -2% -36% 2px 2px;*/
 }
 
 .message {
 	font-size: 24px;
 	color: yellow;
 	margin: auto;
+}
+
+#host-image {
+
 }
 
 #welcome-message {
@@ -360,16 +205,13 @@ p {
 	padding: 4px;
 }
 
-.action-btn , #player-one-action-container {
-	margin: 12px 6% 32px 40px;
+.action-btn , #player-two-action-container {
+	margin-top: -12px;
 	min-width: 100px;
 }
 
-.action-btn , #player-two-action-container {
+#player-two-action-container {
 	margin-right: 40px;
-	margin-bottom: 32px;
-	margin: 12px 24px 32px 0;
-	min-width: 100px;
 }
 
 /*.action-btn , #player-two-action-container {
@@ -383,39 +225,6 @@ p {
 	padding: 4px;
 	min-width: 100px;
 }*/
-
-.strategy-btn-container {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	width: 100%;
-}
-
-#strategy-btn-one, #strategy-btn-two {
-	width: 80px;
-	height: 80px;
-	background-color: lightyellow;
-	color: black;
-	font-size: 15px;
-	border: 6px solid purple;
-	border-radius: 100%;
-	margin: 2px;
-	padding: 2px;
-}
-
-#strategy-btn-one {
-	align-self: flex-start;
-	margin-left: 32px;
-	margin-bottom: -72px;
-	margin-top: 32px;
-}
-
-#strategy-btn-two {
-	align-self: flex-end;
-	margin-right: 32px;
-	margin-bottom: -72px;
-	margin-top: 32px;
-}
 
 #hit-btn-one, #hit-btn-two {
 	background-color: lightyellow;
@@ -527,9 +336,9 @@ p {
 .card-container {
 	diplay: inline-flex;
 	flex-direction: row;
-	align-items: center;
+	align-items: flex-end;
 	justify-content: space-between;
-	width: 100%;
+	width: 960px;
 	margin:  0 16px 0 0;
 }
 
@@ -570,40 +379,23 @@ p {
 	width: 60px;
 }
 */
-
-/*#bet-slider-2, #bet-slider-1 {
-
-}*/
-
-.player-cards-container {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	width: 74%;
-	height: 16%;
-	margin-bottom: 16px;
-	margin: 0 13% 6% 13%;
-}
-
 #player-1-cards {
 	diplay: inline-flex;
 	flex-direction: row;
 	justify-content: flex-start;
-	align-self: flex-start;
-	width: 96%;
-	margin-left: -24%;
-	margin-right: 6%;	
+	width: 96%;	
 }
 
+#bet-slider-2, #bet-slider-1 {
+
+}
 
 #player-2-cards {
 	diplay: inline-flex;
-	flex-direction: row;	
+	flex-direction: row;
+	/*align-items: flex-end;*/
 	justify-content: flex-end;
-	align-self: flex-end;
-	width: 96%;
-	margin-right: -10%;
-	margin-left: 6%;
+	width: 96%;	
 }
 
 #card-one, #card-two {
@@ -634,8 +426,8 @@ p {
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	width: 100%;
-	/*margin-bottom: -72px;	*/
+	width: 960px;
+	margin-bottom: -72px;	
 }
 
 
@@ -649,9 +441,8 @@ p {
 	border: 2px solid orange;
 	border-radius: 6px;
 	background-color: black;
-/*	margin-left: -28px;
-	margin-bottom: -60px;*/
-	margin: 2px 2px -3% -16%;
+	margin-left: -28px;
+	margin-bottom: -60px;
 }
 
 #chip-total-player-two-box {
@@ -665,9 +456,8 @@ p {
 	border-radius: 6px;
 	background-color: black;
 	margin-right: 100px;
-/*	margin-bottom: -60px;
-	margin-left: -30px;*/
-	margin: 2px 3% -3% 2px;
+	margin-bottom: -60px;
+	margin-left: -30px;
 }
 
 
@@ -686,21 +476,19 @@ p {
 }
 
 #chip-box-label-one {
-	width: 50%;
 	font-size: 18px;
-	color: orange;
+	color: black;
 	justify-content: flex-end;
 	margin-top: -30px;
 	margin-left: 50px;
 }
 
 #chip-box-label-two {
-	width: 50%;
 	font-size: 18px;
-	color: orange;
-	justify-content: flex-end;
+	color: black;
+	justify-content: flex-start;
 	margin-top: -30px;
-	margin-left: 776px;
+	margin-left: 676px;
 /*	margin-right: 40px;*/
 }
 

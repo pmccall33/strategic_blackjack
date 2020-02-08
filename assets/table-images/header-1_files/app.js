@@ -1,8 +1,6 @@
 console.log('Howdy- Blackjack');
 
-/* 	<<<=======================================================>>> 
-							Card Class 
-	<<<=======================================================>>> */
+// Create Card class 						<<<=============== Card Class =============
 
 class Card {
 	constructor(rank, suit) {
@@ -34,10 +32,7 @@ class Card {
 
 
 
-/*  <<<=====================================================>>> 
-							Deck Class 	
-	<<<=====================================================>>> */
-
+// Create Deck Class 							<<<================ Deck Class ========
 class Deck {	
 	
 	constructor() {
@@ -91,9 +86,7 @@ class Deck {
 };
 
 
-/* 	<<<=====================================================>>> 
-						Player Class
-	<<<=====================================================>>>   */
+// Create PLayer Class 					<<<================== Player Class =============
 
 class Player {
 	// status - current hand, chip stack
@@ -207,263 +200,7 @@ class Player {
         return highestValue;	
 	}
 };
-
-/*  <<<======================================================>>>
-							Strategy Class
-	<<<======================================================>>> */
-
-class Strategy {
-	constructor() {
-		this.playerHand = [],
-		this.playerHandValue = 0,
-		this.dealerUpCardValue = 0,
-		this.recommendPlay = ''
-	}
-
-	// Basic Strategy Chart to get recommended play upon initial deal
-	getBasicStrategicPlay(player, dealer) {
-		console.log(player, '--player in getStrategy');
-		console.log(dealer, '--dealer in getStrategy');
-		this.playerHand = player.currentHand;
-		this.playerHandValue = player.currentTally;
-		this.dealerUpCardValue = dealer.currentHand[0];
-		console.log(this.playerHandValue, '-- playerHandValue');
-		
-		// Compare player hand to dealer up card for 'correct' play
-
-		/* Player has a pair, compare to dealer up card for split/double strategy*/
-		if (this.playerHand[0].rank === this.playerHand[1].rank) {
-			console.log(this.playerHand[0].value, 'playerHand.value in pair');
-			switch (this.playerHand[0].value) {   // switch 1
-				case 8:
-				case 11:
-					this.recommendPlay = 'Double & Split';
-					break;
-				case 5:
-				case 10:
-					this.recommendPlay = 'Don\'t Split';
-					break;
-				case 9:
-					if (this.dealerUpCardValue === 7 || 10 || 11) {
-						this.recommendPlay = 'Don\'t Split';
-					} else if (this.dealerUpCardValue === 2 || 3 || 4 || 5 || 6 || 8 || 9) {
-						this.recommendPlay = 'Double & Split';
-					};
-					break;
-				case 2:
-				case 3:
-				case 4:
-					if (this.dealerUpCardValue === 2 || 3 || 4 || 5 || 6 || 7) {
-						this.recommendPlay = 'Double & Split';
-					} else if (this.dealerUpCardValue === 8, 9, 10, 11) {
-						this.recommendPlay = 'Don\'t Split';
-					};
-					break;
-				case 6:
-					if (this.dealerUpCardValue === 2, 3, 4, 5, 6) {
-						this.recommendPlay = 'Double & Split';
-					} else if (this.dealerUpCardValue === 7, 8, 9, 10, 11) {
-						this.recommendPlay = 'Don\'t Split';
-					};
-					break;
-				case 4:
-					if ((this.dealerUpCardValue === 5) || (this.dealerUpCardValue === 6)) {
-						this.recommendPlay = 'Double & Split';
-					} else if (this.dealerUpCardValue === 2, 3, 4, 7, 8, 9, 10, 11) {
-						this.recommendPlay = 'Don\'t Split';
-					};
-					break;
-				default:
-					console.log('Error getting strategy in switch 1');
-
-			};  // edn switch
-			console.log(this.recommendPlay, 'recommendPlay with a pair')
-			return this.recommendPlay;
-		};  // end if stmnt for pairs.
-
-		// Player has one ace. (soft totals).
-		if (player.playerHasAce) {
-			console.log(player.playerHasAce, 'playerHasAce in soft totals');
-			switch (this.playerHandValue) {     // switch 2
-				case 20:
-					this.recommendPlay = 'Stay';
-					break;
-				case 19:
-					if (this.dealerUpCardValue === 6) {
-						this.recommendPlay = 'Double Down';
-					} else {
-						this.recommendPlay = 'Stay';
-					};
-					break;
-				case 18:
-					if (this.dealerUpCardValue === 2 || 3 || 4 || 5 || 6) {
-						this.recommendPlay = 'Double Down';
-					} else if (this.dealerUpCardValue === 7 || 8) {
-						this.recommendPlay = 'Stay';
-					} else {
-						this.recommendPlay = 'Hit';
-					};
-					break;
-				case 17:
-					if (this.dealerUpCardValue === 2 || 7 || 8 || 9 || 10 || 11) {
-						this.recommendPlay = 'Hit';
-					} else {
-						this.recommendPlay = 'Double Down';
-					};
-					break;
-				case 15:
-				case 16:
-					if (this.dealerUpCardValue === 4 || 5 || 6) {
-						this.recommendPlay = 'Double Down';
-					} else {
-						this.recommendPlay = 'Hit';
-					};
-					break;
-				case 13:
-				case 14:
-					if (this.dealerUpCardValue === 5 || 6) {
-						this.recommendPlay = 'Double Down';
-					} else {
-						this.recommendPlay = 'Hit';
-					};
-					break;
-				default:
-					console.log('Error getting strategy in switch 2');
-			};  // end soft total switch
-			console.log(this.recommendPlay, ' - for soft total');
-			return this.recommendPlay;
-		}; // End if for one ace/soft hands.
-
-		// No pair/No ace in players hand. (Hard totals).
-		if ((this.playerHand[0] !== this.playerHand[1]) && (!player.playerHasAce)) {
-			if ((0 < this.playerHandValue) && (this.playerHandValue <= 8)) {
-				this.recommendPlay = 'Hit';
-			};
-
-			if ((this.playerHandValue > 17) && (this.playerHandValue <=21)) {
-				this.recommendPlay = 'Stay';
-			};
-
-			if ((this.dealerUpCardValue === 10) || (this.dealerUpCardValue === 11)) { 
-				switch (this.playerHandValue) {  // switch 3
-					case 17: 
-						this.recommendPlay = 'Stay';
-						break;
-					case 8:
-					case 9:
-					case 12: 
-					case 13: 
-					case 14: 
-					case 15: 
-					case 16:
-						this.recommendPlay = 'Hit';
-						break;
-					case 11:
-						this.recommendPlay = 'Double Down';
-						break;
-					default:
-						console.log('Error getting strategy in switch 3.')
-				};
-			} else if ((this.dealerUpCardValue === 7) || (this.dealerupValue === 8) || (this.dealerUpCardValue === 9)) {
-				switch (this.playerHandValue) {  // switch 4
-					case 17: 
-						this.recommendPlay = 'Stay';
-						break; 
-					case 8:
-					case 9:
-					case 12:
-					case 13:
-					case 14:
-					case 15:
-					case 16:
-						this.recommendPlay = 'Hit';
-						break;
-					case 10:
-					case 11:
-						this.recommendPlay = 'Double Down';
-						break;
-					default:
-						console.log('Error getting strategy from switch 4');
-				};
-			} else if ((this.dealerUpCardValue === 4) || (this.dealerUpCardValue === 5) || (this.dealerUpCardValue === 6)) {
-				switch (this.playerHandValue) {  // switch 5
-					case 12:
-					case 13:
-					case 14:
-					case 15:
-					case 16:
-					case 17: 
-						this.recommendPlay = 'Stay'; 
-						break;
-					case 8:
-						this.recommendPlay = 'Hit';
-						break;
-					case 9:
-					case 10:
-					case 11:
-						this.recommendPlay = 'Double Down';
-						break;
-					default:
-						console.log('Error getting strategy from switch 5');
-				};				
-			} else if (this.dealerUpCardValue === 3) {
-				switch (this.playerHandValue) {   // switch 6
-					case 13:
-					case 14:
-					case 15:
-					case 16:
-					case 17: 
-						this.recommendPlay = 'Stay';
-						break; 
-					case 8:
-					case 12:
-						this.recommendPlay = 'Hit';
-						break;
-					case 9: 
-					case 10: 
-					case 11:
-						this.recommendPlay = 'Double Down';
-						break;
-					default: 
-						console.log('Error gtting strategy from switch 6');
-				};
-			} else if (this.dealerUpCardValue === 2) {
-				switch (this.playerHandValue) {   // switch 7
-					case 13:
-					case 14:
-					case 15:
-					case 16:
-					case 17: 
-						this.recommendPlay = 'Stay'; 
-						break;
-					case 8:
-					case 9:
-					case 12:
-						this.recommendPlay = 'Hit';
-						break;
-					case 10:
-					case 11:
-						this.recommendPlay = 'Double Down';	
-						break;
-					default:
-						console.log('Error getting strategy from switch 7');
-				};
-			}; 
-			console.log(this.recommendPlay,'recommendedPlay without pair/ace');
-			return this.recommendPlay;	
-		}; // end if hard totals/ no ace
-		if (!this.recommendPlay) {
-			console.log('Error getting strategy.')
-		};
-		return this.recommendPlay;
-	}; // end getBasicStrategicPlay()
-
-};
-
-/*  <<<======================================================>>>
-		 					Game Object 
-	<<<=====================================================>>> */
-
+					// ======================= Game Object ====================== //
 const game = {
 	deck: null,
 	numOfPlayers: 2,
@@ -498,9 +235,6 @@ const game = {
 	startGame() {
 		this.gameOn = true;
 
-		// Instantiate strategy
-		this.strategy = new Strategy();
-
 		// Instantiate dealer
 		this.dealer = new Player();
 		
@@ -514,7 +248,8 @@ const game = {
 		this.deck = new Deck();
 		this.deck.shuffleCards();
 
-		// Welcome messages		
+		// Welcome messages			<<----------TODO --- jQuery____-------------<<<<<<
+		
 		this.message = 'Welcome to the table, have a seat...';
 		$(`.message`).append(this.message).hide().fadeIn(1600);		
 		
@@ -566,13 +301,11 @@ const game = {
 		// Jquery insert chip graphic and other?  // TODO ---------------<<<<<<
 	},			
 										
-	checkForBlackjack(players, player) {
+	checkForBlackjack(player) {
 		// Get currentTally and handValue from checkForBust() and handValue()
-		for (let player in players) {
-			this.players[player].checkForBust(player);
-			this.players[player].handValue(player);
-			console.log(this.players[player], ' player at chekcforblackjack()');
-		};
+		this.players[player].checkForBust(player);
+		this.players[player].handValue(player);
+		console.log(this.players[player], 'chekcforblackjack at ;oiionurf');
 
 		// this.players[player].playerBlackjack = false;
 		console.log( this.players[player].currentHand.length === 2 && this.players[player].currentTally === 21 )
@@ -603,7 +336,7 @@ const game = {
 		}
 	},
 
-	startDeal () {
+	startDeal () {						// TODO -----------------<<<<<<<<<<<<<<<
 		// Greeting
 		$(`.message`).html('');
 		this.clearMessage();
@@ -637,7 +370,7 @@ const game = {
 		}
 
 		this.dealerInitialDeal();
-		this.checkForBlackjack(this.players, this.currentPlayerIndex);
+		this.checkForBlackjack(this.currentPlayerIndex);
 	},	
 	
 	playerBet(player) {
@@ -886,7 +619,7 @@ const game = {
 		} ,3000);
 		$(`.message`).append('Good game y\'all\. Play again\?').fadeIn(1600);
 
-			// Clear Table <<<<----------TODO-----<<<
+			// Clear Table
 			// this.clearTable();	
 
 			// Show replay btns
@@ -902,9 +635,7 @@ game.startGame();
 // console.log(game.players[0].checkForBust();
 // console.log(game.players[0].possibleValuesArray);
 
-/*  <<<=========================================================>>>
-						 JQuery Widgets
-	<<<=========================================================>>> */
+// JQuery Widgets ======================================== JQuery Widgets ======= //
 
 // Bet Sliders
 $('#bet-slider-1').slider({
@@ -930,7 +661,7 @@ $( function() {
 	$('#slider-bet-amount').val( '$' + $('#bet-slider-1').slider('value'));
 });
 	
-// Hide Effects 
+// Hide Effects ========================================== Hide Effects ========= //
 
 // $( function() {
     // Run the currently selected effect
@@ -965,17 +696,14 @@ $( function() {
       }, 1000 );
     };
 
-/*  <<<===========================================================>>>
-					 Event Listeners
-	<<<===========================================================>>> */
+// Event Listeners ======================================== Event Listeners ===== //
 
-const $dealBtn   		= $('#deal-btn');
-const $hitBtn    		= $('#hit-btn');
-const $stayBtn   		= $('#stay-btn');
-const $betBtn    		= $('#bet-btn');
-const $clrBetBtn 		= $('#clr-bet-btn');
-const $plcBetBtn 		= $('#plc-bet-btn');
-const $strategyBtn 		= $('#strategy-btn');
+const $hitBtn    = $('#hit-btn');
+const $stayBtn   = $('#stay-btn');
+const $betBtn    = $('#bet-btn');
+const $dealBtn   = $('#deal-btn');
+const $clrBetBtn = $('#clr-bet-btn');
+const $plcBetBtn = $('#plc-bet-btn');
 
 $('#deal-btn-one').on('click', () => {
   console.log('deal btn was clicked');
@@ -984,10 +712,11 @@ $('#deal-btn-one').on('click', () => {
 
 $('#hit-btn-one').on('click', () => {
 	console.log('hit-one was clicked');
+	// deal another card
 	const player = 0;
 	game.hit(player);	
 });
- 
+// 
 $('#stay-btn-one').on('click', () => {
 	console.log('stay btn one click');
 	const player = 0;
@@ -1051,19 +780,8 @@ $('#plc-bet-btn-two').on('click', () => {
 	game.placeYourBets(player);
 });
 
-$('#strategy-btn-one').on('click', () => {
-	console.log('strat one was clicked');
-	const player = game.players[0];
-	const dealer = game.dealer;
-	game.strategy.getBasicStrategicPlay(player, dealer);
-});
 
-$('#strategy-btn-two').on('click', () => {
-	console.log('strat two was clicked');
-	const player = game.players[1];
-	const dealer = game.dealer;
-	game.strategy.getBasicStrategicPlay(player, dealer);
-});
+
 
 
 
