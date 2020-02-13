@@ -17,7 +17,7 @@
 
 <body>
   <header class="header-container">
-    <h1 class="header-title">Project</h1><br>
+    <h1 class="header-title">Strategic</h1><br>
     <h1 class="header-title">   Blackjack!</h1>
    <!--  <img src="assets/table-images/header-cards-1.jpg" alt="blackjack cards image" id="header-cards-2"> -->
   </header>
@@ -48,9 +48,14 @@
     <div class="message-box" id="player-2-message"></div>
 	</div>
 
+  <div class="center-logo-container">
+    <img src="assets/table-images/abs-circ-6.png" alt="center table circle logo" id="center-logo">
+ <!--    <h3 id="center-logo-text">Strategic Blackjack</h3> -->
+  </div>
+
   <div class="strategy-btn-container">
-    <button class="btn" id="strategy-btn-one">Strategy Hint</button>
-    <button class="btn" id="strategy-btn-two">Strategy Hint</button>
+      <button id="strategy-btn-one">Strategy Hint</button>
+      <button id="strategy-btn-two">Strategy Hint</button>
   </div>
 
 	<!-- <div class="new-deal-container">
@@ -58,15 +63,13 @@
 	</div> -->
 
 	<div class="player-container hit-card-container hit-cards">						
-		<div class="card-container hit-card-container">	
+    <div class="card-container hit-card-container">	
 			<div id="player-1-hit-cards">
-				<div class="card hit-card">
-				</div>
+				<div class="card hit-card" id="hit-cards-one"></div>
 			</div>
 
 			<div id="player-2-hit-cards">
-				<div class="card hit-card">
-				</div>
+				<div class="card hit-card" id="hit-cards"></div>
 			</div>	
 		</div>	
 	</div>
@@ -114,6 +117,8 @@
 				<h4>Player One</h4>
 				<button class="btn hit-btn"  id="hit-btn-one">Hit</button>
 				<button class="btn stay-btn" id="stay-btn-one">Stay</button>
+        <button class="btn split-btn" id="split-btn-one">Split</button>
+        <button class="btn double-btn" id="dbl-btn-one">Double</button>
 				<button class="btn bet-btn" id="bet-btn-one">Bet</button>
 				<button class="btn clr-bet-btn" id="clr-bet-btn-one">Clear Bet</button>
 				<button class="btn plc-bet-btn" id="plc-bet-btn-one">Place Bet</button>
@@ -141,11 +146,13 @@
 
 			<div class="action-btn" id="player-two-action-container">
 				<h4>Player Two</h4>
-				<button class="hit-btn"  id="hit-btn-two">Hit</button>
-				<button class="stay-btn" id="stay-btn-two">Stay</button>
-				<button class="bet-btn"  id="bet-btn-two">Bet</button>
-				<button class="clr-bet-btn" id="clr-bet-btn-two">Clear Bet</button>
-				<button class="plc-bet-btn" id="plc-bet-btn-two">Place Bet</button>
+				<button class="btn hit-btn"  id="hit-btn-two">Hit</button>
+				<button class="btn stay-btn" id="stay-btn-two">Stay</button>
+        <button class="btn split-btn id="split-btn-two">Split</button>
+        <button class="btn double-btn" id="dbl-btn-two">Double</button>
+				<button class="btn bet-btn"  id="bet-btn-two">Bet</button>
+				<button class="btn clr-bet-btn" id="clr-bet-btn-two">Clear Bet</button>
+				<button class="btn plc-bet-btn" id="plc-bet-btn-two">Place Bet</button>
 			</div>
 		</div>
 	</div>
@@ -155,7 +162,7 @@
 </body>
 	<!-- <script src="	https://static1.squarespace.com/static/56ec48a420c64724c36d2e67/5706f67aab48de09bc40538a/5706f7ae044262231702c2fe/1460074424397/IMG_9230.JPG?format=750w 404"></script> -->
 	<script src="https://imgur.com/OEkO8vl"></script>
-    <script src="assets/table-images/black:green-fade-2.jpeg"></script>
+  <script src="assets/table-images/black:green-fade-2.jpeg"></script>
 	<script src="card-images.js"></script>
 	<script src="js/app.js"></script>
 </html>

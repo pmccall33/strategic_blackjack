@@ -5,9 +5,10 @@ console.log('Howdy- Blackjack');
 	<<<=======================================================>>> */
 
 class Card {
-	constructor(rank, suit) {
+	constructor(rank, suit, oddsValue) {
 		this.rank = rank;
 		this.suit = suit;
+		this.oddsValue = 0;
 		// this.value will be set later
 		// this.image will be set later
 	}
@@ -15,14 +16,42 @@ class Card {
 	getValue() {
 		if (this.rank === 'K' ||
 			this.rank === 'Q' ||
-			this.rank === 'J') {
+			this.rank === 'J' ||
+			this.rank === 10) {
 			this.value = 10;
+			this.oddsValue = -0.51;
 		} else if (this.rank === 'A') {
 			this.value = 11;
+			this.oddsValue = -0.59;
 		} else {
 			this.value = this.rank;
-
-		}
+			switch (this.value) {
+				case 9: 
+					this.oddsValue = -0.15;
+					break;
+				case 8:
+					this.oddsValue = 0.01;
+					break;
+				case 7:
+					this.oddsValue = 0.30;
+					break;
+				case 6: 
+					this.oddsValue = 0.45;
+					break;
+				case 5:
+					this.oddsValue = 0.67;
+					break;
+				case 4:
+					this.oddsValue = 0.52;
+					break;
+				case 3:
+					this.oddsValue = 0.43;
+					break;
+				case 2:
+					this.oddsValue = 0.40;
+					break;
+			};
+		};
 	}
 
 	getHTML() {
@@ -42,6 +71,9 @@ class Deck {
 	
 	constructor() {
 		this.deck = [];
+		this.numOfDecks = 1;
+		this.shoe = [];
+
 
 		const suits = ['hearts', 'spades', 'diamonds', 'clubs'];
 		const cards = ['A', 2, 3, 4, 5, 6, 7, 8, 9, 10, 'J', 'Q', 'K'];
@@ -64,8 +96,8 @@ class Deck {
 
 	    //set reverse card images
 	    this.deck[52] = `assets/PNG-cards-1.3/52`;
-	    this.deck[53] = `assets/PNG-cards-1.3/53`;
-	    this.deck[54] = `assets/PNG-cards-1.3/54`;
+	    this.deck[53] = `assets/PNG-cards-1.3/53`; // alternate reverse img
+	    this.deck[54] = `assets/PNG-cards-1.3/54`; // alternate reverse img
 	}
 
 	shuffleCards () {
@@ -197,7 +229,7 @@ class Player {
 
         // iterate over posssibleValuesArray to return the highest valid score
         let highestValue = 0;
-        for (let i= 0; i < this.possibleValuesArray.length; i++) {
+        for (let i = 0; i < this.possibleValuesArray.length; i++) {
         	if (this.possibleValuesArray[i] <= 21 &&
         		this.possibleValuesArray[i] > highestValue) {
         		highestValue = this.possibleValuesArray[i];
@@ -217,23 +249,30 @@ class Strategy {
 		this.playerHand = [],
 		this.playerHandValue = 0,
 		this.dealerUpCardValue = 0,
-		this.recommendPlay = ''
+		this.recommendPlay = '',
+		this.currentOdds = 48,
+		this.currentCountOdds = 0,
+		this.bustOdds = 0
 	}
 
 	// Basic Strategy Chart to get recommended play upon initial deal
 	getBasicStrategicPlay(player, dealer) {
-		console.log(player, '--player in getStrategy');
-		console.log(dealer, '--dealer in getStrategy');
 		this.playerHand = player.currentHand;
 		this.playerHandValue = player.currentTally;
-		this.dealerUpCardValue = dealer.currentHand[0];
+		this.dealerUpCardValue = dealer.currentHand[0].value;
+		console.log(player, '--player in getStrategy');
+		console.log(dealer, '--dealer in getStrategy');
 		console.log(this.playerHandValue, '-- playerHandValue');
 		
 		// Compare player hand to dealer up card for 'correct' play
 
+		if (this.playerHandValue === 21) {
+			this.recommendPlay = 'Hey Buddy, you got 21. Might as well stay here.';
+		};
+
 		/* Player has a pair, compare to dealer up card for split/double strategy*/
 		if (this.playerHand[0].rank === this.playerHand[1].rank) {
-			console.log(this.playerHand[0].value, 'playerHand.value in pair');
+			console.log(this.dealerUpCardValue, ' dealerUpcard in pair');
 			switch (this.playerHand[0].value) {   // switch 1
 				case 8:
 				case 11:
@@ -255,21 +294,21 @@ class Strategy {
 				case 4:
 					if (this.dealerUpCardValue === 2 || 3 || 4 || 5 || 6 || 7) {
 						this.recommendPlay = 'Double & Split';
-					} else if (this.dealerUpCardValue === 8, 9, 10, 11) {
+					} else if (this.dealerUpCardValue === 8 || 9 || 10 || 11) {
 						this.recommendPlay = 'Don\'t Split';
 					};
 					break;
 				case 6:
-					if (this.dealerUpCardValue === 2, 3, 4, 5, 6) {
+					if (this.dealerUpCardValue === 2 || 3 || 4 || 5 || 6) {
 						this.recommendPlay = 'Double & Split';
-					} else if (this.dealerUpCardValue === 7, 8, 9, 10, 11) {
+					} else if (this.dealerUpCardValue === 7 || 8 || 9 || 10 || 11) {
 						this.recommendPlay = 'Don\'t Split';
 					};
 					break;
 				case 4:
 					if ((this.dealerUpCardValue === 5) || (this.dealerUpCardValue === 6)) {
 						this.recommendPlay = 'Double & Split';
-					} else if (this.dealerUpCardValue === 2, 3, 4, 7, 8, 9, 10, 11) {
+					} else if (this.dealerUpCardValue === 2 || 3 || 4 || 7 || 8 || 9 || 10 || 11) {
 						this.recommendPlay = 'Don\'t Split';
 					};
 					break;
@@ -285,6 +324,9 @@ class Strategy {
 		if (player.playerHasAce) {
 			console.log(player.playerHasAce, 'playerHasAce in soft totals');
 			switch (this.playerHandValue) {     // switch 2
+				case 21:
+					this.recommendPlay = 'You got Blackjack, buddy. Relax.';
+					break;
 				case 20:
 					this.recommendPlay = 'Stay';
 					break;
@@ -344,7 +386,7 @@ class Strategy {
 				this.recommendPlay = 'Stay';
 			};
 
-			if ((this.dealerUpCardValue === 10) || (this.dealerUpCardValue === 11)) { 
+			if (this.dealerUpCardValue === 10 || 11) { 
 				switch (this.playerHandValue) {  // switch 3
 					case 17: 
 						this.recommendPlay = 'Stay';
@@ -361,10 +403,13 @@ class Strategy {
 					case 11:
 						this.recommendPlay = 'Double Down';
 						break;
+					case 10:
+						this.recommendPlay = 'Hit';
+						break;
 					default:
 						console.log('Error getting strategy in switch 3.')
 				};
-			} else if ((this.dealerUpCardValue === 7) || (this.dealerupValue === 8) || (this.dealerUpCardValue === 9)) {
+			} else if (this.dealerUpCardValue === 7 || 8 || 9) {
 				switch (this.playerHandValue) {  // switch 4
 					case 17: 
 						this.recommendPlay = 'Stay';
@@ -385,7 +430,7 @@ class Strategy {
 					default:
 						console.log('Error getting strategy from switch 4');
 				};
-			} else if ((this.dealerUpCardValue === 4) || (this.dealerUpCardValue === 5) || (this.dealerUpCardValue === 6)) {
+			} else if (this.dealerUpCardValue === 4 || 5 || 6) {
 				switch (this.playerHandValue) {  // switch 5
 					case 12:
 					case 13:
@@ -426,7 +471,20 @@ class Strategy {
 						break;
 					default: 
 						console.log('Error gtting strategy from switch 6');
-				};
+				}
+				switch (this.playerHandValue) {   // switch 6
+					case (13 || 14 || 15 || 16 || 17): 
+						this.recommendPlay = 'Stay';
+						break; 
+					case (8 || 12):
+						this.recommendPlay = 'Hit';
+						break;
+					case (9 || 10 || 11):
+						this.recommendPlay = 'Double Down';
+						break;
+					default: 
+						console.log('Error gtting strategy from switch 6');
+				}
 			} else if (this.dealerUpCardValue === 2) {
 				switch (this.playerHandValue) {   // switch 7
 					case 13:
@@ -453,12 +511,73 @@ class Strategy {
 			return this.recommendPlay;	
 		}; // end if hard totals/ no ace
 		if (!this.recommendPlay) {
-			console.log('Error getting strategy.')
+			console.log('Error getting strategy.');
 		};
 		return this.recommendPlay;
-	}; // end getBasicStrategicPlay()
+	} // end getBasicStrategicPlay()
 
-};
+	getOdds(player, dealer, countedCardsArr, currentCountOdds) {
+		this.dealerUpCardValue = dealer.currentHand[0].value;
+		this.currentCountOdds = 0;
+		this.countedCardsArr = countedCardsArr;
+
+		// this.player.playerHandValue = player.currentTally;
+		// Get odds against dealerUpCard
+		this.currentOdds = 48.3;
+		switch (this.dealerUpCardValue) {
+			case 11:
+				this.currentOdds -= 16.0;
+				break;
+			case 10:
+				this.currentOdds -= 16.9;
+				break;
+			case 9:
+				this.currentOdds -= 4.3;
+				break;
+			case 8:
+				this.currentOdds += 5.4;
+				break;
+			case 7:
+				this.currentOdds += 14.3;
+				break;
+			case 6:
+				this.currentOdds += 23.9;
+				break;
+			case 5:
+				this.currentOdds += 23.2;
+				break;
+			case 4:
+				this.currentOdds += 18.0;
+				break;
+			case 3:
+				this.currentOdds += 13.4;
+				break;
+			case 2: 
+				this.currentOdds += 9.8;
+				break;
+			default:
+				this.currentOdds = 0;
+				console.log('error in odds switch');
+				break;
+		}; // End Switch
+
+		console.log(this.countedCardsArr, 'countedCardsArr');
+		// Adjust odds for dealt/counted cards
+		for (let i = 0; i < this.countedCardsArr.length; i++) {
+			console.log(this.countedCardsArr[i].oddsValue, 'card.oddsValue');
+			this.currentCountOdds += this.countedCardsArr[i].oddsValue;
+		};
+
+		// for (let card in this.countedCardsArr) {
+		// 	console.log(card.oddsValue, 'card.oddsValue');
+		// 	this.currentCountOdds += card.oddsValue;
+		// };
+		console.log(this.countedCardsArr, this.currentCountOdds, (this.currentOdds += this.currentCountOdds), 'countedCardsArr, currentCountOdds, adjusted odds');
+		return this.currentOdds += this.currentCountOdds, this.currentCountOdds;
+	}  // end getOdds().
+
+}; // end Strategy class
+
 
 /*  <<<======================================================>>>
 		 					Game Object 
@@ -466,11 +585,15 @@ class Strategy {
 
 const game = {
 	deck: null,
+	shoe: [],
+	numOfDecks: 1,
 	numOfPlayers: 2,
 	players: [],
 	currentPlayerIndex: 0,
 	player: null,
 	dealerHand: [],
+	countedCardsArr: [],
+	currentCountOdds: 48.3,
 	message: '',
 	playerBetButtonClicked: false,
 
@@ -493,6 +616,13 @@ const game = {
 			$(`#player-${player + 1}-cards .card-one`).hide('pulsate', 1500);
 			$(`#player-${player + 1}-cards .card-two`).hide('bounce', 1500);
 		}, 2000);
+	},
+
+	createDeckShoe() {
+	  	// Create shoe of multiple decks
+	    for (let i = 0; i < this.numOfDecks; i++) {
+	    	this.shoe.push(this.Deck.shuffleCards());
+	    }
 	},
 
 	startGame() {
@@ -533,6 +663,8 @@ const game = {
 
 		this.clearMessage();
 		this.updateChipTotal();
+		this.dealerInitialDeal(); // <================ TESTING ONLY ====<<<
+								  // delete and uncomment at line 658
 	},
 
 	updateChipTotal(player) {
@@ -547,8 +679,8 @@ const game = {
 	      this.currentPlayerIndex += 1;
 	      this.checkForBlackjack(this.currentPlayerIndex);
 	    } else {
-	      this.dealerPlay()
-	    }
+	      this.dealerPlay();	
+	    };
 	},
 
 	placeYourBets(player) {							
@@ -561,7 +693,7 @@ const game = {
 
 		if (this.players[0].playerBetPlaced && this.players[1].playerBetPlaced) {
 			this.startDeal();
-		}
+		};
 
 		// Jquery insert chip graphic and other?  // TODO ---------------<<<<<<
 	},			
@@ -575,7 +707,7 @@ const game = {
 		};
 
 		// this.players[player].playerBlackjack = false;
-		console.log( this.players[player].currentHand.length === 2 && this.players[player].currentTally === 21 )
+		console.log((this.players[player].currentHand.length === 2) && (this.players[player].currentTally === 21));
 		// Check for blackjack conditions and add winnings to chipstack
 		if ((this.players[player].currentHand.length === 2) && (this.players[player].currentTally === 21)) {
 			this.players[player].playerBlackjack = true;
@@ -591,7 +723,6 @@ const game = {
 			}, 6000);
 			this.clearMessage();
 
-
 			// Clear and update player chips
 			this.clearCardsBlackjack();
 			this.updateChipTotal();
@@ -600,7 +731,7 @@ const game = {
 			this.nextPlayer();
 		} else {
 			this.players[player].playerBlackjack = false;
-		}
+		};
 	},
 
 	startDeal () {
@@ -634,9 +765,11 @@ const game = {
 			let card2 = (this.deck.dealCard());
 			$(`#player-${i + 1}-cards .card-two`).append(card2.getHTML());
 			this.players[i].receiveCard(card2);
-		}
 
-		this.dealerInitialDeal();
+			this.countedCardsArr.push(card1, card2);
+		};
+		// this.dealerInitialDeal();   <<======== UNCOMMENT AFTER TESTING ===
+		console.log(this.countedCardsArr, 'countedCardsArr after Start Deal')
 		this.checkForBlackjack(this.players, this.currentPlayerIndex);
 	},	
 	
@@ -672,6 +805,7 @@ const game = {
 				// player dealt a card
 				const card = this.deck.dealCard();
 				this.players[player].receiveCard(card);
+				this.countedCardsArr.push(card);
 				
 				// add card img element to card div
 				$(`#player-${player + 1}-hit-cards .card`).append(card.getHTML());
@@ -709,8 +843,8 @@ const game = {
 		const card1 = (this.deck.dealCard());
 		$('#dealer-cards #card-one').append(card1.getHTML());
 		this.dealer.receiveCard(card1);
-		// $('#dealer-cards #card-reverse').append(this.deck[52].getHTML());
-		// this.dealer.receiveCard(this.deck.	    this.deck[52] = `assets/PNG-cards-1.3/52`)
+		this.countedCardsArr.push(card1);
+		this.dealer.handValue();
 	},
 
 	dealerHand() {												
@@ -1033,7 +1167,7 @@ $('#clr-bet-btn-two').on('click', () => {
 });
 
 $('#plc-bet-btn-one').on('click', () => {
-	// $('#bet-btn-one').disabled = true;
+	// $('#bet-btn-one').disabled = true;  		// TODO disable so the user 							cannot double click while btn is fadin out
 	const player = 0;
 	const playerBetting = 'one';
 	$(`.chip-total-player`);
@@ -1051,13 +1185,6 @@ $('#plc-bet-btn-two').on('click', () => {
 	game.placeYourBets(player);
 });
 
-$('#strategy-btn-one').on('click', () => {
-	console.log('strat one was clicked');
-	const player = game.players[0];
-	const dealer = game.dealer;
-	game.strategy.getBasicStrategicPlay(player, dealer);
-});
-
 $('#strategy-btn-two').on('click', () => {
 	console.log('strat two was clicked');
 	const player = game.players[1];
@@ -1065,8 +1192,12 @@ $('#strategy-btn-two').on('click', () => {
 	game.strategy.getBasicStrategicPlay(player, dealer);
 });
 
-
-
+$('#strategy-btn-one').on('click', () => {
+	console.log('strat one was clicked');
+	const player = game.players[0];
+	const dealer = game.dealer;
+	game.strategy.getBasicStrategicPlay(player, dealer);
+});
 
 
 
