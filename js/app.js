@@ -576,6 +576,23 @@ class Strategy {
 		return this.currentOdds += this.currentCountOdds, this.currentCountOdds;
 	}  // end getOdds().
 
+	getCount(dealer, countedCardsArr, currentCountOdds) {
+		this.countedCardsArr = countedCardsArr;
+		this.currentCountOdds = currentCountOdds;
+		this.dealer = dealer;
+		const player = 0;
+
+		const countedRanksArr = this.countedCardsArr.map(function(card) {
+			return card.rank;
+		});
+
+		for (let card in this.countedCardsArr)
+
+		// Get currentCoundOdds
+		this.getOdds(player, this.dealer, this.countedCardsArr, this.currentCountOdds);
+		console.log(`Your current count should be ${this.currentCountOdds}.\n Here are the cards played: 
+			${countedRanksArr}.`)
+	}
 }; // end Strategy class
 
 
@@ -769,7 +786,9 @@ const game = {
 			this.countedCardsArr.push(card1, card2);
 		};
 		// this.dealerInitialDeal();   <<======== UNCOMMENT AFTER TESTING ===
-		console.log(this.countedCardsArr, 'countedCardsArr after Start Deal')
+		console.log(this.countedCardsArr, 'countedCardsArr after Start Deal');
+		// Get/Set initial odds
+		this.strategy.getOdds();
 		this.checkForBlackjack(this.players, this.currentPlayerIndex);
 	},	
 	
@@ -1199,7 +1218,39 @@ $('#strategy-btn-one').on('click', () => {
 	game.strategy.getBasicStrategicPlay(player, dealer);
 });
 
+$('#odds-btn-two').on('click', () => {
+	console.log('odds two was clicked');
+	const player = game.players[1];
+	const dealer = game.dealer;
+	const countedCardsArr = game.countedCardsArr;
+	const currentCountOdds = game.currentCountOdds;
+	game.strategy.getOdds(player, dealer, countedCardsArr, currentCountOdds);
+});
 
+$('#odds-btn-one').on('click', () => {
+	console.log('odds one was clicked');
+	const player = game.players[0];
+	const dealer = game.dealer;
+	const counterCardsArr = game.countedCardsArr;
+	const currentCountOdds = game.currentCountOdds;
+	game.strategy.getOdds(player, dealer, countedCardsArr, currentCountOdds);
+});
+
+$('#count-btn-one').on('click', () => {
+	console.log('count two was clicked');
+	const countedCardsArr = game.countedCardsArr;
+	const currentCountOdds = game.currentCountOdds;
+	const dealer = game.dealer;
+	game.strategy.getCount(dealer, countedCardsArr, currentCountOdds);
+});
+
+$('#count-btn-two').on('click', () => {
+	console.log('count one was clicked');
+	const counterCardsArr = game.countedCardsArr;
+	const currentCountOdds = game.currentCountOdds;
+	const dealer = game.dealer;
+	game.strategy.getCount(dealer, countedCardsArr, currentCountOdds);
+});
 
 
 

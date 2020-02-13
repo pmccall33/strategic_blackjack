@@ -458,6 +458,7 @@ h2, #center-logo-text {
 	margin-left: 32px;
 	margin-bottom: -72px;
 	margin-top: 32px;
+	margin-right: 8px;
 }
 
 #strategy-btn-two {
@@ -465,6 +466,63 @@ h2, #center-logo-text {
 	margin-right: 32px;
 	margin-bottom: -72px;
 	margin-top: 32px;
+	margin-left: 8px;
+}
+
+#odds-btn-one, #odds-btn-two {
+	width: 80px;
+	height: 80px;
+	background-color: lightyellow;
+	color: black;
+	font-size: 15px;
+	border: 6px solid red;
+	border-radius: 100%;
+	margin: 2px;
+	padding: 2px;
+}
+
+#odds-btn-one {
+	align-self: flex-start;
+	margin-left: -35%;
+	margin-bottom: -72px;
+	margin-top: 32px;
+	margin-right: 8px;
+}
+
+#odds-btn-two {
+	align-self: flex-end;
+	margin-right: -35%;
+	margin-bottom: -72px;
+	margin-top: 32px;
+	margin-left: 8px;
+}
+
+#count-btn-one, #count-btn-two {
+	width: 80px;
+	height: 80px;
+	background-color: lightyellow;
+	color: black;
+	font-size: 15px;
+	border: 6px solid yellow;
+	border-radius: 100%;
+	margin: 2px;
+	padding: 2px;
+}
+
+#count-btn-one {
+	align-self: flex-start;
+	margin-left: -35%;
+	margin-bottom: -72px;
+	margin-top: 32px;
+	margin-right: 8px;
+}
+
+#count-btn-two {
+	align-self: flex-end;
+	margin-right: -35%;
+	margin-bottom: -72px;
+	margin-top: 32px;
+	margin-left: 8px;
 }
 
 #hit-btn-one, #hit-btn-two {
