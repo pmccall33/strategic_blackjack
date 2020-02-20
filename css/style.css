@@ -210,7 +210,7 @@ h2, #center-logo-text {
 	display: inline-flex;
 	flex-direction: row;
 	justify-content: center;
-	margin: 16px 0 0 0px;
+	margin: 16% 0 0 28%;
  }
 
 .message-container {
@@ -250,6 +250,7 @@ h2, #center-logo-text {
 	align-items: baseline;
 	width: 100%;
 	height: 6%;
+	margin-top: -6%;
 }
 
 #player-1-id {
@@ -371,14 +372,12 @@ h2, #center-logo-text {
 }
 
 #player-1-hit-cards {
-	margin-left: 32px;
-}
-
-#player-1-hit-cards {
 	display: flex;
 	flex-direction: row;
 	justify-content: center;
 	width: 50%;
+	margin-bottom: -18%;
+	margin-left: -3%;
 }
 
 #player-2-hit-cards {
@@ -386,7 +385,8 @@ h2, #center-logo-text {
 	flex-direction: row;
 	justify-content: center;
 	width: 50%;
-
+	margin-left: -20%;
+	margin-bottom: -18%;
 }
 
 #hit-cards-one {
@@ -397,6 +397,16 @@ h2, #center-logo-text {
 	margin-bottom: -12%
 }
 
+.btn {
+	background-color: lightyellow;
+	font: inherit;
+	color: purple;
+	border: 2px solid purple;
+	border-radius: 4px;
+	margin: 2px;
+	padding: 2px;
+	transition: background 100ms ease;
+}
 
 .action-btn {
 	display: inline-flex;
@@ -445,12 +455,57 @@ h2, #center-logo-text {
 	width: 80px;
 	height: 80px;
 	background-color: lightyellow;
+	font: inherit;
 	color: black;
 	font-size: 15px;
 	border: 6px solid purple;
 	border-radius: 100%;
 	margin: 2px;
 	padding: 2px;
+	transition: background 100ms ease;
+}
+
+#strategy-btn-one,
+#strategy-btn-one::before,
+#strategy-btn-two,
+#strategy-btn-two::before, 
+#odds-btn-one,
+#odd-btn-one::before,
+#odds-btn-two,
+#odds-btn-two::before,
+#count-btn-one,
+#count-btn-one::before,
+#count-btn-two,
+#count-btn-two::before,
+#hit-btn-one,
+#hit-btn-one::before,
+#hit-btn-two,
+#hit-btn-two::before,
+#stay-btn-one,
+#stay-btn-one::before,
+#stay-btn-two,
+#stay-btn-two::before,
+#split-btn-one,
+#split-btn-one::before,
+#split-btn-two,
+#split-btn-two::before,
+#dbl-btn-one,
+#dbl-btn-one::before,
+#dbl-btn-two,
+#dbl-btn-two::before,
+#bet-btn-one,
+#bet-btn-one::before,
+#bet-btn-two,
+#bet-btn-two::before,
+#clr-bet-btn-one,
+#clr-bet-btn-one::before,
+#clr-bet-btn-two,
+#clr-bet-btn-two::before,
+#plc-bet-btn-one,
+#plc-bet-btn-one::before,
+#plc-bet-btn-two,
+#plc-bet-btn-two::before {
+	cursor: pointer;
 }
 
 #strategy-btn-one {
@@ -461,6 +516,7 @@ h2, #center-logo-text {
 	margin-right: 8px;
 }
 
+
 #strategy-btn-two {
 	align-self: flex-end;
 	margin-right: 32px;
@@ -469,16 +525,19 @@ h2, #center-logo-text {
 	margin-left: 8px;
 }
 
-#odds-btn-one, #odds-btn-two {
+#odds-btn-one, 
+#odds-btn-two {
 	width: 80px;
 	height: 80px;
 	background-color: lightyellow;
 	color: black;
+	font: inherit;
 	font-size: 15px;
 	border: 6px solid red;
 	border-radius: 100%;
 	margin: 2px;
 	padding: 2px;
+	transition: background 100ms ease;
 }
 
 #odds-btn-one {
@@ -497,16 +556,19 @@ h2, #center-logo-text {
 	margin-left: 8px;
 }
 
+
 #count-btn-one, #count-btn-two {
 	width: 80px;
 	height: 80px;
 	background-color: lightyellow;
 	color: black;
+	font: inherit;
 	font-size: 15px;
 	border: 6px solid yellow;
 	border-radius: 100%;
 	margin: 2px;
 	padding: 2px;
+	transition: background 100ms ease;
 }
 
 #count-btn-one {
@@ -527,56 +589,57 @@ h2, #center-logo-text {
 
 #hit-btn-one, #hit-btn-two {
 	background-color: lightyellow;
+	font: inherit;
 	color: black;
 	border: 2px solid purple;
 	border-radius: 4px;
 	margin: 2px;
 	padding: 2px;
+	transition: background 100ms ease;
 }
 
 #stay-btn-one, #stay-btn-two {
 	background-color: lightyellow;
+	font: inherit;
 	color: black;
 	border: 2px solid purple;
 	border-radius: 4px;
 	margin: 2px;
 	padding: 2px;
-}
-
-.btn {
-	background-color: lightyellow;
-	color: purple;
-	border: 2px solid purple;
-	border-radius: 4px;
-	margin: 2px;
-	padding: 2px;
+	transition: background 100ms ease;
 }
 
 #bet-btn-one, #bet-btn-two {
 	background-color: lightyellow;
+	font: inherit;
 	color: purple;
 	border: 2px solid purple;
 	border-radius: 4px;
 	margin: 2px;
 	padding: 2px;
+	transition: background 100ms ease;
 }
 
 #clr-bet-btn-one, #clr-bet-btn-two {
 	background-color: lightyellow;
+	font: inherit;
 	color: purple;
 	border: 2px solid purple;
 	border-radius: 4px;
 	margin: 2px;
 	padding: 2px;
+	transition: background 100ms ease;
 }
 
 #plc-bet-btn-one, #plc-bet-btn-two {
 	background-color: lightyellow;
+	font: inherit;
 	color: purple;
 	border: 2px solid purple;
 	border-radius: 4px;
 	margin: 2px;
 	padding: 2px;
+	transition: background 100ms ease;
 }
 
 .bet-box-container {
@@ -675,19 +738,6 @@ h2, #center-logo-text {
 	margin: 20px auto;
 }*/
 
-/*#dealer-card-two {
-	display: inline-flex;
-	flex-direction: row;
-	background-color: transparent;
-	color: white;
-	border: 1px solid lightgrey;
-	border-radius: 6px;
-	margin:0 4px;
-	height: 100px;
-	width: 60px;
-}
-*/
-
 /*#bet-slider-2, #bet-slider-1 {
 
 }*/
@@ -730,7 +780,7 @@ h2, #center-logo-text {
 	/*color: white;
 	border: 2px solid orange;*/
 	border-radius: 6px;
-	margin:0 4px;
+	margin:0 0 0 40%;
 	height: 120px;
 	width: 80px;
 }
