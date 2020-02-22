@@ -1,5 +1,9 @@
 console.log('Howdy- Blackjack');
 
+// TODO : 	-Fix all the stuff and things and make it all better
+// 	  	  	-switch testing and fixes
+//		  	-get methods in classes?
+
 /* 	<<<=======================================================>>> 
 							Card Class 
 	<<<=======================================================>>> */
