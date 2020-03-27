@@ -1,0 +1,27 @@
+{
+  "name": "strategic_blackjack",
+  "version": "1.0.0",
+  "description": "# A Basic Blackjack game",
+  "main": "index.html",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pmccall33/project-1-blackjack.git"
+  },
+  "keywords": [
+    "strategic_blackjack"
+  ],
+  "author": "petermccallmurray",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pmccall33/project-1-blackjack/issues"
+  },
+  "homepage": "https://github.com/pmccall33/project-1-blackjack#readme",
+  "dependencies": {
+    "babel-preset-env": "^1.7.0",
+    "babel-register": "^6.26.0",
+    "require.js": "^1.0.0"
+  }
+}
