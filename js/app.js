@@ -1,14 +1,13 @@
 console.log('Howdy- Blackjack');
 
+import { Strategy } from './classes/Strategy.js';
+import { Deck } 	from './classes/Deck.js';
+import { Card } 	from './classes/Card.js';
+import { Player } 	from './classes/Player.js';
+
 // TODO : 	-Fix all the stuff and things and make it all better
 // 	  	  	-switch testing and fixes
 //		  	-get methods in classes?
-
-// Import Classes
-import { Card }	 	from './classes/Card.js';
-import { Deck } 	from './classes/Deck.js';
-import { Player } 	from './classes/Player.js';
-import { Strategy } from './classes/Strategy.js';
 
 
 /*  <<<======================================================>>>
@@ -65,7 +64,7 @@ const game = {
 
 		// Instantiate dealer
 		this.dealer = new Player();
-		
+
 		// Create players and store in an array
 		for (let i = 1; i <= this.numOfPlayers; i++) {
 			let player = new Player();
@@ -143,7 +142,7 @@ const game = {
 		// Check for blackjack conditions and add winnings to chipstack
 		if ((this.players[player].currentHand.length === 2) && (this.players[player].currentTally === 21)) {
 			this.players[player].playerBlackjack = true;
-			// this.players[player].playerChipStack += (this.players[player].playerBet * 1.5);
+			this.players[player].playerChipStack += (this.players[player].playerBet * 1.5);
 			
 			// Messaging
 			// this.clearMessage();
@@ -201,7 +200,7 @@ const game = {
 		};
 		// this.dealerInitialDeal();   <<======== UNCOMMENT AFTER TESTING ===
 		// Get/Set initial odds
-		this.strategy.getOdds();
+		// ClearOdds() if necessary here <----------
 		this.checkForBlackjack(this.players, this.currentPlayerIndex);
 	},	
 	
@@ -265,6 +264,7 @@ const game = {
 	},
 
 	doubleBet(player) {
+		// when doubling is allowed <<<<<---
 		if (player === this.currentPlayerIndex) {
 			// Double playerBet and update chipstack and betbox
 			this.players[player].playerChipStack -= this.players[player].playerBet;
@@ -276,7 +276,7 @@ const game = {
 		};
 	},
 
-	stay(player) {
+	stay(player) {		// <------ playerIndex passed ;in as arg
 		if (player === this.currentPlayerIndex)	{
 			// Update player data and call for next player
 			this.players[player].checkForBust();
@@ -668,14 +668,14 @@ $('#strategy-btn-two').on('click', () => {
 	console.log('strat two was clicked');
 	const player = game.players[1];
 	const dealer = game.dealer;
-	game.strategy.getBasicStrategicPlay(player, dealer);
+	console.log('Strategy master says:', game.strategy.getBasicStrategicPlay(player, dealer));
 });
 
 $('#strategy-btn-one').on('click', () => {
 	console.log('strat one was clicked');
 	const player = game.players[0];
 	const dealer = game.dealer;
-	game.strategy.getBasicStrategicPlay(player, dealer);
+	console.log('Strategy master says:', game.strategy.getBasicStrategicPlay(player, dealer));
 });
 
 $('#odds-btn-two').on('click', () => {

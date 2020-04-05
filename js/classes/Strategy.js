@@ -1,3 +1,6 @@
+import { HelperFunctions } from '../HelperFunctions.mjs';
+const localHelperFunctions = new HelperFunctions();
+
 /*  <<<======================================================>>>
 							Strategy Class
 	<<<======================================================>>> */
@@ -6,14 +9,27 @@ class Strategy {
 	constructor() {
 		this.playerHand = [],
 		this.playerHandValue = 0,
-		this.dealerUpCardValue = 0,
-		this.recommendPlay = '',
+		this.dealerUpCardValue = 0,			
 		this.currentOdds = 48.3,
 		this.currentCountOdds = 0,
-		this.bustOdds = 0
+		this.playerBustOdds = 0,
+		this.playerBustRating = localHelperFunctions.createEnumFromObj({
+			'great' : ' 👍 💰 Go for it. Zero odds of busting.',
+			'good' : ' ✅ Pretty darn Good.',
+			'average' : ' ↔️ Just about even odds.',
+			'fair' : ' ⚠️ Cuidado, Not so swell.',
+			'poor' : '  ❌ Wouldn\'t advise it.' 
+		})
+		// this.playerBustRating = Object.freeze({
+		//     GREAT:   Symbol(' 👍🏾 💰Great! Zero odds of busting.'),
+		//     GOOD:  Symbol(' ✅ Pretty darn Good.'),
+		//     AVERAGE: Symbol(' ↔️ So-so to Average. '),
+		//     FAIR: Symbol(' ⚠️ Just Fair to Middling. '),
+		//     POOR: Symbol(' ❌ Looking Poor.'),
+		// })
 	}
 
-	// Basic Strategy Chart to get recommended play upon initial deal
+	// Basic Strategy Chart to get correct play upon initial deal
 	getBasicStrategicPlay(player, dealer) {
 		this.player = player;
 		// Update player data
@@ -27,135 +43,187 @@ class Strategy {
 
 		console.log(player, '--player in getStrategy');
 		console.log(dealer, '--dealer in getStrategy');
-		console.log(this.playerHandValue, '-- playerHandValue');
-		console.log(this.dealerUpCardValue, 'dealerUpcardValue');
+		// console.log(this.playrHandValue, '-- playerHandValue');
+		// console.log(this.dealerUpCardValue, 'dealerUpcardValue');
 		
 		// Compare player hand to dealer up card for 'correct' play
 
 		if (this.playerHandValue === 21) {
-			this.recommendPlay = 'Hey Buddy, you got 21. Might as well stay here.';
+			return 'Hey Buddy, you got 21. Might as well Stand Pat.';
 		};
 
 		/* Player has a pair, compare to dealer up card for split/double strategy*/
 		if (this.playerHand[0].rank === this.playerHand[1].rank) {
 			console.log(this.dealerUpCardValue, ' dealerUpcard in pair');
-			switch (this.playerHand[0].value) {   // switch 1
+			switch (this.playerHand[0].value) {   				// switch 1
 				case 8:
 				case 11:
-					this.recommendPlay = 'Split Em';
+					return 'Split Your Hand';
 					break;
 				case 5:
 				case 10:
-					this.recommendPlay = 'Don\'t Split';
+					return 'Don\'t Split Now, Cowboy';
 					break;
 				case 9:
-					if (this.dealerUpCardValue === 7 || 10 || 11) {
-						this.recommendPlay = 'Don\'t Split';
-					} else if (this.dealerUpCardValue === 2 || 3 || 4 || 5 || 6 || 8 || 9) {
-						this.recommendPlay = 'Split Em';
+					switch (this.dealerupCardValue) {
+						case 7:
+						case 10:
+						case 11:
+							return 'Don\'t Split Now';
+							break;
+						case 2:
+						case 3:
+						case 4:
+						case 5:
+						case 6:
+						case 8:
+						case 9:
+							return 'Yup, Split \'em';
+							break;
 					};
+					// if (this.dealerUpCardValue === 7 || 10 || 11) {
+					//			return 'Don\'t Split';
+					// } else if (this.dealerUpCardValue === 2 || 3 || 4 || 5 || 6 || 8 || 9) {
+					//			return 'Split Em';
+					// };
 					break;
 				case 2:
 				case 3:
 				case 4:
-					if (this.dealerUpCardValue === 2 || 3 || 4 || 5 || 6 || 7) {
-						this.recommendPlay = 'Split \'em';
-					} else if (this.dealerUpCardValue === 8 || 9 || 10 || 11) {
-						this.recommendPlay = 'Don\'t Split';
+					switch (this.dealerUpCardValue) {
+						case 8:
+						case 9:
+						case 10:
+						case 11:
+							return 'Nah, Don\'t Split';
+							break;
+						case 2:
+						case 3:
+						case 4:
+						case 5:
+						case 6:
+						case 7:
+							return 'Split This Up';
+							break;
 					};
+					// if (this.dealerUpCardValue === 2 || 3 || 4 || 5 || 6 || 7) {
+					/////			return 'Split \'em';
+					// } else if (this.dealerUpCardValue === 8 || 9 || 10 || 11) {
+					/////			return 'Don\'t Split';
+					// };
 					break;
 				case 6:
-					if (this.dealerUpCardValue === 2 || 3 || 4 || 5 || 6) {
-						this.recommendPlay = 'Split \'em';
-					} else if (this.dealerUpCardValue === 7 || 8 || 9 || 10 || 11) {
-						this.recommendPlay = 'Don\'t Split';
-					};
+					return this.dealerUpCardValue < 7 ? 'Split This, Pardner' : 'Don\'t Split Now';
+
+					// if (this.dealerUpCardValue === 2 || 3 || 4 || 5 || 6) {
+					////			return 'Split \'em';
+					// } else if (this.dealerUpCardValue === 7 || 8 || 9 || 10 || 11) {
+					////			return 'Don\'t Split';
+					// };
 					break;
 				case 4:
-					if ((this.dealerUpCardValue === 5) || (this.dealerUpCardValue === 6)) {
-						this.recommendPlay = 'Split';
-					} else if (this.dealerUpCardValue === 2 || 3 || 4 || 7 || 8 || 9 || 10 || 11) {
-						this.recommendPlay = 'Don\'t Split';
-					};
+					return (this.dealerUpCardValue === 5 || this.dealerUpCardValue === 6) ? 'Split Your Hand, Dude' : 'Nope, Don\'t Split Here';
+					break;
+
+					// if ((this.dealerUpCardValue === 5) || (this.dealerUpCardValue === 6)) {
+					////			return 'Split';
+					// } else if (this.dealerUpCardValue === 2 || 3 || 4 || 7 || 8 || 9 || 10 || 11) {
+					////			return 'Don\'t Split';
+					// };
 					break;
 				default:
-					console.log('Error getting strategy in switch 1');
+					console.log('Sorry, Error getting strategy in switch1-pairs');
+					break;
+			};  											// end switch 1
 
-			};  // edn switch
-			console.log(this.recommendPlay, 'recommendPlay with a pair')
-			return this.recommendPlay;
-		};  // end if stmnt for pairs.
+			console.log(this.correctPlay, 'correctPlay with a pair');
+			return this.correctPlay;
+		};  									// end if stmnt for pairs.
 
 		// Player has one ace. (soft totals).
 		if (player.playerHasAce) {
 			console.log(player.playerHasAce, 'playerHasAce in soft totals');
 			switch (this.playerHandValue) {     // switch 2
 				case 21:
-					this.recommendPlay = 'You got Blackjack, buddy. Relax.';
+					return 'You got Blackjack, Buddy. Relax and take your dough.';
 					break;
 				case 20:
-					this.recommendPlay = 'Stay';
+					return 'You should Stay';
 					break;
 				case 19:
-					if (this.dealerUpCardValue === 6) {
-						this.recommendPlay = 'Double Down';
-					} else {
-						this.recommendPlay = 'Stay';
-					};
+					return this.this.dealerUpCardValue === 6 ? 'Double Down!' : 'Stand Pat';
+
+					// if (this.dealerUpCardValue === 6) {
+					///			return 'Double Down!';
+					// } else {
+					///			return 'Stay';
+					// };
 					break;
 				case 18:
-					if (this.dealerUpCardValue === 2 || 3 || 4 || 5 || 6) {
-						this.recommendPlay = 'Double Down';
-					} else if (this.dealerUpCardValue === 7 || 8) {
-						this.recommendPlay = 'Stay';
-					} else {
-						this.recommendPlay = 'Hit';
-					};
+					return this.dealerUpCardValue < 7 ? 'Double Down Here' 
+						: this.dealerupCardValue === 7 ? 'You should Stay' 
+						: this.dealerUpCardValue === 8 ? 'Hit now' :
+							 'You should Stay';
+
+					// if (this.dealerUpCardValue === 2 || 3 || 4 || 5 || 6) {
+					//			return 'Double Down';
+					// } else if (this.dealerUpCardValue === 7 || 8) {
+					//			return 'Stay';
+					// } else {
+					//			return 'Hit';
+					// };
 					break;
 				case 17:
-					if (this.dealerUpCardValue === 2 || 7 || 8 || 9 || 10 || 11) {
-						this.recommendPlay = 'Hit';
-					} else {
-						this.recommendPlay = 'Double Down';
-					};
+					return (this.dealerUpcardValue === 2 || 6 < this.dealerUpCardValue) ? 'Hit on this' : 'Double Down, My Friend'
+					
+					// if (this.dealerUpCardValue === 2 || 7 || 8 || 9 || 10 || 11) {
+					//			return 'Hit';
+					// } else {
+					//			return 'Double Down';
+					// };
 					break;
 				case 15:
 				case 16:
-					if (this.dealerUpCardValue === 4 || 5 || 6) {
-						this.recommendPlay = 'Double Down';
-					} else {
-						this.recommendPlay = 'Hit';
-					};
+					return ( 3 < this.dealerUpCardValue < 7 ) ? 'Double it Up' : 'Hit';
+
+					// if (this.dealerUpCardValue === 4 || 5 || 6) {
+					//			return 'Double Down';
+					// } else {
+					//			return 'Hit';
+					// };
 					break;
 				case 13:
 				case 14:
-					if (this.dealerUpCardValue === 5 || 6) {
-						this.recommendPlay = 'Double Down';
-					} else {
-						this.recommendPlay = 'Hit';
-					};
+					return ( this.dealerUpCardValue === 5 || this.dealerUpCardValue === 6 ) ? 'Double' : 'Hit it';
+
+					// if (this.dealerUpCardValue === 5 || 6) {
+					//			return 'Double Down';
+					// } else {
+					//			return 'Hit';
+					// };
 					break;
 				default:
-					console.log('Error getting strategy in switch 2');
-			};  // end soft total switch
-			console.log(this.recommendPlay, ' - for soft total');
-			return this.recommendPlay;
-		}; // End if for one ace/soft hands.
+					console.log('Error getting strategy in switch 2-softTotals');
+					break;
+			};  							// end soft total switch
+			console.log(this.correctPlay, ' - for soft total');
+			return this.correctPlay;
+		}; 									// End if for one ace/soft hands.
 
 		// No pair/No ace in players hand. (Hard totals).
 		if ((this.playerHand[0] !== this.playerHand[1]) && (!player.playerHasAce)) {
-			if ((0 < this.playerHandValue) && (this.playerHandValue <= 8)) {
-				this.recommendPlay = 'Hit';
+			if (( 0 < this.playerHandValue ) && ( this.playerHandValue <= 8 )) {
+				return 'Hit';
 			};
 
-			if ((this.playerHandValue > 17) && (this.playerHandValue <=21)) {
-				this.recommendPlay = 'Stay';
+			if (( 17 < this.playerHandValue ) && ( this.playerHandValue <= 21 )) {
+				return 'Stay';
 			};
 
 			if (this.dealerUpCardValue === 10 || 11) { 
-				switch (this.playerHandValue) {  // switch 3
+				switch (this.playerHandValue) {   				// switch 3
 					case 17: 
-						this.recommendPlay = 'Stay';
+						return 'Stay';
 						break;
 					case 8:
 					case 9:
@@ -165,19 +233,19 @@ class Strategy {
 					case 14: 
 					case 15:
 					case 16:
-					// case (8 || 9 || 10 || 12 || 13 || 14 || 15 || 16):
-						this.recommendPlay = 'Hit';
+						return 'Hit';
 						break;
 					case 11:
-						this.recommendPlay = 'Double Down';
+						return 'Double Down';
 						break;
 					default:
-						console.log('Error getting strategy in switch 3.')
+						console.log('Error getting strategy in switch 3-hardTotals.');
+						break;
 				};
-			} else if (this.dealerUpCardValue === 7 || 8 || 9) {
-				switch (this.playerHandValue) {  // switch 4
+			} else if ( 7 <= this.dealerUpCardValue && this.dealerUpCardValue <= 9 ) {
+				switch (this.playerHandValue) {  				// switch 4
 					case 17: 
-						this.recommendPlay = 'Stay';
+						return 'Stand Pat';
 						break; 
 					case 8:
 					case 9:
@@ -186,198 +254,218 @@ class Strategy {
 					case 14:
 					case 15:
 					case 16:
-					// case (8 || 9 || 10 || 12 || 13 || 14 || 15 || 16):
-						this.recommendPlay = 'Hit';
+						return 'Hit Here';
 						break;
 					case 10:
 					case 11:
-					// case (10 || 11):
-						this.recommendPlay = 'Double Down';
+						return 'Double Down!!';
 						break;
 					default:
-						console.log('Error getting strategy from switch 4');
+						console.log('Error getting strategy from switch 4-hardTotals');
+						break;
 				};
-			} else if (this.dealerUpCardValue === 4 || 5 || 6) {
-				switch (this.playerHandValue) {  // switch 5
+			} else if ( 4 <= this.dealerUpCardValue && this.dealerUpCardValue <= 6 ) {
+				switch (this.playerHandValue) {  				// switch 5
 					case 12:
 					case 13:
 					case 14:
 					case 15:
 					case 16:
 					case 17:
-					// case (12 || 13 || 14 || 15 || 16 || 17): 
-						this.recommendPlay = 'Stay'; 
+						return 'Stay'; 
 						break;
 					case 8:
-						this.recommendPlay = 'Hit';
+						return 'Thats a Hit Hand';
 						break;
 					case 9:
 					case 10:
 					case 11:
-					// case (9 || 10 || 11):
-						this.recommendPlay = 'Double Down';
+						return 'Double Your Bet';
 						break;
 					default:
-						console.log('Error getting strategy from switch 5');
-				};				
+						console.log('Error getting strategy from switch 5-hardTotals');
+						break;
+				};
 			} else if (this.dealerUpCardValue === 3) {
-				switch (this.playerHandValue) {   // switch 6
+				switch (this.playerHandValue) {   				// switch 6
 					case 13:
 					case 14:
 					case 15:
 					case 16:
 					case 17:
-					// case (13 || 14 || 15 || 16 || 17): 
-						this.recommendPlay = 'Stay';
+						return 'Stay on this';
 						break; 
 					case 8:
 					case 12:
-					// case (8 || 12):
-						this.recommendPlay = 'Hit';
+						return 'Hit Me';
 						break;
 					case 9: 
 					case 10:
 					case 11: 
-					// case (9 || 10 || 11):
-						this.recommendPlay = 'Double Down';
+						return 'Double';
 						break;
 					default: 
-						console.log('Error gtting strategy from switch 6');
-				}
-				switch (this.playerHandValue) {   // switch 6
-					case 13:
-					case 14:
-					case 15:
-					case 16: 
-					case 17:
-					// case (13 || 14 || 15 || 16 || 17): 
-						this.recommendPlay = 'Stay';
-						break; 
-					case 8:
-					case 12:
-					// case (8 || 12):
-						this.recommendPlay = 'Hit';
+						console.log('Error gtting strategy from switch 6-hardTotals');
 						break;
-					case 9:
-					case 10:
-					case 11:
-					// case (9 || 10 || 11):
-						this.recommendPlay = 'Double Down';
-						break;
-					default: 
-						console.log('Error gtting strategy from switch 6');
-				}
-			} else if (this.dealerUpCardValue === 2) {
-				switch (this.playerHandValue) {   // switch 7
+				};
+			} else if ( this.dealerUpCardValue === 2 ) {
+				switch (this.playerHandValue) {   					// switch 7
 					case 13:
 					case 14:
 					case 15:
 					case 16:
 					case 17:
-					// case (13 || 14 || 15 || 16 || 17): 
-						this.recommendPlay = 'Stay'; 
+						return 'Stay'; 
 						break;
 					case 8:
 					case 9:
 					case 10:
-					// case (8 || 9 || 12):
-						this.recommendPlay = 'Hit';
+						return 'Hit';
 						break;
 					case 10:
 					case 11:
-					// case (10 || 11):
-						this.recommendPlay = 'Double Down';	
+						return 'Double Down';	
 						break;
 					default:
-						console.log('Error getting strategy from switch 7');
+						console.log('Error getting strategy from switch 7-hardTotals');
+						break;
 				};
-			}; 
-			console.log(this.recommendPlay,'recommendedPlay without pair/ace');
-			return this.recommendPlay;	
-		}; // end if hard totals/ no ace
-		if (!this.recommendPlay) {
-			console.log('Error getting strategy.');
-		};
-		return this.recommendPlay;
-	} // end getBasicStrategicPlay()
+			}; 	
+		}; 									// end if hardTotals/ no ace
+		return 'Error in getting Strategy';
+	} 											// end getBasicStrategicPlay()
 
 	getOdds(player, dealer, countedCardsArr, currentCountOdds) {
-		this.dealerUpCardValue = dealer.currentHand[0].value;
-		this.currentCountOdds = 0;
-		this.countedCardsArr = countedCardsArr;
+		let dealerUpCardValue = dealer.currentHand[0].value;
+		// currentCountOdds = 0;
+		// let countedCardsArr = countedCardsArr;
+		let playerHand = player.currentTally;
+		let playerBustOdds = 0;
+		// let handOdds = currentCountOdds += currentCountOdds
 
 		// this.player.playerHandValue = player.currentTally;
 		// Get odds against dealerUpCard
-		this.currentOdds = 48.3;
-		switch (this.dealerUpCardValue) {
-			case 11:
-				this.currentOdds -= 16.0;
-				break;
-			case 10:
-				this.currentOdds -= 16.9;
-				break;
-			case 9:
-				this.currentOdds -= 4.3;
-				break;
-			case 8:
-				this.currentOdds += 5.4;
-				break;
-			case 7:
-				this.currentOdds += 14.3;
-				break;
-			case 6:
-				this.currentOdds += 23.9;
-				break;
-			case 5:
-				this.currentOdds += 23.2;
-				break;
-			case 4:
-				this.currentOdds += 18.0;
-				break;
-			case 3:
-				this.currentOdds += 13.4;
-				break;
-			case 2: 
-				this.currentOdds += 9.8;
-				break;
-			default:
-				this.currentOdds = 0;
-				console.log('error in odds switch');
-				break;
-		}; // End Switch
+		const getDealerUpCardOdds = function() {	
+			switch (dealerUpCardValue) {			// DealerUpCard switch
+				case 11:
+					currentCountOdds -= 16.0;
+					break;
+				case 10:
+					currentCountOdds -= 16.9;
+					break;
+				case 9:
+					currentCountOdds -= 4.3;
+					break;
+				case 8:
+					currentCountOdds += 5.4;
+					break;
+				case 7:
+					currentCountOdds += 14.3;
+					break;
+				case 6:
+					currentCountOdds += 23.9;
+					break;
+				case 5:
+					currentCountOdds += 23.2;
+					break;
+				case 4:
+					currentCountOdds += 18.0;
+					break;
+				case 3:
+					currentCountOdds += 13.4;
+					break;
+				case 2: 
+					currentCountOdds += 9.8;
+					break;
+				default:
+					currentCountOdds = 0;
+					console.log('Error in getOdds switch, try again later.');
+					break;
+			};
+			return currentCountOdds;		 								
+		};										// End dealerUpCardOdds()
 
-		console.log(this.countedCardsArr, 'countedCardsArr');
-		// Adjust odds for dealt/counted cards
-		for (let i = 0; i < this.countedCardsArr.length; i++) {
-			console.log(this.countedCardsArr[i].oddsValue, 'card.oddsValue');
-			this.currentCountOdds += this.countedCardsArr[i].oddsValue;
+		// Adjust and display odds for dealt/counted cards
+		const adjustOddsForCountedCards = (currentCountOdds) => {
+			countedCardsArr.forEach( e => {
+				currentCountOdds += e.oddsValue;
+				console.log(e, ', ');
+			});
 		};
 
-		// for (let card in this.countedCardsArr) {
-		// 	console.log(card.oddsValue, 'card.oddsValue');
-		// 	this.currentCountOdds += card.oddsValue;
-		// };
-		console.log(this.countedCardsArr, this.currentCountOdds, (this.currentOdds += this.currentCountOdds), 'countedCardsArr, currentCountOdds, adjusted odds');
-		return this.currentOdds += this.currentCountOdds, this.currentCountOdds;
-	}  // end getOdds().
+		// Get odds of player busting with next hit
+		const getPlayerBustOdds = function() {
+			switch (playerHand) {
+				case 21:
+					playerBustOdds = 100;
+					return `100%, ${this.playerBustRating.POOR}`;
+					break;
+				case 20:
+					playerBustOdds = 92;
+					return `92%, ${this.playerBustRating.POOR}`;
+					break;
+				case 19:
+					playerBustOdds = 85;
+					return `85%, ${this.playerBustRating.POOR}`;
+					break;
+				case 18:
+					playerBustOdds = 77;
+					return `77%, ${this.playerBustRating.POOR}`;
+					break;
+				case 17:
+					playerBustOdds = 69;
+					return `69%, ${this.playerBustRating.FAIR}`;
+					break;
+				case 16:
+				 	playerBustOdds = 62;
+					return `62%, ${this.playerBustRating.AVERAGE}`;
+				 	break;
+				case 15:
+				 	playerBustOdds = 58;
+					return `58%, ${this.playerBustRating.AVERAGE}`;
+					break;
+				case 14:
+					playerBustOdds = 56;
+					return `56%, ${this.playerBustRating.AVERAGE}`;
+					break;
+				case 13:
+					playerBustOdds = 39;
+					return `39%, ${this.playerBustRating.GOOD}`;
+					break;
+				case 12:
+					playerBustOdds = 31;
+					return `31%, ${this.playerBustRating.GOOD}`;
+					break;
+				default:
+					playerBustOdds = 0;
+					return `0%, ${this.playerBustRating.GREAT}`;
+					break;
+			};
+			console.log(playerBustOdds, '- playerBustOdds');
+			return 'Error getting odds at this time. Check back later.';
+		}; 												// End playerBustOdds
+
+		getDealerUpCardOdds();
+		adjustOddsForCountedCards(currentCountOdds);
+		getPlayerBustOdds();
+
+		// console.log(currentCountOdds, playerBustOdds, '- currentCountOdds, playerBustOdds');
+		console.log(getPlayerBustOdds());
+		return currentCountOdds, playerBustOdds;
+	} 														// end getOdds().
 
 	getCount(dealer, countedCardsArr, currentCountOdds) {
 		this.countedCardsArr = countedCardsArr;
 		this.currentCountOdds = currentCountOdds;
 		this.dealer = dealer;
-		const player = 0;
 
 		const countedRanksArr = this.countedCardsArr.map(function(card) {
 			return card.rank;
 		});
 
-		for (let card in this.countedCardsArr)
-
-		// Get currentCoundOdds
-		this.getOdds(player, this.dealer, this.countedCardsArr, this.currentCountOdds);
-		console.log(`Your current count should be ${this.currentCountOdds}.\n Here are the cards played: 
-			${countedRanksArr}.`)
+		console.log(`Your current count should be ${this.currentCountOdds}.\n Here are the cards played thusfar: \n
+			${countedRanksArr}.`);
 	}
-}; // end Strategy class
+}; 														// end class Strategy
 
 export { Strategy };
