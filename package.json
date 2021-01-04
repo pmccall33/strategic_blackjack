@@ -3,9 +3,12 @@
   "version": "1.0.0",
   "description": "# A Basic Blackjack game",
   "main": "index.html",
+  "type": "module",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "start": "node app.js"
   },
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pmccall33/project-1-blackjack.git"
