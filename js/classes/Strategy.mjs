@@ -15,11 +15,11 @@ class Strategy {
 		this.currentCountOdds = 0,
 		this.playerBustOdds = 0,
 		this.playerBustRating = localHelperFunctions.createEnumFromObjOfStrings({
-			'great' : ' 👍 💰 Go for it. Zero odds of busting.',
-			'good' : ' ✅ Pretty darn Good.',
-			'average' : ' ↔️ Just about even odds.',
-			'fair' : ' ⚠️ Cuidado, Not so swell.',
-			'poor' : '  ❌ Wouldn\'t advise it.' 
+			'GREAT' : ' 👍 💰 Go for it. Zero chance of busting.',
+			'GOOD' : ' ✅ Pretty darn Good.',
+			'AVERAGE' : ' ↔️ Just about even odds.',
+			'FAIR' : ' ⚠️ Cuidado, Not super swell.',
+			'POOR' : '  ❌ Wouldn\'t advise it.' 
 		})
 		// this.playerBustRating = Object.freeze({
 		//     GREAT:   Symbol(' 👍🏾 💰Great! Zero odds of busting.'),
@@ -32,13 +32,16 @@ class Strategy {
 
 	// Basic Strategy Chart to get correct play upon initial deal
 	getBasicStrategicPlay(player, dealer) {
+		
+		// set player and hand values for strategy
 		this.player = player;
-		// Update player data
-		// this.player.handValue(player);
-
 		this.playerHand = player.currentHand;
 		this.playerHandValue = player.currentTally;
 		this.dealerUpCardValue = dealer.currentHand[0].value;			
+		
+		// Update player data
+		// this.player.handValue(player);
+
 
 		// console.log(player, '--player in getStrategy');
 		// console.log(dealer, '--dealer in getStrategy');
@@ -382,7 +385,7 @@ class Strategy {
 					break;
 				default:
 					currentCountOdds = 0;
-					console.log('Error in getOdds switch, try again later.');
+					console.log('Error in getDealerUpCardOdds switch, try again later.');
 					break;
 			};
 			return currentCountOdds;		 								
@@ -390,63 +393,75 @@ class Strategy {
 
 		// Adjust and display odds for dealt/counted cards
 		const adjustOddsForCountedCards = (currentCountOdds) => {
-			countedCardsArr.forEach( e => {
-				currentCountOdds += e.oddsValue;
-				console.log(e, ', ');
+			countedCardsArr.forEach( card => {
+				currentCountOdds += card.oddsValue;
 			});
 		};
 
 		// Get odds of player busting with next hit
-		const getPlayerBustOdds = function() {
+		const getPlayerBustOdds = (player) => { 
+			let currentBustRating = this.playerBustRating.GREAT;
+
+			if (playerHand > 1 && playerHand < 12) {
+				return playerBustOdds = 0
+			}
+
 			switch (playerHand) {
 				case 21:
 					playerBustOdds = 100;
-					return `100%, ${this.playerBustRating.POOR}`;
+					currentBustRating = this.playerBustRating.POOR;
 					break;
 				case 20:
 					playerBustOdds = 92;
-					return `92%, ${this.playerBustRating.POOR}`;
+					currentBustRating = this.playerBustRating.POOR;
 					break;
 				case 19:
 					playerBustOdds = 85;
-					return `85%, ${this.playerBustRating.POOR}`;
+					currentBustRating = this.playerBustRating.POOR;
 					break;
 				case 18:
 					playerBustOdds = 77;
-					return `77%, ${this.playerBustRating.POOR}`;
+					currentBustRating = this.playerBustRating.POOR;
 					break;
 				case 17:
 					playerBustOdds = 69;
-					return `69%, ${this.playerBustRating.FAIR}`;
+					currentBustRating = this.playerBustRating.FAIR;
 					break;
 				case 16:
 				 	playerBustOdds = 62;
-					return `62%, ${this.playerBustRating.AVERAGE}`;
+					currentBustRating = this.playerBustRating.FAIR;
 				 	break;
 				case 15:
 				 	playerBustOdds = 58;
-					return `58%, ${this.playerBustRating.AVERAGE}`;
+					currentBustRating = this.playerBustRating.AVERAGE;
 					break;
 				case 14:
 					playerBustOdds = 56;
-					return `56%, ${this.playerBustRating.AVERAGE}`;
+					currentBustRating = this.playerBustRating.AVERAGE;
 					break;
 				case 13:
 					playerBustOdds = 39;
-					return `39%, ${this.playerBustRating.GOOD}`;
+					currentBustRating = this.playerBustRating.GOOD;
 					break;
 				case 12:
 					playerBustOdds = 31;
-					return `31%, ${this.playerBustRating.GOOD}`;
+					currentBustRating = this.playerBustRating.GOOD;
 					break;
 				default:
-					playerBustOdds = 0;
-					return `0%, ${this.playerBustRating.GREAT}`;
-					break;
-			};
-			console.log(playerBustOdds, '- playerBustOdds');
-			return 'Error getting odds at this time. Check back later.';
-		}; 												// End playerBustOdds
+					playerBustOdds = NaN;
+					console.log('Error getting bust odds at this time. Check back later.');
+					break
+				};
+				console.log(playerBustOdds, '- playerBustOdds');
+				console.log(currentBustRating, '- currentBustRating');
+				return playerBustOdds, currentBustRating;				
+		}; 
+
+		// const messagePlayerOdds () => {
+			
+		// }	
+
+													// End playerBustOdds
 
 		getDealerUpCardOdds();
 		adjustOddsForCountedCards(currentCountOdds);
