@@ -1,14 +1,14 @@
 {
   "name": "strategic_blackjack",
   "version": "1.0.0",
-  "description": "# A Basic Blackjack game",
-  "main": "index.html",
+  "description": "# A Basic Blackjack game to teach strategy",
   "type": "module",
+  "main": "index.html",
   "scripts": {
     "test": "test",
-    "start": "node app.js"
+    "start": "node server.js",
+    "dev": "nodemon server.js"
   },
-
   "repository": {
     "type": "git",
     "url": "git+https://github.com/pmccall33/project-1-blackjack.git"
@@ -23,8 +23,20 @@
   },
   "homepage": "https://github.com/pmccall33/project-1-blackjack#readme",
   "dependencies": {
+    "@std/esm": "^0.26.0",
     "babel-preset-env": "^1.7.0",
     "babel-register": "^6.26.0",
-    "require.js": "^1.0.0"
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "joi": "^17.3.0",
+    "luxon": "^1.25.0",
+    "method-override": "^3.0.0",
+    "mongoose": "^5.11.10",
+    "nodemon": "^2.0.7",
+    "pg": "^8.5.1",
+    "require.js": "^1.0.0",
+    "sequelize": "^6.3.5",
+    "superagent": "^6.1.0"
   }
 }

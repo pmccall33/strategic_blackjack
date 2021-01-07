@@ -61,3 +61,14 @@ Natural Blackjack				4.82%
 17								14.58%
 Non-Bust (less than 21)			71.63%
 Bust (more than 21)				28.37%
+
+
+
+
+
+
+
+
+
+
+
