@@ -1,6 +1,6 @@
 # project-1-blackjack
 
-# A Basic Blackjack game
+# A Blackjack game to learn Basic Strategy
 
 ## Who -
 ### Developed by Peter McCall Murray.  
