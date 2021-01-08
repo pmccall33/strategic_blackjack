@@ -9,7 +9,7 @@ import { HelperFunctions } 	from './HelperFunctions.mjs';
 
 // TODO : 	-Fix all the stuff and things and make it all better
 // 	  	  	-switch testing and fixes
-//		  	-get methods in classes?
+
 
 
 /*  <<<=================================================================>>>
@@ -556,7 +556,7 @@ const $stayBtn   		= $('#stay-btn');
 const $betBtn    		= $('#bet-btn');
 const $clrBetBtn 		= $('#clr-bet-btn');
 const $plcBetBtn 		= $('#plc-bet-btn');
-const $strategyBtn 		= $('#strategy-btn');
+const $strategyBtn 	= $('#strategy-btn');
 
 $('#deal-btn-one').on('click', () => {
   console.log('deal btn was clicked');
@@ -704,6 +704,30 @@ $('#count-btn-two').on('click', () => {
 	const dealer = game.dealer;
 	game.strategy.getCount(dealer, countedCardsArr, currentCountOdds);
 });
+
+// Welcome messaging
+$(window).on('load', async () => {
+  let session = '';
+  const userLogged = session.loggedIn;
+  const messageLeft = $(`#home-message-box-left`);
+  const messageRight = $(`#home-message-box-right`);
+  const messageBoxLeft = $(`#home-message-container-left`);
+  const messageBoxRight = $(`#home-message-container-right`);
+  let welcomeMessage;
+  let message = welcomeMessage;
+  userLogged ? welcomeMessage = `Howdy ${session.username}, let's head over to the table, shall we?`
+    : message = 'Howdy Stranger, welcome to Strategic Blackjack!';
+    messageLeft.append(`${message}`)//.fadeIn(1200);
+  setTimeout(() => {  
+    message = '';
+    messageLeft.fadeOut('slow');
+    messageLeft.append(message);
+  }, 5200);
+
+
+
+});
+
 
 // Sample slick script
 // $(document).ready(function(){

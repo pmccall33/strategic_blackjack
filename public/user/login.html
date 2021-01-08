@@ -3,22 +3,23 @@
 
 <head>
 	<title>Blackjack</title>
+	<!-- CDN scripts -->
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/2.0.5/velocity.js"></script>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/2.0.5/velocity.ui.js"></script>
-	<link rel="stylesheet" href="jquery-ui-1.12.1/jquery-ui.min.css">
-  	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-  	<script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
-  	<!-- jquery ui lib -->
-	<script src="jquery-ui-1.12.1/external/jquery/jquery.js"></script>
-	<script src="jquery-ui-1.12.1/jquery-ui.min.js"></script>
-	<!-- slick ui lib -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/2.0.6/velocity.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/2.0.6/velocity.ui.min.js"></script>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 	<script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
-	<script type="text/javascript" src="slick/slick.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="slick/slick.css"/>
-	<!-- // Add the new slick-theme.css if you want the default styling -->	
-	<link rel="stylesheet" type="text/css" href="slick/slick-theme.css"/>
-	<link rel="stylesheet" href="css/style.css">
+  <!-- jquery ui lib -->
+	<script src="../jquery-ui-1.12.1/external/jquery/jquery.js"></script>
+	<script src="../jquery-ui-1.12.1/jquery-ui.min.js"></script>
+	<!-- slick ui lib -->
+	<script type="text/javascript" src="../slick/slick.min.js"></script>
+	<!-- stylesheets -->
+	<link rel="stylesheet" href="../jquery-ui-1.12.1/jquery-ui.min.css">
+	<link rel="stylesheet" type="text/css" href="../slick/slick.css"/>
+	<link rel="stylesheet" type="text/css" href="../slick/slick-theme.css"/>
+	<link rel="stylesheet" href="../css/style.css">
 	<link href='https://fonts.googleapis.com/css?family=Alegreya+Sans+SC:500,500italic|Exo+2:400,100,400italic' rel='stylesheet' type='text/css'>
 </head>
 
@@ -31,23 +32,14 @@
 		<!--  <img src="assets/table-images/header-cards-1.jpg" alt="blackjack cards image" id="header-cards-2"> -->
 	</header>
 	<nav>
-		<a href="./home.html">Home</a>
+		<a href="../home.html">Home</a>
 		<a href="<%= userBarId %>">My Account</a>
-		<a href="./rules.html">Rules</a>
-		<a href="./about.html">About</a>
+		<a href="../rules.html">Rules</a>
+		<a href="../about.html">About</a>
 		<a href="/user/login.html">Login</a>
-		<a href="/user/register">Sign Up</a>
+		<a href="/user/register.html">Sign Up</a>
 		<a href="/user/logout.html">Logout</a>
 	</nav>
-  <nav>
-    <a class="site-nav-link" href="./home.html">Home</a>
-    <a class="site-nav-link" href="<%= userBarId %>">My Account</a>
-    <a class="site-nav-link" href="./rules.html">Rules</a>
-    <a class="site-nav-link" href="./about.html">About</a>
-    <a class="user-nav-link" href="/user/login.html">Login</a>
-    <a class="user-nav-link" href="/user/register">Sign Up</a>
-    <a class="user-nav-link" href="/user/logout.html">Logout</a>
-  </nav>
   <div class="login-box-container">
       <div class="login-box">
         <form action="/user/login" method="POST">
@@ -59,15 +51,15 @@
         <small><a href="/user/register">Sign Up!</a></small>
       </div>
   </div>
-	<div class="container table-content">
+	<div class="container body-content">
 		<footer class="footer">
 			<small>&copy petermccallmurray, 2019</small>
 		</footer>
 	</div>
 </body>
 <!--   	<script src="assets/table-images/black:green-fade-2.jpeg"></script>
- --><script src="card-images.mjs"></script>
-	<script data-main="scripts/main" src="js/scripts/require.js"></script>
-	<script src="js/app.mjs" type="module"></script>
-	<script src="js/start.js" type="module"></script>
+ --><script src="../card-images.mjs"></script>
+	<script data-main="scripts/main" src="../js/scripts/require.js"></script>
+	<script src="../js/app.mjs" type="module"></script>
+	<script src="../js/start.js" type="module"></script>
 </html>
