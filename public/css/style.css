@@ -5,9 +5,11 @@ body {
 	width: 100%;
 	height: 100%;
 	max-width: 1260px;
+	max-height: 960px;
 	margin: 2px 0 -2px 0;
 	padding: 6px 6px;
 	margin: 0 auto;
+	z-index: 0;
 	background-repeat: no-repeat;
 	background-size: 80%;
 	background-position: center; ;
@@ -54,9 +56,9 @@ header {
 		1.5px 1.5px 0 #000;
 }
 
-.container.body-content {
-    padding-bottom: 110px;
-    height: 1000px; /* Force height on body */
+.body-content {
+    padding-bottom: 16px;
+    max-height: 1260px;
     margin-top: -4%;
 }
 
@@ -78,6 +80,10 @@ footer, .footer {
 	border-top: 6px solid rgba(191, 86, 78);
 }
 
+nav {
+	margin-bottom: 16px;
+}
+
 a, nav {
 	font-family: Arial, Helvetica, sans-serif;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -87,11 +93,100 @@ a, nav {
 	font-size: 22px;
 	margin-right: 12px;
 	margin-left: 8px;
+	margin: 0 12px 1% 8px;
+	z-index: 12;
 	text-shadow: 
 		-1px -1px #000,
 		-1px 1px #000,
 		1px -1px #000,
 		1px 1px #000;
+}
+
+a, nav, .login-link {
+	display: inline-flex;
+;	flex-direction: row;
+	align-content: center;
+	justify-content: center;
+	align-items: center
+	margin: 20 0 20 0;
+	width: 80%%;
+}
+
+
+.dealer-container {
+	position: fixed;
+	display: flex;
+	align-content: center;
+	justify-content: center;
+	align-items: center;
+	min-height: 400px;
+	max-height: 600px;
+	/*margin: 20 0 20 0;*/
+	width: 72%%;
+}
+
+.home-message-container {
+	position: fixed;
+	display: inline-flex;
+	flex-direction: row;
+	align-self: center;
+	align-content: space-between;
+	justify-content: space-between;
+	align-items: center;
+	margin: 0 auto;
+/*	min-height: 400px;
+	max-height: 600px;*/
+	width: 98%%;
+}
+
+#home-message-container-one {
+	position: relative;
+	display: flex;
+	align-self: center;
+	align-content: center;
+	justify-content: left;
+	align-items: left;
+/*	min-height: 400px;
+	max-height: 600px;*/
+	margin: -852px 0 0 0;
+	width: 24%%;
+}
+
+#home-message-container-two {
+	position: relative;
+	display: flex;
+	align-self: center;
+	align-content: center;
+	justify-content: right;
+	align-items: right;
+/*	min-height: 400px;
+	max-height: 600px;*/
+	margin: -852px 0 0 0;
+	width: 24%%;
+}
+
+#home-message-box-left {
+	position: relative;
+	align-self: left;
+	margin: 2% 12% -30% 42%;
+	/*margin-left: 580px;*/
+	z-index: 11;
+}
+
+#home-message-box-right {
+	position: relative;
+	align-self: right;
+	margin: 2% 36% -30% 24%;
+	/*margin-left: 580px;*/
+	z-index: 11;
+}
+
+#dealer-image {
+	position: relative;
+	height: 40%;
+	margin: 0% 1% 0% 6%;
+	align-self: center;
+	/*max-height: 400px;*/
 }
 
 h1 {
