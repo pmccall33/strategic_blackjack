@@ -34,6 +34,29 @@ const shmoo = HelperFunctionsInstance.createEnumFromArr(['Dog', 12, 'Cat', 'Aard
 // console.log(schmoo2);
 // schmoo2.KOALA = 'frog';
 
+// set up a promise return for setTimeout - HelperFuncs
+
+  const timeout = async (ms) => {
+    await new Promise(resolve => setTimeout(resolve, ms));
+    console.log('waited...');
+  }
+
+  const delayFade = async (fn, msg, ms) => {
+    console.log('waiting...');
+    await timeout(ms);
+    console.log('...waited');
+    return fn(msg, ms);
+  }
+
+  const fadeInMessage = (message) => {
+    setTimeout(() => {  
+      console.log('fadeInM called/////')
+      messageLeft.fadeIn('slow');
+      messageLeft.html(`${message}`);
+    }, 2000);
+  }
+// Use
+  // delayFade(fadeInMessageLeft, message, 3000);
 
 
 export { HelperFunctions };

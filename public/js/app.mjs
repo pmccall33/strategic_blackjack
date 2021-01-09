@@ -7,6 +7,10 @@ import { Player } 			from './classes/Player.mjs';
 import { strategyTesting }  from '../testing/strategyTesting.mjs';
 import { HelperFunctions } 	from './HelperFunctions.mjs';
 
+
+const helperFunc      = new HelperFunctions();
+// const strategyTesting = new strategyTesting();
+
 // TODO : 	-Fix all the stuff and things and make it all better
 // 	  	  	-switch testing and fixes
 
@@ -31,9 +35,9 @@ const game = {
 	playerBetButtonClicked: false,
 
 	
-	clearMessage() {
+	clearMessage(message) {
 		setTimeout ( function() {
-			$(`.message`).hide('slide', 1500, callback);
+			$(message).hide('slide', 1500, callback);
 			// $(`.message`).html('');
 		}, 3000);
 
@@ -713,19 +717,55 @@ $(window).on('load', async () => {
   const messageRight = $(`#home-message-box-right`);
   const messageBoxLeft = $(`#home-message-container-left`);
   const messageBoxRight = $(`#home-message-container-right`);
+  messageRight.hide();
   let welcomeMessage;
-  let message = welcomeMessage;
-  userLogged ? welcomeMessage = `Howdy ${session.username}, let's head over to the table, shall we?`
+  let message;
+  
+  // if user is loggedIn show message and redirect to table
+  // if !user Logged welcome messages
+  userLogged ? message = `Howdy ${session.username}, let's head over to the table, shall we?`
     : message = 'Howdy Stranger, welcome to Strategic Blackjack!';
-    messageLeft.append(`${message}`)//.fadeIn(1200);
+    messageLeft.html(`${message}`);
   setTimeout(() => {  
-    message = '';
     messageLeft.fadeOut('slow');
-    messageLeft.append(message);
-  }, 5200);
+    messageLeft.html('');
+  }, 3200);
 
+// set up a promise return for setTimeout - HelperFuncs
+  const timeout = async (ms) => {
+    await new Promise(resolve => setTimeout(resolve, ms));
+    console.log('waited...');
+  }
 
+  const delayFade = async (fn, msg, ms) => {
+    console.log('waiting...');
+    await timeout(ms);
+    console.log('...waited');
+    return fn(msg, ms);
+  }
 
+// Use
+  const fadeInMessageLeft = (message) => {
+    setTimeout(() => {  
+      console.log('fadeInM called///// ------ L')
+      messageLeft.fadeIn('slow');
+      messageLeft.html(`${message}`);
+    }, 2000);
+  }
+
+    const fadeInMessageRight = (message) => {
+    setTimeout(() => {  
+      console.log('fadeInM called///// ----- R')
+      messageRight.fadeIn('slow');
+      messageRight.html(`${message}`);
+    }, 2000);
+  }
+
+  message = 'Try signing on \in up top ⬆️...';
+  delayFade(fadeInMessageLeft, message, 3000);
+
+  message = 'Or maybe you need to brush up on the rules first?'
+  delayFade(fadeInMessageRight, message, 6000);
 });
 
 
