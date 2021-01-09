@@ -31,34 +31,51 @@
     <h1 class="header-title">   Blackjack!</h1>
   </header>
   <nav>
-    <a class="site-nav-link" href="./home.html">Home</a>
-    <a class="site-nav-link" href="<%= userBarId %>">My Account</a>
-    <a class="site-nav-link" href="./rules.html">Rules</a>
-    <a class="site-nav-link" href="./about.html">About</a>
-    <a class="user-nav-link" href="/user/login.html">Login</a>
-    <a class="user-nav-link" href="/user/register,html">Sign Up</a>
-    <a class="user-nav-link" href="/user/logout.html">Logout</a>
+    <a href="../home.html">Home</a>
+    <a href="<%= userBarId %>" id="user-link">My Account</a>
+    <a href="../rules.html">Rules</a>
+    <a href="../about.html">About</a>
+    <div class="login-link">
+      <a href="/register.html" id="register-link">Login/Sign Up</a>
+      <a href="/logout.html"id="login-link">Logout</a>
+    </div>
   </nav>
-  <div class="login-box-container">
+  
+  <div class="dealer-container">
+    <div class="dealer-image-container">
+      <img id="dealer-image" src="https://thumbs.dreamstime.com/b/handsome-dealer-shuffling-playing-cards-deck-chips-green-table-casino-gambling-poker-people-entertainment-concept-109414284.jpg" alt="Dealer image"></img>
+    </div>
+    <div class="message-container" id="home-message-container">
+      <div class="message-container" id="home-message-container-one">
+        <div class="message-box" id="home-message-box-left"></div>
+      </div>
+      <div class="message-container" id="home-message-container-two">
+        <div class="message-box" id="home-message-box-right"></div>
+      </div>
+    </div>
+  </div>
+  <div class="login-box-container">    
+    <div id="register-login-container">      
       <div class="login-box">
-        <form action="/user/login" method="POST">
+        <form action="/login" method="POST">
           <input type="text" name="username" placeholder="username" /><br />
           <input type="password" name="password" placeholder="password" /><br />
           <button>Log in</button>
         </form>
         <%=message%><br>
-        <small><a href="/user/login">Already a Player? Login</a></small>
+        <small><a class="login-a" href="/login">Already a CardSharp? Login here.</a></small>
       </div>
+    </div>
   </div>
-  <div class="container table-content">
+  <div class="container body-content">
     <footer class="footer">
       <small>&copy petermccallmurray, 2019</small>
     </footer>
   </div>
 </body>
 <!--    <script src="assets/table-images/black:green-fade-2.jpeg"></script>
- --><script src="card-images.mjs"></script>
-  <script data-main="scripts/main" src="js/scripts/require.js"></script>
-  <script src="js/app.mjs" type="module"></script>
-  <script src="js/start.js" type="module"></script>
+ --><script src="../card-images.mjs"></script>
+  <script data-main="scripts/main" src="../js/scripts/require.js"></script>
+  <script src="../js/app.mjs" type="module"></script>
+  <script src="../js/start.js" type="module"></script>
 </html>

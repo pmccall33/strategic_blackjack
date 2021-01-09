@@ -6,6 +6,7 @@ body {
 	height: 100%;
 	max-width: 1260px;
 	max-height: 960px;
+	min-height: 620px;
 	margin: 2px 0 -2px 0;
 	padding: 6px 6px;
 	margin: 0 auto;
@@ -15,6 +16,19 @@ body {
 	background-position: center; ;
 	background-color: #000000;
 	background-image: url("../assets/table-images/black:green-fade-2.jpeg");
+
+}
+
+.body-content {
+    height: 98%;
+    max-height: 1260px;
+    margin: -12% 0 2% 0;
+}
+
+
+.container .table-content {
+	/*margin-top: -6%;*/
+	padding-bottom: 110px;
 }
 
 div {
@@ -54,17 +68,6 @@ header {
 		1.5px -1.5px 0 #000,
 		-1.5px 1.5px 0 #000,
 		1.5px 1.5px 0 #000;
-}
-
-.body-content {
-    padding-bottom: 16px;
-    max-height: 1260px;
-    margin-top: 2%;
-}
-
-.container.table-content {
-	margin-top: -6%;
-	padding-bottom: 110px;
 }
 
 footer, .footer {
@@ -124,6 +127,8 @@ a, nav, .login-link {
 	/*margin: 20 0 20 0;*/
 	width: 72%%;
 }
+
+		/*  ~~~~~~~~~~~~~ /home page ~~~~~~~~~~~~~~~~~~~~ */
 
 .home-message-container {
 	position: fixed;
@@ -188,6 +193,38 @@ a, nav, .login-link {
 	align-self: center;
 	/*max-height: 400px;*/
 }
+
+/* ~~~~~~ 		/register page 				~~~~~~~~~~~~~~~~~~~~*/
+
+.login-box {
+  width: 30vw;
+  background-color: rgba(255, 255, 255, .9);
+  z-index: 9;
+  align-items: center;
+  text-align: center;
+  border: 2px solid black;
+  border-radius: 10px;
+  padding-top: 10px;
+  margin: -42% 0 0 -6%;
+}
+
+.login-box input {
+  border: 4px solid lightgrey;
+  margin: 2px;
+  border-radius: 10px;
+  padding-left: 10px;
+}
+
+.login-box button {
+  margin: 10px 0;
+  border-radius: 10px;
+  border: 2px solid lightgrey;
+}
+
+.login-box a {
+  padding-bottom: 10px;
+}
+
 
 h1 {
 	font-family: Arial, Helvetica, sans-serif;
