@@ -1,23 +1,74 @@
 console.log('Howdy- Blackjack');
 
-import { Strategy } 		from './classes/Strategy.mjs';
-import { Deck } 			from './classes/Deck.mjs';
-import { Card } 			from './classes/Card.mjs';
-import { Player } 			from './classes/Player.mjs';
+import { Strategy } 		    from './classes/Strategy.mjs';
+import { Deck } 			      from './classes/Deck.mjs';
+import { Card } 			      from './classes/Card.mjs';
+import { Player } 			    from './classes/Player.mjs';
 import { strategyTesting }  from '../testing/strategyTesting.mjs';
 import { HelperFunctions } 	from './HelperFunctions.mjs';
 
 
-const helperFunc      = new HelperFunctions();
+const doc = document;
+const win = window;
+
+const hf  = new HelperFunctions();
 // const strategyTesting = new strategyTesting();
 
+
+//Promise handling method funcs --------
+
+// // .then with two callbacks *****
+// await this.User.create(userInfo).then(createdUser => {
+//     // user was successfully created
+//     console.log(createdUser)
+//     // business logic goes here
+// }, error => {
+//     console.error(error) // from creation
+// });
+
+
+
+// // instance of filter
+// try {
+//     const createdUser = await this.User.create(userInfo);
+//     // user was successfully created
+//     console.log(createdUser)
+//     // business logic goes here
+// } catch (error) {
+//     if (error instanceof CreationError) {
+//         console.error(error) // from creation
+//     } else {
+//         throw error;
+//     }
+// };
+
+// // iterate async but sequence over promise arr
+// async function printFiles () {
+//   const files = await getFilePaths();
+
+//   await files.reduce(async (promise, file) => {
+//     // This line will wait for the last async function to finish.
+//     // The first iteration uses an already resolved Promise
+//     // so, it will immediately continue.
+//     await promise;
+//     const contents = await fs.readFile(file, 'utf8');
+//     console.log(contents);
+//   }, Promise.resolve());
+// }
+// // astnc promise wrap - err handle w resolve
+  const asyncWrap = (route) => (req, res, next = console.error) => {
+    Promise.resolve(route(req, res)).catch(next);
+  };
+// // Promise err catch function
+  async function promErrCatch (Promise) {
+    Promise.then(data => [null, data], err => [err, null]);
+  };
 // TODO : 	-Fix all the stuff and things and make it all better
 // 	  	  	-switch testing and fixes
 
 
-
 /*  <<<=================================================================>>>
-		 					Game Object 
+		 					Game Object
 	<<<=================================================================>>> */
 
 const game = {
@@ -34,7 +85,7 @@ const game = {
 	message: '',
 	playerBetButtonClicked: false,
 
-	
+
 	clearMessage(message) {
 		setTimeout ( function() {
 			$(message).hide('slide', 1500, callback);
@@ -76,20 +127,20 @@ const game = {
 			let player = new Player();
 			this.players.push(player);
 		};
-		
+
 		// Create and shuffle Deck
 		this.deck = new Deck();
 		this.deck.shuffleCards();
 
-		// Welcome messages		
+		// Welcome messages
 		this.message = 'Welcome to the table, have a seat...';
-		$(`.message`).append(this.message).hide().fadeIn(1600);		
-		
+		$(`.message`).append(this.message).hide().fadeIn(1600);
+
 		this.clearMessage();
 
 		// setTimeout ( function () {
 		// 	$(`.message`).hide('slide', 2000);
-		// 	this.clearMessage();	
+		// 	this.clearMessage();
 		// }, 5000);
 
 		setTimeout ( function () {
@@ -116,16 +167,16 @@ const game = {
 	      this.currentPlayerIndex += 1;
 	      this.checkForBlackjack(this.players, this.currentPlayerIndex);
 	    } else {
-	      this.dealerPlay();	
+	      this.dealerPlay();
 	    };
 	},
 
-	placeYourBets(player) {							
+	placeYourBets(player) {
 
 		// Display playerChipStacks
 		this.updateChipTotal(player);
 
-		// Place bets here and don't deal cards until betting is done		
+		// Place bets here and don't deal cards until betting is done
 		this.players[player].playerBetPlaced = true;
 
 		if (this.players[0].playerBetPlaced && this.players[1].playerBetPlaced) {
@@ -133,8 +184,8 @@ const game = {
 		};
 
 		// Jquery insert chip graphic and other?  // TODO ---------------<<<<<<
-	},			
-										
+	},
+
 	checkForBlackjack(players, player) {
 		// Get currentTally and handValue from checkForBust() and handValue()
 		for (let player in players) {
@@ -146,7 +197,7 @@ const game = {
 		if ((this.players[player].currentHand.length === 2) && (this.players[player].currentTally === 21)) {
 			this.players[player].playerBlackjack = true;
 			this.players[player].playerChipStack += (this.players[player].playerBet * 1.5);
-			
+
 			// Messaging
 			// this.clearMessage();
 			setTimeout ( function() {
@@ -176,7 +227,7 @@ const game = {
 		$(`.message`).append(this.message).hide().fadeIn(1600);
 		setTimeout ( function() {
 		}, 3000);
-			$(`.message`).hide('shake', 600);			
+			$(`.message`).hide('shake', 600);
 
 		// Display players ChipStack
 		this.updateChipTotal();
@@ -205,8 +256,8 @@ const game = {
 		// Get/Set initial odds
 		// ClearOdds() if necessary here <----------
 		this.checkForBlackjack(this.players, this.currentPlayerIndex);
-	},	
-	
+	},
+
 	playerBet(player) {
 		// Set betting status to true and increment by 5
 		this.players[player].playerBetPlaced = true;
@@ -233,19 +284,19 @@ const game = {
 		// Do not allow if bet not placed or zero
 		// Allow only if its players turn
 
-		if (player === this.currentPlayerIndex && this.players[player].playerBetPlaced && this.players[player].playerBet !== 0 ) {		
+		if (player === this.currentPlayerIndex && this.players[player].playerBetPlaced && this.players[player].playerBet !== 0 ) {
 			if (this.players[player].currentHand.length < 5) {
 				// player dealt a card
 				const card = this.deck.dealCard();
 				this.players[player].receiveCard(card);
 				this.countedCardsArr.push(card);
-				
+
 				// add card img element to card div
 				$(`#player-${player + 1}-hit-cards .card`).append(card.getHTML());
 
 				// check player currentHand for bust
 				this.players[player].checkForBust();
-				
+
 				// if bust === true alert player and call nextPlayer
 				if (this.players[player].checkForBust()) {
 					// Messaging upon player bust
@@ -254,7 +305,7 @@ const game = {
 					$(`.message`).append(`Sorry ${player + 1}, you're busted.`).fadeIn(1000);
 					setTimeout ( function() {
 					}, 6000)
-					
+
 					this.clearMessage();
 
 					this.nextPlayer();
@@ -282,10 +333,10 @@ const game = {
 			this.players[player].checkForBust();
 			this.players[player].handValue();
 			this.nextPlayer(this.players, this.currentPlayerIndex);
-		}		
+		}
 	},
 
-	dealerInitialDeal() {											
+	dealerInitialDeal() {
 		// Add card element to the dealer card div
 		const card1 = (this.deck.dealCard());
 		$('#dealer-cards #card-one').append(card1.getHTML());
@@ -294,7 +345,7 @@ const game = {
 		this.dealer.handValue();
 	},
 
-	dealerHand() {												
+	dealerHand() {
 		this.dealer.handValue();
 	},
 
@@ -306,7 +357,7 @@ const game = {
 		$(`.message`).html('');
 		// setTimeout(function() {
 		// $(`.message`).append('Dealer has... .');
-		// }, 6000); 
+		// }, 6000);
 
 	    // 'Flip' down card
 	    $(`#dealer-card-reverse`).hide();
@@ -319,14 +370,14 @@ const game = {
 		$('#dealer-cards #dealer-card-two').append(card2.getHTML());
 		this.dealer.receiveCard(card2);
 	    this.dealer.checkForBust();
-		
+
 		// get dealers currentTally
 		this.dealer.currentTally = 0;
 		for (let i = 0; i < this.dealer.currentHand.length; i++) {
           this.dealer.currentTally += this.dealer.currentHand[i].value;
         }
 
-		   	for (let i = 0; i < 3; i++) { 
+		   	for (let i = 0; i < 3; i++) {
 		    	if (this.dealer.currentTally < 17 && this.dealer.currentTally != 21 && this.dealer.currentHand.length < 5) {
 			    	// dealer hits
 			    	card = (this.deck.dealCard());
@@ -344,8 +395,8 @@ const game = {
 				    this.dealer.checkForBust();
 		    	}
 		   	}
-		// this.dealer.checkForBust(); 	
-	    this.endRound();											
+		// this.dealer.checkForBust();
+	    this.endRound();
 	},
 
 	clearTable() {
@@ -415,12 +466,12 @@ const game = {
 				this.players[i].playerChipStack += (this.players[i].playerBet * 2);
 				console.log(this.players[i].playerChipStack, 'new chipstack at win ---');
 				this.updateChipTotal();
-				
+
 				// Win massage display
 				// this.clearMessage();
 				setTimeout( function() {
 				}, 3200);
-				setTimeout( function() {	
+				setTimeout( function() {
 				$(`.message`).append(`Player ${i + 1} Wins! Huzzahs and Hosannahs!`).fadeIn(1600);
 				}, 3000);
 				$(`.message`).hide('pulsate', 1200);
@@ -433,12 +484,12 @@ const game = {
 				// setTimeout (function() {
 				// this.players[i].playerChipStack = this.players[i].playerChipStack -
 				// 	(this.players[i].playerBet);
-				
+
 				// PLayer loses message
 				// this.clearMessage();
 				setTimeout( function() {
 				}, 3200);
-				setTimeout( function() {					
+				setTimeout( function() {
 				$(`.message`).append(`Player ${i + 1} loses! Harrumph and Shucks-gollygeeze-darn-it-to-heck.`).fadeIn(1600);
 				}, 3000);
 				setTimeout( function() {
@@ -447,7 +498,7 @@ const game = {
 				// $(`.message`).html('');
 				// this.clearMessage();
 
-			} else if (playerFinalTotal === dealerTotal) {				
+			} else if (playerFinalTotal === dealerTotal) {
 				//It's a push chipStack update
 				this.players[i].playerChipStack += this.players[i].playerBet;
 				this.updateChipTotal();
@@ -461,7 +512,7 @@ const game = {
 				// this.clearMessage();
 			} else if (playerFinalTotal < 22 && dealerTotal > 21) {
 				this.players[i].playerChipStack += this.players[i].playerBet;
-				this.updateChipTotal();	
+				this.updateChipTotal();
 			}
 			$(`.message`).html('');
 		}
@@ -472,13 +523,13 @@ const game = {
 		$(`.message`).append('Good game y\'all\. Play again\?').fadeIn(1600);
 
 			// Clear Table <<<<----------TODO-----<<<
-			// this.clearTable();	
+			// this.clearTable();
 
 			// Show replay btns
 
 	}
 };
-	
+
 game.startGame();
 // game.nextPlayer();
 // console.log(game.currentPlayerIndex);
@@ -514,8 +565,8 @@ $( function() {
 	});
 	$('#slider-bet-amount').val( '$' + $('#bet-slider-1').slider('value'));
 });
-	
-// Hide Effects 
+
+// Hide Effects
 
 // $( function() {
     // Run the currently selected effect
@@ -523,7 +574,7 @@ $( function() {
       // get effect type from
       // let selectedEffect = $('#effectType').val();
       let selectedEffect = 'slide';
- 
+
       // Most effect types need no options passed by default
       let options = {};
       // some effects have required parameters
@@ -532,18 +583,18 @@ $( function() {
       } else if (selectedEffect === 'size') {
         options = { to: { width: 200, height: 60 } };
       }
- 
+
       // Run the effect
       $(`#bet-btn-${playerBetting}, #clr-bet-btn-${playerBetting}, #plc-bet-btn-${playerBetting}`).hide( selectedEffect, options, 1000, /*callback*/ );
     };
- 
+
     // Callback function to bring a hidden box back
     let callback = async () => {
       await setTimeout(function() {
         $(`#bet-btn-${playerBetting}, #clr-bet-btn-${playerBetting}, #plc-bet-btn-${playerBetting}`).removeAttr('style').hide().fadeIn();
       }, 1000 );
     };
- 
+
     // function callback() {
     //   setTimeout(function() {
     //     $( "#effect" ).removeAttr( "style" ).hide().fadeIn();
@@ -562,6 +613,7 @@ const $clrBetBtn 		= $('#clr-bet-btn');
 const $plcBetBtn 		= $('#plc-bet-btn');
 const $strategyBtn 	= $('#strategy-btn');
 
+
 $('#deal-btn-one').on('click', () => {
   console.log('deal btn was clicked');
   game.startDeal();
@@ -569,12 +621,12 @@ $('#deal-btn-one').on('click', () => {
 
 $('#hit-btn-one').on('click', () => {
 	const player = 0;
-	game.hit(player);	
+	game.hit(player);
 });
- 
+
 $('#stay-btn-one').on('click', () => {
 	const player = 0;
-	game.stay(player);	
+	game.stay(player);
 });
 
 $('#hit-btn-two').on('click', () => {
@@ -584,7 +636,7 @@ $('#hit-btn-two').on('click', () => {
 
 $('#stay-btn-two').on('click', () => {
 	const player = 1;
-	game.stay(player);	
+	game.stay(player);
 });
 
 $('#dbl-btn-one').on('click', () => {
@@ -661,7 +713,7 @@ $('#plc-bet-btn-two').on('click', () => {
 	$(`#player-two-bet-container`).hide('slide', 1500, callback);
 	betButtonSlideHide(playerBetting);
 	setTimeout (() => {
-		$("#player-two-bet-container").remove();	
+		$("#player-two-bet-container").remove();
 	}, 2000);
 	game.placeYourBets(player);
 });
@@ -709,73 +761,262 @@ $('#count-btn-two').on('click', () => {
 	game.strategy.getCount(dealer, countedCardsArr, currentCountOdds);
 });
 
-// Welcome messaging
-$(window).on('load', async () => {
-  let session = '';
-  const userLogged = session.loggedIn;
-  const messageLeft = $(`#home-message-box-left`);
-  const messageRight = $(`#home-message-box-right`);
-  const messageBoxLeft = $(`#home-message-container-left`);
-  const messageBoxRight = $(`#home-message-container-right`);
-  messageRight.hide();
-  let welcomeMessage;
-  let message;
-  
-  // if user is loggedIn show message and redirect to table
-  // if !user Logged welcome messages
-  userLogged ? message = `Howdy ${session.username}, let's head over to the table, shall we?`
-    : message = 'Howdy Stranger, welcome to Strategic Blackjack!';
-    messageLeft.html(`${message}`);
-  setTimeout(() => {  
-    messageLeft.fadeOut('slow');
-    messageLeft.html('');
-  }, 3200);
 
-// set up a promise return for setTimeout - HelperFuncs
-  const timeout = async (ms) => {
-    await new Promise(resolve => setTimeout(resolve, ms));
-    console.log('waited...');
-  }
 
-  const delayFade = async (fn, msg, ms) => {
-    console.log('waiting...');
-    await timeout(ms);
-    console.log('...waited');
-    return fn(msg, ms);
-  }
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+//                        jquery - messaging                                  //
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
 
-// Use
-  const fadeInMessageLeft = (message) => {
-    setTimeout(() => {  
-      console.log('fadeInM called///// ------ L')
-      messageLeft.fadeIn('slow');
-      messageLeft.html(`${message}`);
-    }, 2000);
-  }
+    const messageLeft = $(`#home-message-box-left`);
+    const messageRight = $(`#home-message-box-right`);
+    const messageBoxLeft = $(`#home-message-container-one`);
+    const messageBoxRight = $(`#home-message-container-two`);
+    const dealBtnContainer = $(`#play-game-container`);
+    let welcomeMessage = '';
+    let messagge = '';
+    let userLogged = false;
+    const messageDev = 'Strategic Blackjack is currently under construction but fell free to look around.'
+
+    messageRight.hide();
+    dealBtnContainer.hide();
+
+ // set up a promise return for async setTimeout TODO: => HelperFuncs
+    const timeout = async (ms) => {
+      await new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+    const delayFade = async (fn, msg, ms) => {
+      console.log('waiting...');
+      await timeout(ms);
+      return fn(msg, ms);
+    }
+
+    const fadeInMessageLeft = (message) => {
+      setTimeout(() => {
+        messageLeft.fadeIn('slow');
+        messageLeft.html(`${message}`);
+      }, 2000);
+    }
 
     const fadeInMessageRight = (message) => {
-    setTimeout(() => {  
-      console.log('fadeInM called///// ----- R')
-      messageRight.fadeIn('slow');
-      messageRight.html(`${message}`);
-    }, 2000);
-  }
+      setTimeout(() => {
+        messageRight.fadeIn('slow');
+        messageRight.html(`${message}`);
+      }, 2000);
+    }
 
-  message = 'Try signing on \in up top ⬆️...';
-  delayFade(fadeInMessageLeft, message, 3000);
+// ----- home page load -----------
 
-  message = 'Or maybe you need to brush up on the rules first?'
-  delayFade(fadeInMessageRight, message, 6000);
+
+  $(window).on('load', hf.asyncWrap(async () => {
+    let message;
+    let messageDev = 'Strategic blackjack is in development. But feel free to poke around...';
+
+    const timeInit = Date.now();
+    console.log(timeInit, 'timeInit -----<<<<');
+    // message ? message : message = messageDev;
+    // console.log(username, 'username -- sessiuinMessage');
+
+    message ? welcomeMessage = `Howdy ${session.username}, let's head over to the table, shall we?`
+      : welcomeMessage  = 'Howdy Stranger, welcome to Strategic Blackjack!';
+
+    messageRight.hide();
+
+
+    // Welcome messaging timing script
+    await timeout(2000);
+
+    messageLeft.html(`${welcomeMessage}`).fadeIn(2000);
+
+    await timeout(2000);
+
+    setTimeout(() => {
+      messageLeft.fadeOut(2000);
+      messageLeft.html('');
+    }, 3200);
+
+    setTimeout(() => {
+      messageLeft.fadeOut('slow');
+    }, 3200);
+
+    message = 'Sign up/Log in or play as a guest...';
+    delayFade(fadeInMessageLeft, message, 3000);
+
+    dealBtnContainer.append('<a href="./index" id="home-deal-btn">Deal Em</a>')
+										.append('<a href="/user/register" id="play-container-reg-link">Login/Sign Up</a>');
+    dealBtnContainer.fadeIn(2000);
+
+    message = 'Or maybe you need to brush up on the rules first?'
+    delayFade(fadeInMessageRight, message, 6000);
+
+    await timeout(9000);
+
+    setTimeout(() => {
+      messageLeft.fadeOut('slow');
+    }, 3200);
+
+    await timeout(3000);
+
+    setTimeout(() => {
+      messageRight.fadeOut('slow');
+    }, 3200);
+
+    await timeout(4000);
+
+    const timeEnd = Date.now();
+    const timeElapsed = timeInit - timeEnd;
+    console.log(timeElapsed, '-- timeElapsed');
+
+    console.log(doc.body.id, 'doc.body.id -------<<<<<%%%%');
+
+}));
+
+
+$('#register-body').on('ready', async () => {
+  console.log(message, 'message at register-body');
+
+  const timeInit = Date.now();
+
+  message ? welcomeMessage = `Howdy ${session.username}, let's head over to the table, shall we?`
+      : welcomeMessage  = 'Howdy Stranger, welcome to Strategic Blackjack!';
+
+  messageRight.hide();
+
+    await timeout(2000);
+
+  messageLeft.html(`${welcomeMessage}`).fadeIn(2000);
+
+    await timeout(4000);
+
+  setTimeout(() => {
+      messageLeft.fadeOut(2000);
+      messageLeft.html('');
+    }, 3200);
+
+  message = 'Grab some chips by signing up below...'
+    delayFade(fadeInMessageRight, message, 6000);
+
+  const timeEnd = Date.now();
+  const timeElapsed = timeEnd - timeInit;
+  console.log(timeEnd);
 });
 
 
-// Sample slick script
-// $(document).ready(function(){
-//     $('.your-class').slick({
-//     	setting-name: setting-value
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ //
+//                        API Calls                                   //
+let session;
+
+// const getSession hf.asyncWrap(async (req, res, next) => {
+  async function getSessionData(data) {
+    try {
+      let res = await fetch('../../user/session-data', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+      let data = res.json();
+      return data;
+     } catch(err) {
+      return next(err);
+     }
+  };
+// });
+
+
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+//                  form submit session data call
+
+// (async () => {
+//   const rawResponse = await fetch('https://httpbin.org/post', {
+//     method: 'POST',
+//     headers: {
+//       'Accept': 'application/json',
+//       'Content-Type': 'application/json'
+//     },
+//     body: JSON.stringify({sesssionDataObject})
+//   });
+//   const content = await rawResponse.json();
+
+//   console.log(content);
+// })();
+
+// $('.login-form').on('submit', (req, res, next) => {
+//   const data = { body: 'message' };
+
+//     fetch('../../user/session-data', {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       body: JSON.stringify(data),
+//     })
+//     .then(response => response.json())
+//     .then(data => {
+//       console.log('Success:', data);
+//     })
+//     .catch((error) => {
+//       console.error('Error:', error);
+
 //     });
 // });
 
 
 
 
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// STD fetch
+
+// const = url;
+// const = Data={
+//   username:'Raul',
+//   message:'hey there!'
+// };
+// optionParam={
+//   headers:{ 'application/json'
+//   },
+//   body: Data,
+//   method: POST
+// };
+
+// fetch(url, optionParam
+//   .then(data=> return data.json())
+//   .then(res=>(console.log(res))
+//   .catch(err=>console.log(err))
+// )
+
+// Getting sassionData try/catch
+  //   let params = 'message';
+  // try {
+  //     let sessionData =  await getSessionData(params);
+  //     console.log(res, 'session at reg-listener')
+
+  //     let session = JSON.parse(sessionData);
+  //     let message = session.message;
+
+  //     console.log(session, 'session --- reg on submit')
+  //     console.log(message, 'm/essage -=-==-=-=-')
+
+  //     await timeout(2000);
+
+  //     console.log('try !!!')
+  //     $('#session-message-span').html(`${message}`);
+  //   } catch(err) {
+  //     $('#session-message-span').hide()
+  //     next(err)
+  //   }
+
+
+  //   const setVars = route => (req, res, next = console.error) =>
+  // Promise.resolve(route(req, res)).catch(next)
+      // getBody = document =>  async (req, res, next) { await body = document.body.id; }
+      // setBody = getBody => async (req, res, next) {
+      //   => Pomise.resolve(await body = document.body.id(req,res)).catch(next);
+      // }
+    // // console.log($('#session-message'), 'get mesage element')
+    // console.log($('#register-form'), 'reg-form element')
+
+    // console.log(document.body.id, 'docs body    ------');
+    // While(window)... TODO
