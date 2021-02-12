@@ -14,47 +14,6 @@ const win = window;
 const hf  = new HelperFunctions();
 // const strategyTesting = new strategyTesting();
 
-
-//Promise handling method funcs --------
-
-// // .then with two callbacks *****
-// await this.User.create(userInfo).then(createdUser => {
-//     // user was successfully created
-//     console.log(createdUser)
-//     // business logic goes here
-// }, error => {
-//     console.error(error) // from creation
-// });
-
-
-
-// // instance of filter
-// try {
-//     const createdUser = await this.User.create(userInfo);
-//     // user was successfully created
-//     console.log(createdUser)
-//     // business logic goes here
-// } catch (error) {
-//     if (error instanceof CreationError) {
-//         console.error(error) // from creation
-//     } else {
-//         throw error;
-//     }
-// };
-
-// // iterate async but sequence over promise arr
-// async function printFiles () {
-//   const files = await getFilePaths();
-
-//   await files.reduce(async (promise, file) => {
-//     // This line will wait for the last async function to finish.
-//     // The first iteration uses an already resolved Promise
-//     // so, it will immediately continue.
-//     await promise;
-//     const contents = await fs.readFile(file, 'utf8');
-//     console.log(contents);
-//   }, Promise.resolve());
-// }
 // // astnc promise wrap - err handle w resolve
   const asyncWrap = (route) => (req, res, next = console.error) => {
     Promise.resolve(route(req, res)).catch(next);
@@ -380,7 +339,7 @@ const game = {
 		   	for (let i = 0; i < 3; i++) {
 		    	if (this.dealer.currentTally < 17 && this.dealer.currentTally != 21 && this.dealer.currentHand.length < 5) {
 			    	// dealer hits
-			    	card = (this.deck.dealCard());
+			    	let card = (this.deck.dealCard());
 			    	$('#dealer-cards #dealer-card-two').append(card.getHTML());
 					this.dealer.receiveCard(card);
 
@@ -739,7 +698,7 @@ $('#odds-btn-two').on('click', () => {
 });
 
 $('#odds-btn-one').on('click', () => {
-	console.log('odds btn clickeddddd ---');
+	// console.log('odds btn clickeddddd ---');
 	const player = game.players[0];
 	const dealer = game.dealer;
 	const countedCardsArr = game.countedCardsArr;

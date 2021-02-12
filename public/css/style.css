@@ -25,6 +25,9 @@ body {
     margin: -12% 0 2% 0;
 }
 
+.body-content.register {
+
+}
 
 .container .table-content {
 	/*margin-top: -6%;*/
@@ -63,7 +66,7 @@ header {
 	/*margin: 5% 6% 6% 0;*/
 	font-size: 64px;
 	margin-right: 4%;
-	text-shadow: 
+	text-shadow:
 		-1.5px -1.5px 0 #000,
 		1.5px -1.5px 0 #000,
 		-1.5px 1.5px 0 #000,
@@ -73,7 +76,8 @@ header {
 footer, .footer {
 	position: absolute;
 	margin-top: 6px;
-	bottom: -120px;
+	padding-top: 6px;
+	bottom: -30%;
 	width: 100%;
 	height: 4%;
 	display: flex;
@@ -98,7 +102,7 @@ a, nav {
 	margin-left: 8px;
 	margin: 0 12px 1% 8px;
 	z-index: 12;
-	text-shadow: 
+	text-shadow:
 		-1px -1px #000,
 		-1px 1px #000,
 		1px -1px #000,
@@ -115,6 +119,40 @@ a, nav, .login-link {
 	width: 80%%;
 }
 
+nav, #nav-message {
+		font-family: Arial, Helvetica, sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	font-family: Alegreya;
+	text-decoration: none;
+	color: orange;
+	font-size: 16px;
+	margin-right: 12px;
+	margin: 0 12px 1% 8px;
+	z-index: 12;
+	text-shadow:
+		-1px -1px #000,
+		-1px 1px #000,
+		1px -1px #000,
+		1px 1px #000;
+}
+
+.link {
+		font-family: Arial, Helvetica, sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	font-family: Alegreya;
+	text-decoration: none;
+	color: orange;
+	font-size: 22px;
+	margin-right: 12px;
+	margin-left: 8px;
+	margin: 0 12px 1% 8px;
+	z-index: 12;
+	text-shadow:
+		-1px -1px #000,
+		-1px 1px #000,
+		1px -1px #000,
+		1px 1px #000;
+}
 
 .dealer-container {
 	position: fixed;
@@ -129,8 +167,30 @@ a, nav, .login-link {
 }
 
 		/*  ~~~~~~~~~~~~~ /home page ~~~~~~~~~~~~~~~~~~~~ */
+#home-session-message-span {
+	font-family: Arial, Helvetica, sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	font-family: Alegreya;
+	text-decoration: none;
+	color: orange;
+	font-size: 16px;
+	margin-right: 12px;
+	margin-left: 8px;
+	margin: 0 12px -4% 8px;
+	z-index: 14;
+	text-shadow:
+		-1px -1px #000,
+		-1px 1px #000,
+		1px -1px #000,
+		1px 1px #000;
+}
 
-.home-message-container {
+#loggedIn-status {
+	font-size: 14px;
+	margin-left: 20px;
+}
+
+.home-message-container{
 	position: fixed;
 	display: inline-flex;
 	flex-direction: row;
@@ -144,6 +204,12 @@ a, nav, .login-link {
 	width: 98%%;
 }
 
+#play-game-container {
+
+	align-self: center;
+	margin: -16% 0 0 -6%;
+}
+
 #home-message-container-one {
 	position: relative;
 	display: flex;
@@ -151,6 +217,7 @@ a, nav, .login-link {
 	align-content: center;
 	justify-content: left;
 	align-items: left;
+	text-align: center;
 /*	min-height: 400px;
 	max-height: 600px;*/
 	margin: -852px 0 0 0;
@@ -164,6 +231,7 @@ a, nav, .login-link {
 	align-content: center;
 	justify-content: right;
 	align-items: right;
+	text-align: center;
 /*	min-height: 400px;
 	max-height: 600px;*/
 	margin: -852px 0 0 0;
@@ -173,6 +241,7 @@ a, nav, .login-link {
 #home-message-box-left {
 	position: relative;
 	align-self: left;
+	text-align: center;
 	margin: 2% 12% -30% 42%;
 	/*margin-left: 580px;*/
 	z-index: 11;
@@ -181,6 +250,7 @@ a, nav, .login-link {
 #home-message-box-right {
 	position: relative;
 	align-self: right;
+	text-align: center;
 	margin: 2% 36% -30% 24%;
 	/*margin-left: 580px;*/
 	z-index: 11;
@@ -197,15 +267,18 @@ a, nav, .login-link {
 /* ~~~~~~ 		/register page 				~~~~~~~~~~~~~~~~~~~~*/
 
 .login-box {
-  width: 30vw;
-  background-color: rgba(255, 255, 255, .9);
+	width: 30vw;
+	min-width: 400px;
+	background-color: rgba(255, 255, 255, .8);
   z-index: 9;
+  display: flex;
   align-items: center;
   text-align: center;
   border: 2px solid black;
   border-radius: 10px;
-  padding-top: 10px;
-  margin: -42% 0 0 -6%;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  margin: -46% 0 12% -10%;
 }
 
 .login-box input {
@@ -223,8 +296,31 @@ a, nav, .login-link {
 
 .login-box a {
   padding-bottom: 10px;
+  font-size: 16px;
 }
 
+.login-box-container {
+	font-family: Arial, Helvetica, sans-serif;
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+	font-family: Alegreya;
+	text-align: center;
+	text-decoration: none;
+	color: orange;
+	font-size: 22px;
+	margin-right: 12px;
+	margin-left: 8px;
+	margin: 0 12px 1% 8px;
+	z-index: 12;
+	text-shadow:
+		-1px -1px #000,
+		-1px 1px #000,
+		1px -1px #000,
+		1px 1px #000;
+}
+
+.title {
+	font-size: 28px;
+}
 
 h1 {
 	font-family: Arial, Helvetica, sans-serif;
@@ -239,7 +335,7 @@ h3 {
 	font-family: Alegreya;
 	font-size: 24px;
 	color: orange;
-	text-shadow: 
+	text-shadow:
 		-.6px -.6px #000,
 		-.6px .6px #000,
 		.6px -.6px #000,
@@ -265,7 +361,7 @@ h5 {
 }
 
 small {
-	font-family: Arial, Helvetica, sans-serif;	
+	font-family: Arial, Helvetica, sans-serif;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 	font-family: Alegreya;
 	font-size: 1.1em;
@@ -330,7 +426,7 @@ h2, #center-logo-text {
 	margin: -52px 0 20px -96px;
 	font-size: 20px;
 	color: rgba(66, 135, 245);
-	text-shadow: 
+	text-shadow:
 		-.6px -.6px #000,
 		-.6px .6px #000,
 		.6px -.6px #000,
@@ -366,6 +462,7 @@ h2, #center-logo-text {
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
+	text-align: center;
 	width: 100%;
 	margin-bottom: -2%;
 	margin-top: -6%;
@@ -500,7 +597,8 @@ h2, #center-logo-text {
 }
 
 .hit-card-container {
-	margin-bottom: -10%;
+	margin-top: 2%;
+	margin-bottom: -12%;
 }
 
 .hit-cards {
@@ -512,13 +610,14 @@ h2, #center-logo-text {
 	padding-top: 0;
 	width: 100%;
 	height: 16%;
+	z-index: 12;
 }
 
 #player-1-cards {
 	diplay: inline-flex;
 	flex-direction: row;
 	justify-content: flex-start;
-	width: 100%;	
+	width: 100%;
 }
 
 #player-1-hit-cards {
@@ -631,7 +730,7 @@ h2, #center-logo-text {
 #strategy-btn-one,
 #strategy-btn-one::before,
 #strategy-btn-two,
-#strategy-btn-two::before, 
+#strategy-btn-two::before,
 #odds-btn-one,
 #odd-btn-one::before,
 #odds-btn-two,
@@ -667,8 +766,54 @@ h2, #center-logo-text {
 #plc-bet-btn-one,
 #plc-bet-btn-one::before,
 #plc-bet-btn-two,
-#plc-bet-btn-two::before {
+#plc-bet-btn-two::before,
+#home-deal-btn,
+#home-deal-btn::before {
 	cursor: pointer;
+}
+
+#home-deal-btn {
+	  appearance: auto;
+    -webkit-writing-mode: horizontal-tb !important;
+    text-rendering: auto;
+    color: -internal-light-dark(black, white);
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: inherit;
+    text-indent: 0px;
+    text-shadow: inherit;
+    /*display: inline-block;*/
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    /*background-color: -internal-light-dark(rgb(239, 239, 239), rgb(59, 59, 59));*/
+    box-sizing: border-box;
+    margin: .2em;
+    font: inherit;
+    padding: .2em .2em 0 .2em;
+    border-width: 2px;
+    border-style: solid;
+	align-self: center;
+	z-index: 12;
+	width: 160px;
+	height: 64px;
+	font-size: 1.4em;
+	border-radius: 6px;
+	background-color: rgba(239, 239, 239, .86);
+	border-color: purple;
+}
+
+.link, #play-container-reg-link {
+	width: 120px;
+	align-self: center;
+	background: rgba(239, 239, 239, .7);
+	background-size: auto;
+	font-size: 1.0em;
+	margin-top: .8em;
+	border-color: rgba(128, 10, 128, .8);
+	border-width: 1.2px;
+	border-style: solid;
+	border-radius: 2px;
 }
 
 #strategy-btn-one {
@@ -688,7 +833,7 @@ h2, #center-logo-text {
 	margin-left: 8px;
 }
 
-#odds-btn-one, 
+#odds-btn-one,
 #odds-btn-two {
 	width: 80px;
 	height: 80px;
@@ -876,13 +1021,6 @@ h2, #center-logo-text {
 	margin:  0 16px 0 0;
 }
 
-#deal-button {
-	size: 148px 64px
-	border-radius: 4px;
-	border-color: purple;
-
-}
-
 .new-deal-container {
 	display: inline-flex;
 	align-items: center;
@@ -922,13 +1060,13 @@ h2, #center-logo-text {
 	align-self: flex-start;
 	width: 96%;
 	margin-left: -24%;
-	margin-right: 6%;	
+	margin-right: 6%;
 }
 
 
 #player-2-cards {
 	diplay: inline-flex;
-	flex-direction: row;	
+	flex-direction: row;
 	justify-content: flex-end;
 	align-self: flex-end;
 	width: 96%;

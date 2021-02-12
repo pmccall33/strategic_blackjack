@@ -1,6 +1,6 @@
 import { HelperFunctions } 	from '../HelperFunctions.mjs';
 import { Player }			from './Player.mjs';
-const localHelperFunctions 	= new HelperFunctions();
+const hf 	= new HelperFunctions();
 
 /*  <<<======================================================>>>
 							Strategy Class
@@ -9,45 +9,40 @@ const localHelperFunctions 	= new HelperFunctions();
 class Strategy {
 	constructor() {
 		this.playerHand = [],
+		this.possibleHandValuesArr = [],
 		this.playerHandValue = 0,
-		this.dealerUpCardValue = 0,			
+		this.dealerUpCardValue = 0,
 		this.currentOdds = 48.3,
 		this.currentCountOdds = 0,
 		this.playerBustOdds = 0,
-		this.playerBustRating = localHelperFunctions.createEnumFromObjOfStrings({
+		this.playerHasAce = false,
+		this.playerBustRating = hf.createEnumFromObjOfStrings({
 			'GREAT' : ' 👍 💰 Go for it. Zero chance of busting.',
 			'GOOD' : ' ✅ Pretty darn Good.',
 			'AVERAGE' : ' ↔️ Just about even odds.',
 			'FAIR' : ' ⚠️ Cuidado, Not super swell.',
-			'POOR' : '  ❌ Wouldn\'t advise it.' 
+			'POOR' : '  ❌ Wouldn\'t advise it.'
 		})
-		// this.playerBustRating = Object.freeze({
-		//     GREAT:   Symbol(' 👍🏾 💰Great! Zero odds of busting.'),
-		//     GOOD:  Symbol(' ✅ Pretty darn Good.'),
-		//     AVERAGE: Symbol(' ↔️ So-so to Average. '),
-		//     FAIR: Symbol(' ⚠️ Just Fair to Middling. '),
-		//     POOR: Symbol(' ❌ Looking Poor.'),
-		// })
 	}
 
 	// Basic Strategy Chart to get correct play upon initial deal
 	getBasicStrategicPlay(player, dealer) {
-		
+
 		// set player and hand values for strategy
 		this.player = player;
 		this.playerHand = player.currentHand;
 		this.playerHandValue = player.currentTally;
-		this.dealerUpCardValue = dealer.currentHand[0].value;			
-		
+		this.dealerUpCardValue = dealer.currentHand[0].value;
+
 		// Update player data
 		// this.player.handValue(player);
 
 
 		// console.log(player, '--player in getStrategy');
 		// console.log(dealer, '--dealer in getStrategy');
-		
+
 		// Compare player hand to dealer up card for 'correct' play based on basic strategy
-		
+
 		// Player has blackjack
 		if (this.playerHandValue === 21) {
 			return 'Hey Buddy, you got 21. Might as well Stand Pat.';
@@ -66,7 +61,7 @@ class Strategy {
 					return 'I Wouldn\'t Split Now.';
 					break;
 				case 7:
-					return this.dealerUpCardValue < 8 ? 'Split your Cards.' : 
+					return this.dealerUpCardValue < 8 ? 'Split your Cards.' :
 						'I Would\'nt Split these Cards.';
 					break;
 				case 9:
@@ -166,8 +161,8 @@ class Strategy {
 					// };
 					break;
 				case 18:
-					return this.dealerUpCardValue < 7 ? 'Double Down Here' 
-						: this.dealerupCardValue === 7 ? 'You should Stay' 
+					return this.dealerUpCardValue < 7 ? 'Double Down Here'
+						: this.dealerupCardValue === 7 ? 'You should Stay'
 						: this.dealerUpCardValue === 8 ? 'Hit now' :
 							 'You should Stay';
 
@@ -181,7 +176,7 @@ class Strategy {
 					break;
 				case 17:
 					return (this.dealerUpcardValue === 2 || 6 < this.dealerUpCardValue) ? 'Hit on this' : 'Double Down, My Friend'
-					
+
 					// if (this.dealerUpCardValue === 2 || 7 || 8 || 9 || 10 || 11) {
 					//			return 'Hit';
 					// } else {
@@ -226,17 +221,17 @@ class Strategy {
 				return 'Stay';
 			};
 
-			if (this.dealerUpCardValue === 10 || 11) { 
+			if (this.dealerUpCardValue === 10 || 11) {
 				switch (this.playerHandValue) {   				// switch 3
-					case 17: 
+					case 17:
 						return 'Stay';
 						break;
 					case 8:
 					case 9:
 					case 10:
-					case 12: 
-					case 13: 
-					case 14: 
+					case 12:
+					case 13:
+					case 14:
 					case 15:
 					case 16:
 						return 'Hit';
@@ -250,9 +245,9 @@ class Strategy {
 				};
 			} else if ( 7 <= this.dealerUpCardValue && this.dealerUpCardValue <= 9 ) {
 				switch (this.playerHandValue) {  				// switch 4
-					case 17: 
+					case 17:
 						return 'Stand Pat';
-						break; 
+						break;
 					case 8:
 					case 9:
 					case 12:
@@ -278,7 +273,7 @@ class Strategy {
 					case 15:
 					case 16:
 					case 17:
-						return 'Stay'; 
+						return 'Stay';
 						break;
 					case 8:
 						return 'Thats a Hit Hand';
@@ -300,17 +295,17 @@ class Strategy {
 					case 16:
 					case 17:
 						return 'Stay on this';
-						break; 
+						break;
 					case 8:
 					case 12:
 						return 'Hit Me';
 						break;
-					case 9: 
+					case 9:
 					case 10:
-					case 11: 
+					case 11:
 						return 'Double';
 						break;
-					default: 
+					default:
 						console.log('Error getting strategy from switch 6-hardTotals');
 						break;
 				};
@@ -321,7 +316,7 @@ class Strategy {
 					case 15:
 					case 16:
 					case 17:
-						return 'Stay'; 
+						return 'Stay';
 						break;
 					case 8:
 					case 9:
@@ -330,28 +325,32 @@ class Strategy {
 						break;
 					case 10:
 					case 11:
-						return 'Double Down';	
+						return 'Double Down';
 						break;
 					default:
 						console.log('Error getting strategy from switch 7-hardTotals');
 						break;
 				};
-			}; 	
+			};
 		}; 									// end if hardTotals/ no ace
 		return 'Error in getting Strategy';
 	} 											// end getBasicStrategicPlay()
 
 	getOdds(player, dealer, countedCardsArr, currentCountOdds) {
 		let dealerUpCardValue = dealer.currentHand[0].value;
-		// currentCountOdds = 0;
-		// let countedCardsArr = countedCardsArr;
-		let playerHand = player.currentTally;
-		let playerBustOdds = 0;
-		// let handOdds = currentCountOdds += currentCountOdds
+		this.player = player;
+		let playerHasAce = this.player.playerHasAce;
+		currentCountOdds = 0;
 
+		this.possibleHandValuesArr = this.player.getPossibleHandValuesArr();
+		let playerHand = this.player.currentTally;
+		let playerBustOdds = 0;
+		let handOdds = currentCountOdds += currentCountOdds
+
+		console.log(playerHasAce, 'playerHas ACCCCCCE');
 		// this.player.playerHandValue = player.currentTally;
 		// Get odds against dealerUpCard
-		const getDealerUpCardOdds = function() {	
+		const getDealerUpCardOdds = function() {
 			switch (dealerUpCardValue) {			// DealerUpCard switch
 				case 11:
 					currentCountOdds -= 16.0;
@@ -380,7 +379,7 @@ class Strategy {
 				case 3:
 					currentCountOdds += 13.4;
 					break;
-				case 2: 
+				case 2:
 					currentCountOdds += 9.8;
 					break;
 				default:
@@ -388,7 +387,7 @@ class Strategy {
 					console.log('Error in getDealerUpCardOdds switch, try again later.');
 					break;
 			};
-			return currentCountOdds;		 								
+			return currentCountOdds;
 		};										// End dealerUpCardOdds()
 
 		// Adjust and display odds for dealt/counted cards
@@ -399,69 +398,77 @@ class Strategy {
 		};
 
 		// Get odds of player busting with next hit
-		const getPlayerBustOdds = (player) => { 
+		const getPlayerBustOdds = (player) => {
 			let currentBustRating = this.playerBustRating.GREAT;
 
-			if (playerHand > 1 && playerHand < 12) {
+			console.log(playerHand, this.possibleHandValuesArr, 'playerHand, possible values arr ----before ++');
+
+			// If player has ace use the lowest hand value to get bust chances
+			if (playerHasAce) {
+				playerHand = this.possibleHandValuesArr[this.possibleHandValuesArr.length - 1];
+				console.log(playerHand, ' has ace hand Value')
+			}
+			console.log(playerHand, this.possibleHandValuesArr, 'playerHand, possible values arr ----after');
+
+			if (playerHand < 12) {
 				playerBustOdds = 0;
 				currentBustRating = this.playerBustRating.GREAT;
-				return playerBustOdds, currentBustRating;
-			}
-
-			switch (playerHand) {
-				case 21:
-					playerBustOdds = 100;
-					currentBustRating = this.playerBustRating.POOR;
-					break;
-				case 20:
-					playerBustOdds = 92;
-					currentBustRating = this.playerBustRating.POOR;
-					break;
-				case 19:
-					playerBustOdds = 85;
-					currentBustRating = this.playerBustRating.POOR;
-					break;
-				case 18:
-					playerBustOdds = 77;
-					currentBustRating = this.playerBustRating.POOR;
-					break;
-				case 17:
-					playerBustOdds = 69;
-					currentBustRating = this.playerBustRating.FAIR;
-					break;
-				case 16:
-				 	playerBustOdds = 62;
-					currentBustRating = this.playerBustRating.FAIR;
-				 	break;
-				case 15:
-				 	playerBustOdds = 58;
-					currentBustRating = this.playerBustRating.AVERAGE;
-					break;
-				case 14:
-					playerBustOdds = 56;
-					currentBustRating = this.playerBustRating.AVERAGE;
-					break;
-				case 13:
-					playerBustOdds = 39;
-					currentBustRating = this.playerBustRating.GOOD;
-					break;
-				case 12:
-					playerBustOdds = 31;
-					currentBustRating = this.playerBustRating.GOOD;
-					break;
-				default:
-					playerBustOdds = NaN;
-					console.log('Error getting bust odds at this time. Check back later.');
-					break
+			} else {
+					switch (playerHand) {
+						case 21:
+							playerBustOdds = 100;
+							currentBustRating = this.playerBustRating.POOR;
+							break;
+						case 20:
+							playerBustOdds = 92;
+							currentBustRating = this.playerBustRating.POOR;
+							break;
+						case 19:
+							playerBustOdds = 85;
+							currentBustRating = this.playerBustRating.POOR;
+							break;
+						case 18:
+							playerBustOdds = 77;
+							currentBustRating = this.playerBustRating.POOR;
+							break;
+						case 17:
+							playerBustOdds = 69;
+							currentBustRating = this.playerBustRating.FAIR;
+							break;
+						case 16:
+						 	playerBustOdds = 62;
+							currentBustRating = this.playerBustRating.FAIR;
+						 	break;
+						case 15:
+						 	playerBustOdds = 58;
+							currentBustRating = this.playerBustRating.AVERAGE;
+							break;
+						case 14:
+							playerBustOdds = 56;
+							currentBustRating = this.playerBustRating.AVERAGE;
+							break;
+						case 13:
+							playerBustOdds = 39;
+							currentBustRating = this.playerBustRating.GOOD;
+							break;
+						case 12:
+							playerBustOdds = 31;
+							currentBustRating = this.playerBustRating.GOOD;
+							break;
+						default:
+							playerBustOdds = NaN;
+							console.log('Error getting bust odds at this time. Check back later.');
+							break
+						};
 				};
 				console.log(playerBustOdds, '- playerBustOdds');
 				console.log(currentBustRating.toString(), '- currentBustRating');
-				return playerBustOdds, currentBustRating;				
-		}; 
+				return playerBustOdds, currentBustRating;
+		};
 
 		// const messagePlayerOdds () => {
-			
-		// }	
+
+		// }
 
 													// End playerBustOdds
 

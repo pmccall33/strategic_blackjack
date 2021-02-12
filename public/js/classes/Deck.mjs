@@ -1,12 +1,12 @@
 import { Card } from './Card.mjs';
 // import { images } from '../../card-images.mjs';
 
-/*  <<<================================================================>>> 
-								Deck Class 	
+/*  <<<================================================================>>>
+								Deck Class
 	<<<================================================================>>> */
 
-class Deck {	
-	
+class Deck {
+
 	constructor() {
 		this.deck = [];
 		this.numOfDecks = 1;
@@ -39,10 +39,9 @@ class Deck {
 
 	shuffleCards () {
 		// create new array of randomized cards from deck
-		
+
 		let randomIndex = Math.floor(Math.random() * this.deck.length);
-		
-		// console.log(this.deck);
+;
 		const shuffledDeck = [];
 		let x = 0;
 		for (let i = 0; i < (this.deck.length * 100); i++) {
@@ -52,7 +51,6 @@ class Deck {
 	}
 
 	dealCard () {
-		// console.log(this.deck.pop());
 		const card = this.deck.pop();
 		return card;
 	}
