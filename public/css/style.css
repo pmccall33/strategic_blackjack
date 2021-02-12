@@ -12,7 +12,7 @@ body {
 	margin: 0 auto;
 	z-index: 0;
 	background-repeat: no-repeat;
-	background-size: 80%;
+	background-size: 95%;
 	background-position: center; ;
 	background-color: #000000;
 	background-image: url("../assets/table-images/black:green-fade-2.jpeg");
@@ -481,6 +481,21 @@ h2, #center-logo-text {
 	border-radius: 6px;
 }
 
+.message {
+	font-size: 24px;
+	color: yellow;
+	margin: auto;
+}
+
+#dealer-message {
+	align-self: center;
+	font-size: 20px;
+	border: 6px solid purple;
+	border-radius: 8px;
+	border-style: double;
+	margin: 0 auto 0 auto;
+}
+
 #player-1-message {
 	margin-left: 20px;
 }
@@ -545,16 +560,6 @@ h2, #center-logo-text {
 	align-self: flex-end;
 	margin-right: 6px;
 	/*margin: -2% -36% 2px 2px;*/
-}
-
-.message {
-	font-size: 24px;
-	color: yellow;
-	margin: auto;
-}
-
-#welcome-message {
-	font-size: 20px;
 }
 
 #input-name {
@@ -691,6 +696,13 @@ h2, #center-logo-text {
 	margin-right: 120px;
 	margin-left: -34%;
 }
+
+#player-two-bet-container, #player-one-bet-container {
+		background-color: rgba(187, 187, 187, 0.9);
+		border: 1.2px solid orange;
+		color: orange;
+}
+
 /*.action-btn , #player-two-action-container {
 	display: inline-flex;
 	background-color: cadetblue;
@@ -769,7 +781,43 @@ h2, #center-logo-text {
 #plc-bet-btn-two::before,
 #home-deal-btn,
 #home-deal-btn::before {
+	background-color: black;
+	border-color: orange;
+	color: orange;
 	cursor: pointer;
+}
+
+
+#strategy-btn-one:hover,
+#strategy-btn-two:hover,
+#odds-btn-one:hover,
+#odds-btn-two:hover,
+#count-btn-one:hover,
+#count-btn-two:hover,
+#hit-btn-one:hover,
+#hit-btn-two:hover,
+#stay-btn-one:hover,
+#stay-btn-two:hover,
+#split-btn-one:hover,
+#split-btn-two:hover,
+#dbl-btn-one:hover,
+#dbl-btn-two:hover,
+#bet-btn-one:hover,
+#bet-btn-two:hover,
+#clr-bet-btn-one:hover,
+#clr-bet-btn-two:hover,
+#plc-bet-btn-one:hover,
+#plc-bet-btn-two:hover,
+#home-deal-btn:hover {
+		background: rgba(239, 239, 239, .7);
+		border: 4px outset whitesmoke;
+}
+
+
+button {
+	background-color: whitesmoke;
+	border-color: orange;
+	color: orange;
 }
 
 #home-deal-btn {
@@ -818,15 +866,20 @@ h2, #center-logo-text {
 
 #strategy-btn-one {
 	align-self: flex-start;
+	background-color: black;
+	border: 3px inset blue;
+	color: orange;
 	margin-left: 32px;
 	margin-bottom: -72px;
 	margin-top: 32px;
 	margin-right: 8px;
 }
 
-
 #strategy-btn-two {
 	align-self: flex-end;
+	background-color: black;
+	border: 3px inset blue;
+	color: orange;
 	margin-right: 32px;
 	margin-bottom: -72px;
 	margin-top: 32px;
@@ -837,11 +890,11 @@ h2, #center-logo-text {
 #odds-btn-two {
 	width: 80px;
 	height: 80px;
-	background-color: lightyellow;
-	color: black;
+	background-color: black;
+	color: orange;
 	font: inherit;
 	font-size: 15px;
-	border: 6px solid red;
+	border: 4px inset red;
 	border-radius: 100%;
 	margin: 2px;
 	padding: 2px;
@@ -868,11 +921,11 @@ h2, #center-logo-text {
 #count-btn-one, #count-btn-two {
 	width: 80px;
 	height: 80px;
-	background-color: lightyellow;
-	color: black;
+	background-color: black;
+	color: orange;
 	font: inherit;
 	font-size: 15px;
-	border: 6px solid yellow;
+	border: 3px inset yellow;
 	border-radius: 100%;
 	margin: 2px;
 	padding: 2px;
@@ -896,9 +949,9 @@ h2, #center-logo-text {
 }
 
 #hit-btn-one, #hit-btn-two {
-	background-color: lightyellow;
+	background-color: black;
 	font: inherit;
-	color: black;
+	color: orange;
 	border: 2px solid purple;
 	border-radius: 4px;
 	margin: 2px;
@@ -907,9 +960,9 @@ h2, #center-logo-text {
 }
 
 #stay-btn-one, #stay-btn-two {
-	background-color: lightyellow;
+	background-color: black;
 	font: inherit;
-	color: black;
+	color: orange;
 	border: 2px solid purple;
 	border-radius: 4px;
 	margin: 2px;
@@ -918,34 +971,34 @@ h2, #center-logo-text {
 }
 
 #bet-btn-one, #bet-btn-two {
-	background-color: lightyellow;
+	background-color: black;
 	font: inherit;
-	color: purple;
+	color: orange;
 	border: 2px solid purple;
 	border-radius: 4px;
-	margin: 2px;
+	margin: 4px;
 	padding: 2px;
 	transition: background 100ms ease;
 }
 
 #clr-bet-btn-one, #clr-bet-btn-two {
-	background-color: lightyellow;
+	background-color: black;
 	font: inherit;
-	color: purple;
+	color: orange;
 	border: 2px solid purple;
 	border-radius: 4px;
-	margin: 2px;
+	margin: 4px;
 	padding: 2px;
 	transition: background 100ms ease;
 }
 
 #plc-bet-btn-one, #plc-bet-btn-two {
-	background-color: lightyellow;
+	background-color: black;
 	font: inherit;
-	color: purple;
+	color: orange;
 	border: 2px solid purple;
 	border-radius: 4px;
-	margin: 2px;
+	margin: 4px;
 	padding: 2px;
 	transition: background 100ms ease;
 }

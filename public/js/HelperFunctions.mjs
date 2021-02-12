@@ -26,19 +26,17 @@ class HelperFunctions {
 
     this.timeout =  async (ms) => {
       await new Promise(resolve => setTimeout(resolve, ms));
-      console.log('waited...');
+      console.log(`awaited... ${ms}.`);
     }
 
     this.delayFade = async (fn, msg, ms) => {
-      console.log('waiting...');
       await timeout(ms);
-      console.log('...waited');
+      console.log(`awaited... ${ms}.`);
       return fn(msg, ms);
     }
 
     this.fadeInMessage = (message) => {
       setTimeout(() => {
-        console.log('fadeInM called/////')
         messageLeft.fadeIn('slow');
         messageLeft.html(`${message}`);
       }, 2000);
@@ -47,6 +45,11 @@ class HelperFunctions {
     // async func wrapper
     this.asyncWrap = (route) => (req, res, next = console.error) => {
       Promise.resolve(route(req, res)).catch(next);
+    }
+
+    // Promise err catch function
+    this.promErrCatch = async (Promise) =>  {
+      Promise.then(data => [null, data], err => [err, null]);
     }
   }
 };

@@ -16,7 +16,7 @@
 	<!-- slick ui lib -->
 	<script type="text/javascript" src="slick/slick.min.js"></script>
 	<!-- stylesheets -->
-	<link rel="stylesheet" href="js/jquery-ui-1.12.1/jquery-ui.min.css">
+	<link rel="stylesheet"  href="js/jquery-ui-1.12.1/jquery-ui.min.css">
 	<link rel="stylesheet" type="text/css" href="../slick/slick.css"/>
 	<link rel="stylesheet" type="text/css" href="../slick/slick-theme.css"/>
 	<link rel="stylesheet" href="css/style.css">
@@ -36,9 +36,13 @@
 		<a href="<%= userBarId ? userBarId : '' %>">My Account</a>
 		<a href="./rules">Rules</a>
 		<a href="./about">About</a>
-		<a href="/user/register">Login/Sign Up</a>
-		<a href="/user/logout">Logout</a>
-		<h5 id="nav-message"><%= navMessage ? navMessage : '*navmsg' %></h5>
+		<% if (userLogged) { %>
+			 	<a href="/user/logout">Logout</a>
+			 	<h5 id="nav-message"><%= navMessage %></h5>
+		<% } else { %>
+				<a href="/user/register">Login/Sign Up</a>%>
+		<% } %>
+		<!-- <h5 id="nav-message"><%= userLogged ? `LoggedIn as ${username}` : ''%></h5> -->
 	</nav>
 
     <br><span><%= messageDev %></span>
@@ -59,6 +63,7 @@
 		</div>
 	</div>
 
+	<div class="message message-box" id="dealer-message"></div>
 	<div class="message-container">
 		<div class="message-box" id="player-1-message"></div>
     <div class="message-box" id="player-2-message"></div>
@@ -97,11 +102,11 @@
 	<div class="player-image-container">
 		<div id="player-1-id">
 		    <img src="assets/table-images/player-1-img.png" alt="avatar image 		for player one Svetlana" id="player-1-image"></img><!--
-		 --><h3 class="player-name" id="player-1-name">Svetlana</h3>
+		 --><h3 class="player-name" id="player-1-name"><%= username ? username : 'Guest' %></h3>
 		</div>
 		<div id="player-2-id">
 		    <h3 class="player-name" id="player-2-name">Raul</h3><!--
-		 --><img src="assets/table-images/player-2-img.png" alt="avatar image 			for player two Raul" id="player-2-image"></img>
+		 --><img src="assets/table-images/player-2-img.png" alt="avatar image for player two Raul" id="player-2-image"></img>
 		</div>
 	</div>
 
@@ -167,7 +172,7 @@
 				<h4>Play</h4>
 					<button class="btn hit-btn"  id="hit-btn-two">Hit</button>
 					<button class="btn stay-btn" id="stay-btn-two">Stay</button>
-		    	<button class="btn split-btn id="split-btn-two">Split</button>
+		    	<button class="btn split-btn" id="split-btn-two">Split</button>
 		    	<button class="btn double-btn" id="dbl-btn-two">Double</button>
 			</div>
 		</div>
@@ -181,7 +186,6 @@
 <!--   	<script src="assets/table-images/black:green-fade-2.jpeg"></script>
  --><script src="card-images.mjs"></script>
 	<script data-main="scripts/main" src="js/scripts/require.js"></script>
-	<script src="../node_modules/ejs/ejs.js"></script>
 	<script src="js/app.mjs" type="module"></script>
 	<script src="js/start.js" type="module"></script>
 </html>

@@ -18,13 +18,10 @@ const hf  = new HelperFunctions();
   const asyncWrap = (route) => (req, res, next = console.error) => {
     Promise.resolve(route(req, res)).catch(next);
   };
-// // Promise err catch function
-  async function promErrCatch (Promise) {
-    Promise.then(data => [null, data], err => [err, null]);
-  };
+
 // TODO : 	-Fix all the stuff and things and make it all better
 // 	  	  	-switch testing and fixes
-
+	//			 - Login page/func
 
 /*  <<<=================================================================>>>
 		 					Game Object
@@ -121,11 +118,14 @@ const game = {
 		$(`.chip-total-player-2`).append(this.players[1].playerChipStack.toString());
 	},
 
-	nextPlayer(players, player) {
+	async nextPlayer(players, player) {
 	    if (this.currentPlayerIndex < (this.numOfPlayers - 1)) {
 	      this.currentPlayerIndex += 1;
 	      this.checkForBlackjack(this.players, this.currentPlayerIndex);
 	    } else {
+
+	    	await hf.timeout(500);
+
 	      this.dealerPlay();
 	    };
 	},
@@ -177,7 +177,7 @@ const game = {
 		};
 	},
 
-	startDeal () {
+	async startDeal() {
 		// Greeting
 		$(`.message`).html('');
 		this.clearMessage();
@@ -198,12 +198,19 @@ const game = {
 		// $(`.chip-total-player-${player + 1}`).append(player.playerChipStack)
 		// }
 
+		await hf.timeout(1000);
+
 		// deal 2 cards to each player
 		for (let i = 0; i < this.players.length; i++) {
+
+			await hf.timeout(400);
+
 			let card1 = (this.deck.dealCard());
 			// Add card element to the card div
 			$(`#player-${i + 1}-cards .card-one`).append(card1.getHTML());
 			this.players[i].receiveCard(card1);
+
+			await hf.timeout(400);
 
 			let card2 = (this.deck.dealCard());
 			$(`#player-${i + 1}-cards .card-two`).append(card2.getHTML());
@@ -286,11 +293,14 @@ const game = {
 		};
 	},
 
-	stay(player) {		// <------ playerIndex passed ;in as arg
+	async stay(player) {		// <------ playerIndex passed ;in as arg
 		if (player === this.currentPlayerIndex)	{
 			// Update player data and call for next player
 			this.players[player].checkForBust();
 			this.players[player].handValue();
+
+			await hf.timeout(1000);
+
 			this.nextPlayer(this.players, this.currentPlayerIndex);
 		}
 	},
@@ -308,7 +318,7 @@ const game = {
 		this.dealer.handValue();
 	},
 
-	dealerPlay() {
+	async dealerPlay() {
 		// Get dealer's currentTally
 		this.dealerHand();
 		this.dealer.checkForBust();
@@ -337,9 +347,14 @@ const game = {
         }
 
 		   	for (let i = 0; i < 3; i++) {
+			    this.dealer.checkForBust();
 		    	if (this.dealer.currentTally < 17 && this.dealer.currentTally != 21 && this.dealer.currentHand.length < 5) {
 			    	// dealer hits
+
+						await hf.timeout(1000);
+
 			    	let card = (this.deck.dealCard());
+
 			    	$('#dealer-cards #dealer-card-two').append(card.getHTML());
 					this.dealer.receiveCard(card);
 
@@ -351,7 +366,7 @@ const game = {
 			    		// $(`.message`).append('Dealer Busts. Cool.');
 			    		this.dealer.playerStatus = 'bust';
 			    	}
-				    this.dealer.checkForBust();
+				    // this.dealer.checkForBust();
 		    	}
 		   	}
 		// this.dealer.checkForBust();
