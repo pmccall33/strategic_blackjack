@@ -1,5 +1,5 @@
 import { HelperFunctions } from '../HelperFunctions.mjs';
-const localHelperFunctions = new HelperFunctions();
+const hf  = new HelperFunctions();
 
 /*  <<<======================================================>>>
 							Strategy Class
@@ -9,16 +9,16 @@ class Strategy {
 	constructor() {
 		this.playerHand = [],
 		this.playerHandValue = 0,
-		this.dealerUpCardValue = 0,			
+		this.dealerUpCardValue = 0,
 		this.currentOdds = 48.3,
 		this.currentCountOdds = 0,
 		this.playerBustOdds = 0,
-		this.playerBustRating = localHelperFunctions.createEnumFromObj({
-			'great' : ' 👍 💰 Go for it. Zero odds of busting.',
-			'good' : ' ✅ Pretty darn Good.',
-			'average' : ' ↔️ Just about even odds.',
-			'fair' : ' ⚠️ Cuidado, Not so swell.',
-			'poor' : '  ❌ Wouldn\'t advise it.' 
+		this.playerBustRating = hf.createEnumFromObjOfStrings({
+			'GREAT' : ' 👍 💰 Go for it. Zero odds of busting.',
+			'GOOD' : ' ✅ Pretty darn Good.',
+			'AVERAGE' : ' ↔️ Just about even odds.',
+			'FAIR' : ' ⚠️ Cuidado, Not so swell.',
+			'POOR' : '  ❌ Wouldn\'t advise it.'
 		})
 		// this.playerBustRating = Object.freeze({
 		//     GREAT:   Symbol(' 👍🏾 💰Great! Zero odds of busting.'),
@@ -38,14 +38,19 @@ class Strategy {
 		this.playerHand = player.currentHand;
 		this.playerHandValue = player.currentTally;
 		this.dealerUpCardValue = dealer.currentHand[0].value;
-			
+
 
 		console.log(player, '--player in getStrategy');
 		console.log(dealer, '--dealer in getStrategy');
+		console.log(this.playerBustRating,'++++++this.playerBustRating at Basic strat')
 		// console.log(this.playrHandValue, '-- playerHandValue');
 		// console.log(this.dealerUpCardValue, 'dealerUpcardValue');
-		
+
 		// Compare player hand to dealer up card for 'correct' play
+
+		if (this.playerHandValue < 21) {
+			return 'Oops. Bit late for that. You busted.';
+		}
 
 		if (this.playerHandValue === 21) {
 			return 'Hey Buddy, you got 21. Might as well Stand Pat.';
@@ -159,8 +164,8 @@ class Strategy {
 					// };
 					break;
 				case 18:
-					return this.dealerUpCardValue < 7 ? 'Double Down Here' 
-						: this.dealerupCardValue === 7 ? 'You should Stay' 
+					return this.dealerUpCardValue < 7 ? 'Double Down Here'
+						: this.dealerupCardValue === 7 ? 'You should Stay'
 						: this.dealerUpCardValue === 8 ? 'Hit now' :
 							 'You should Stay';
 
@@ -174,7 +179,7 @@ class Strategy {
 					break;
 				case 17:
 					return (this.dealerUpcardValue === 2 || 6 < this.dealerUpCardValue) ? 'Hit on this' : 'Double Down, My Friend'
-					
+
 					// if (this.dealerUpCardValue === 2 || 7 || 8 || 9 || 10 || 11) {
 					//			return 'Hit';
 					// } else {
@@ -219,17 +224,17 @@ class Strategy {
 				return 'Stay';
 			};
 
-			if (this.dealerUpCardValue === 10 || 11) { 
+			if (this.dealerUpCardValue === 10 || 11) {
 				switch (this.playerHandValue) {   				// switch 3
-					case 17: 
+					case 17:
 						return 'Stay';
 						break;
 					case 8:
 					case 9:
 					case 10:
-					case 12: 
-					case 13: 
-					case 14: 
+					case 12:
+					case 13:
+					case 14:
 					case 15:
 					case 16:
 						return 'Hit';
@@ -243,9 +248,9 @@ class Strategy {
 				};
 			} else if ( 7 <= this.dealerUpCardValue && this.dealerUpCardValue <= 9 ) {
 				switch (this.playerHandValue) {  				// switch 4
-					case 17: 
+					case 17:
 						return 'Stand Pat';
-						break; 
+						break;
 					case 8:
 					case 9:
 					case 12:
@@ -271,7 +276,7 @@ class Strategy {
 					case 15:
 					case 16:
 					case 17:
-						return 'Stay'; 
+						return 'Stay';
 						break;
 					case 8:
 						return 'Thats a Hit Hand';
@@ -293,17 +298,17 @@ class Strategy {
 					case 16:
 					case 17:
 						return 'Stay on this';
-						break; 
+						break;
 					case 8:
 					case 12:
 						return 'Hit Me';
 						break;
-					case 9: 
+					case 9:
 					case 10:
-					case 11: 
+					case 11:
 						return 'Double';
 						break;
-					default: 
+					default:
 						console.log('Error getting strategy from switch 6-hardTotals');
 						break;
 				};
@@ -314,7 +319,7 @@ class Strategy {
 					case 15:
 					case 16:
 					case 17:
-						return 'Stay'; 
+						return 'Stay';
 						break;
 					case 8:
 					case 9:
@@ -323,13 +328,13 @@ class Strategy {
 						break;
 					case 10:
 					case 11:
-						return 'Double Down';	
+						return 'Double Down';
 						break;
 					default:
 						console.log('Error getting strategy from switch 7-hardTotals');
 						break;
 				};
-			}; 	
+			};
 		}; 									// end if hardTotals/ no ace
 		return 'Error in getting Strategy';
 	} 											// end getBasicStrategicPlay()
@@ -340,11 +345,13 @@ class Strategy {
 		// let countedCardsArr = countedCardsArr;
 		let playerHand = player.currentTally;
 		let playerBustOdds = 0;
+		console.log(playerHand, 'plaerHand at getOdds');
+
 		// let handOdds = currentCountOdds += currentCountOdds
 
 		// this.player.playerHandValue = player.currentTally;
 		// Get odds against dealerUpCard
-		const getDealerUpCardOdds = function() {	
+		const getDealerUpCardOdds = function() {
 			switch (dealerUpCardValue) {			// DealerUpCard switch
 				case 11:
 					currentCountOdds -= 16.0;
@@ -373,7 +380,7 @@ class Strategy {
 				case 3:
 					currentCountOdds += 13.4;
 					break;
-				case 2: 
+				case 2:
 					currentCountOdds += 9.8;
 					break;
 				default:
@@ -381,7 +388,7 @@ class Strategy {
 					console.log('Error in getOdds switch, try again later.');
 					break;
 			};
-			return currentCountOdds;		 								
+			return currentCountOdds;
 		};										// End dealerUpCardOdds()
 
 		// Adjust and display odds for dealt/counted cards
@@ -394,6 +401,16 @@ class Strategy {
 
 		// Get odds of player busting with next hit
 		const getPlayerBustOdds = function() {
+			this.playerBustRating = hf.createEnumFromObjOfStrings({
+				'GREAT' : ' 👍 💰 Go for it. Zero odds of busting.',
+				'GOOD' : ' ✅ Pretty darn Good.',
+				'AVERAGE' : ' ↔️ Just about even odds.',
+				'FAIR' : ' ⚠️ Cuidado, Not so swell.',
+				'POOR' : '  ❌ Wouldn\'t advise it.'
+			});
+
+			console.log(this.playerBustRating, 'bust Rating');
+			console.log(playerHand, 'playerHand at getPLYerBustOdds');
 			switch (playerHand) {
 				case 21:
 					playerBustOdds = 100;
@@ -451,7 +468,7 @@ class Strategy {
 		// console.log(currentCountOdds, playerBustOdds, '- currentCountOdds, playerBustOdds');
 		console.log(getPlayerBustOdds());
 		return currentCountOdds, playerBustOdds;
-	} 														// end getOdds().
+	} 																						// ------------------- end getOdds().
 
 	getCount(dealer, countedCardsArr, currentCountOdds) {
 		this.countedCardsArr = countedCardsArr;

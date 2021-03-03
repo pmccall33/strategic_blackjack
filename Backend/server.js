@@ -81,11 +81,13 @@ app.get('/', (req, res, next) => {
     let message = req.session.message;
     let navMessage = req.session.navMessage;
     req.session.message = '';
+    let userLogged = req.session.loggedIn;
 
     console.log(' STR-BLKJK --  app.get - route -');
   try {
     sessionData =  {
         username: req.session.loggedIn ? req.session.username : '',
+        userLogged: req.session.loggedIn ? req.session.loggedIn : false,
         userBarId: req.session.loggedIn ? `/user/${req.session.userId}` : '/user/login',
         navMessage: navMessage ? navMessage : '',
         message: message ? message : '',
@@ -102,11 +104,13 @@ app.get('/', (req, res, next) => {
 app.get('/index', (req, res, next) => {
   let message = req.session.message;
   let navMessage = req.session.navMessage;
+  let userLogged = req.session.loggedIn;
 
   console.log('/index get path hit...');
   try {
     sessionData =  {
       username: req.session.loggedIn ? req.session.username : '',
+      userLogged: req.session.loggedIn ? req.session.loggedIn : false,
       userBarId: req.session.loggedIn ? `/user/${req.session.userId}` : '/user/login',
       navMessage: navMessage ? navMessage : '',
       message: message ? message : '',

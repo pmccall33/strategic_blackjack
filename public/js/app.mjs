@@ -40,18 +40,21 @@ const game = {
 	currentCountOdds: 48.3,
 	message: '',
 	playerBetButtonClicked: false,
+	dealerMessage: $('#dealer-message'),
+	playerOneMessage: $('#player-1-message'),
+	playerTwoMessage: $('#player-2-message'),
 
 
 	clearMessage(message) {
 		setTimeout ( function() {
 			$(message).hide('slide', 1500, callback);
-			// $(`.message`).html('');
+			$(`.message`).html('');
 		}, 3000);
 
 		function callback() {
       		setTimeout(function() {
         		$( "#effect" ).removeAttr( "style" ).hide().fadeIn();
-      		}, 1000 );
+      		}, 2000 );
     	};
 	},
 
@@ -69,8 +72,14 @@ const game = {
 	    }
 	},
 
-	startGame() {
+	async startGame() {
 		this.gameOn = true;
+		let message = this.message;
+		let dealerMessage = this.dealerMessage;
+		let playerOneMessage = this.playerOneMessage;
+		let playerTwoMessage = this.playerTwoMessage;
+		let username;
+		username ? username : username = 'Player One';
 
 		// Instantiate strategy
 		this.strategy = new Strategy();
@@ -89,24 +98,39 @@ const game = {
 		this.deck.shuffleCards();
 
 		// Welcome messages
-		this.message = 'Welcome to the table, have a seat...';
-		$(`.message`).append(this.message).hide().fadeIn(1600);
-
+		message = 'Welcome to the table, have a seat...';
+		dealerMessage.append(message).fadeIn(1600);
 		this.clearMessage();
+		await hf.timeout(5000);
 
-		// setTimeout ( function () {
-		// 	$(`.message`).hide('slide', 2000);
-		// 	this.clearMessage();
-		// }, 5000);
+		playerTwoMessage.fadeOut(800);
 
-		setTimeout ( function () {
-			$(`.message`).html('');
-			this.message = 'Place your bets, Folks...';
-			$(`.message`).append(this.message).fadeIn(1600);
-		}, 5000);
-
+		message = 'I\'m Katrina and I\'ll be your dealer today';
+		dealerMessage.append(message).fadeIn(2600);
 		this.clearMessage();
+		await hf.timeout(5000);
+
+		message = 'Here\'s some chips to get you going. It\'s just 5 to start and lets make some chips fly!';
+		dealerMessage.append(message).fadeIn(2600);
+
 		this.updateChipTotal();
+
+		let chipStackImg = '<img src="./assets/rwb-chips.jpg" class="chipstack"></img>'
+		$('#chip-total-player-one-box').hide().append(chipStackImg).fadeIn(1200);
+		$('#chip-total-player-two-box').hide().append(chipStackImg).fadeIn(1200);
+		await hf.timeout(2000);
+
+		this.clearMessage();
+		await hf.timeout(6000);
+
+
+		message = 'OK... Place your bets, Folks...'
+		dealerMessage.append(message).fadeIn(3000);
+
+		await hf.timeout(1600);
+
+		playerOneMessage.append(`Your Bet, ${username}`).fadeIn(1200);
+
 		// this.dealerInitialDeal(); // <================ TESTING ONLY ====<<<
 								  // delete and uncomment at line 658
 	},
@@ -114,8 +138,8 @@ const game = {
 	updateChipTotal(player) {
 		$(`.chip-total-player-1`).html('');
 		$(`.chip-total-player-2`).html('');
-		$(`.chip-total-player-1`).append(this.players[0].playerChipStack.toString());
-		$(`.chip-total-player-2`).append(this.players[1].playerChipStack.toString());
+		$(`.chip-total-player-1`).append(this.players[0].playerChipStack.toString()).fadeIn(1000);
+		$(`.chip-total-player-2`).append(this.players[1].playerChipStack.toString()).fadeIn(1000);
 	},
 
 	async nextPlayer(players, player) {
@@ -131,12 +155,21 @@ const game = {
 	},
 
 	placeYourBets(player) {
+		let playerMessage = $(`#player-${player + 1}-message`);
+
+		if (player == 0) {
+			this.playerTwoMessage.append('Alright Player Two, bets to you').fadeIn(1200);
+		} else {
+			this.playerOneMessage.fadeOut(1200).html('');
+		};
 
 		// Display playerChipStacks
 		this.updateChipTotal(player);
 
 		// Place bets here and don't deal cards until betting is done
 		this.players[player].playerBetPlaced = true;
+
+		playerMessage.fadeOut(1200).html('');
 
 		if (this.players[0].playerBetPlaced && this.players[1].playerBetPlaced) {
 			this.startDeal();
@@ -145,7 +178,7 @@ const game = {
 		// Jquery insert chip graphic and other?  // TODO ---------------<<<<<<
 	},
 
-	checkForBlackjack(players, player) {
+	async checkForBlackjack(players, player) {
 		// Get currentTally and handValue from checkForBust() and handValue()
 		for (let player in players) {
 			this.players[player].checkForBust(player);
@@ -162,31 +195,41 @@ const game = {
 			setTimeout ( function() {
 			}, 3100);
 			$(`.message`).hide('slide', 1200);
-			$(`.message`).append(`Blackjack Player + ${this.players[player] + 1} + '!! ' + 'Hooray!`).fadeIn(1200);
+			$(`.message`).append(`Blackjack Player + ${player + 1} + '!! ' + 'Hooray!`).fadeIn(1200);
 			setTimeout( function() {
 			}, 6000);
-			this.clearMessage();
+
+			this.nextPlayer();
+			await hf.timeout(4000);
 
 			// Clear and update player chips
 			this.clearCardsBlackjack();
 			this.updateChipTotal();
-			console.log('blackjack ------', this.players[player].playerChipStack);
-			this.nextPlayer();
+			// console.log('blackjack ------', this.players[player].playerChipStack);
+			this.clearMessage();
 		} else {
 			this.players[player].playerBlackjack = false;
 		};
 	},
 
 	async startDeal() {
+		let playerOneMessage = this.playerOneMessage;
+		let playerTwoMessage = this.playerTwoMessage;
+		let dealerMessage = this.dealerMessage;
+
 		// Greeting
-		$(`.message`).html('');
+		dealerMessage.html('');
 		this.clearMessage();
+		playerOneMessage.fadeOut(800);
+		playerTwoMessage.fadeOut(800);
+
 
 		this.message = 'Sweet! Let\'s Play!!';
 		$(`.message`).append(this.message).hide().fadeIn(1600);
 		setTimeout ( function() {
 		}, 3000);
 			$(`.message`).hide('shake', 600);
+
 
 		// Display players ChipStack
 		this.updateChipTotal();
@@ -203,14 +246,14 @@ const game = {
 		// deal 2 cards to each player
 		for (let i = 0; i < this.players.length; i++) {
 
-			await hf.timeout(400);
+			await hf.timeout(600);
 
 			let card1 = (this.deck.dealCard());
 			// Add card element to the card div
 			$(`#player-${i + 1}-cards .card-one`).append(card1.getHTML());
 			this.players[i].receiveCard(card1);
 
-			await hf.timeout(400);
+			await hf.timeout(600);
 
 			let card2 = (this.deck.dealCard());
 			$(`#player-${i + 1}-cards .card-two`).append(card2.getHTML());
@@ -218,10 +261,15 @@ const game = {
 
 			this.countedCardsArr.push(card1, card2);
 		};
+
+		await hf.timeout(1000);
 		this.dealerInitialDeal();   //<<======== UNCOMMENT AFTER TESTING ===
 		// Get/Set initial odds
 		// ClearOdds() if necessary here <----------
 		this.checkForBlackjack(this.players, this.currentPlayerIndex);
+
+		await timeout(600);
+		this.dealerMessage.append('<<-- Feel free to check your strategy options here\t -->>').fadeIn(1200);
 	},
 
 	playerBet(player) {
@@ -324,9 +372,6 @@ const game = {
 		this.dealer.checkForBust();
 
 		$(`.message`).html('');
-		// setTimeout(function() {
-		// $(`.message`).append('Dealer has... .');
-		// }, 6000);
 
 	    // 'Flip' down card
 	    $(`#dealer-card-reverse`).hide();
@@ -425,13 +470,16 @@ const game = {
 				this.players[i].playerChipStack += (this.players[i].playerBet * 1.5);
 				this.updateChipTotal();
 
+				this.playerOneMessage.html('');
+				this.playerTwoMessage.html('');
+
 				// Blackjack message display
 				setTimeout( function() {
 				}, 3200);
 				setTimeout( function() {
-				$(`.message`).append(`Player ${i + 1} BLACKJACK! Huzzahs and Hosannahs!`).fadeIn(1600);
+				$(`#player-${i + 1}-message`).append(`Player ${i + 1} BLACKJACK! Huzzahs and Hosannahs!`).fadeIn(1600);
 				}, 3000);
-				$(`.message`).hide('pulsate', 1200);
+				$(`#player-${i + 1}-message`).hide('pulsate', 1200);
 				// $(`.message`).html('');
 				// this.clearMessage();
 
@@ -446,9 +494,9 @@ const game = {
 				setTimeout( function() {
 				}, 3200);
 				setTimeout( function() {
-				$(`.message`).append(`Player ${i + 1} Wins! Huzzahs and Hosannahs!`).fadeIn(1600);
+				$(`#player-${i + 1}-message`).append(`Player ${i + 1} Wins! Got lucky.`).fadeIn(1600);
 				}, 3000);
-				$(`.message`).hide('pulsate', 1200);
+				$(`#player-${i + 1}-message`).hide('pulsate', 1200);
 				// $(`.message`).html('');
 				// this.clearMessage();
 
@@ -464,7 +512,7 @@ const game = {
 				setTimeout( function() {
 				}, 3200);
 				setTimeout( function() {
-				$(`.message`).append(`Player ${i + 1} loses! Harrumph and Shucks-gollygeeze-darn-it-to-heck.`).fadeIn(1600);
+				$(`#player-${i + 1}-message`).append(`Player ${i + 1} loses! Harrumph and Shucks-gollygeeze-darn-it-to-heck.`).fadeIn(1600);
 				}, 3000);
 				setTimeout( function() {
 				}, 2400);
@@ -479,9 +527,9 @@ const game = {
 				// PUsh message
 					// this.clearMessage();
 				setTimeout( function() {
-				$(`.message`).append(`It\'s a push, Player ${i + 1}. Keep your chips.`).fadeIn(1600);
+				$(`#player-${i + 1}-message`).append(`It\'s a push, Player ${i + 1}. Keep your chips.`).fadeIn(1600);
 				}, 3000);
-				$(`.message`).hide('pulsate', 1200);
+				$(`#player-${i + 1}-message`).hide('pulsate', 1200);
 				// $(`.message`).html('');
 				// this.clearMessage();
 			} else if (playerFinalTotal < 22 && dealerTotal > 21) {
@@ -705,34 +753,43 @@ $('#strategy-btn-one').on('click', () => {
 });
 
 $('#odds-btn-two').on('click', () => {
+	game.playerTwoMessage.html('');
 	const player = game.players[1];
 	const dealer = game.dealer;
 	const countedCardsArr = game.countedCardsArr;
 	const currentCountOdds = game.currentCountOdds;
-	game.strategy.getOdds(player, dealer, countedCardsArr, currentCountOdds);
+	const res = game.strategy.getOdds(player, dealer, countedCardsArr, currentCountOdds);
+	game.playerTwoMessage.append(res).fadeIn(800);
 });
 
 $('#odds-btn-one').on('click', () => {
 	// console.log('odds btn clickeddddd ---');
+	game.playerOneMessage.html('');
 	const player = game.players[0];
 	const dealer = game.dealer;
 	const countedCardsArr = game.countedCardsArr;
 	const currentCountOdds = game.currentCountOdds;
-	game.strategy.getOdds(player, dealer, countedCardsArr, currentCountOdds);
+	const res = game.strategy.getOdds(player, dealer, countedCardsArr, currentCountOdds);
+	game.playerOneMessage.append(res).fadeIn(800);
 });
 
 $('#count-btn-one').on('click', () => {
 	const countedCardsArr = game.countedCardsArr;
 	const currentCountOdds = game.currentCountOdds;
 	const dealer = game.dealer;
-	game.strategy.getCount(dealer, countedCardsArr, currentCountOdds);
+	const res = game.strategy.getCount(dealer, countedCardsArr, currentCountOdds);
+	// game.playerOneMessage.fadeOut(800);
+	game.playerOneMessage.append(res).fadeIn(800);
 });
 
-$('#count-btn-two').on('click', () => {
+$('#count-btn-two').on('click', async () => {
 	const countedCardsArr = game.countedCardsArr;
 	const currentCountOdds = game.currentCountOdds;
 	const dealer = game.dealer;
-	game.strategy.getCount(dealer, countedCardsArr, currentCountOdds);
+	const res = game.strategy.getCount(dealer, countedCardsArr, currentCountOdds);
+	console.log(res);
+	// game.playerTwoMessage.fadeOut(800);
+	game.playerTwoMessage.append(res).fadeIn(800);
 });
 
 

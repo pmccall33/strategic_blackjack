@@ -379,6 +379,7 @@ p {
 	justify-content: center;
 	width: 100%;
 	margin: -14% 0 -30% -1%;
+	z-index: 4;
 }
 
 #center-logo {
@@ -465,7 +466,8 @@ h2, #center-logo-text {
 	text-align: center;
 	width: 100%;
 	margin-bottom: -2%;
-	margin-top: -6%;
+	margin-top: -10%;
+	padding: 4px;
 }
 
 .message-box {
@@ -476,9 +478,10 @@ h2, #center-logo-text {
 	height: 60px;
 	width: 256px;
 	margin: -16% auto 0 auto;
-	background-color: rgba(93, 107, 97, .4);
+	background-color: rgba(93, 107, 97, .6);
 	border: 4px solid orange;
 	border-radius: 6px;
+	padding: 4px;
 }
 
 .message {
@@ -489,11 +492,14 @@ h2, #center-logo-text {
 
 #dealer-message {
 	align-self: center;
+	background-color: rgba(93, 107, 97, 1.0);
 	font-size: 20px;
-	border: 6px solid purple;
+	border: 6px solid whitesmoke;
 	border-radius: 8px;
 	border-style: double;
-	margin: 0 auto 0 auto;
+	padding: 8px;
+	margin: 0 auto -8% auto;
+	z-index: 17;
 }
 
 #player-1-message {
@@ -785,6 +791,7 @@ h2, #center-logo-text {
 	border-color: orange;
 	color: orange;
 	cursor: pointer;
+	z-index: 13;
 }
 
 
@@ -1170,6 +1177,7 @@ button {
 	border-radius: 6px;
 	background-color: black;
 	margin-bottom: -60px;
+	padding: 2px;
 	margin: 2px 2px -2% -20%;
 }
 
@@ -1177,8 +1185,7 @@ button {
 	display: flex;
 	flex-direction: column;
 	justify-content: right;
-	height: 40px;
-	/*width: 72px;*/
+	min-height: 40px;
 	min-width: 72px;
 	border: 2px solid orange;
 	border-radius: 6px;
@@ -1186,7 +1193,8 @@ button {
 	margin-right: 100px;
 /*	margin-bottom: -60px;
 	margin-left: -30px;*/
-	margin: 2px 3% -3% 2px;
+	padding: 2px;
+	margin: 2px 3% -2% 2px;
 }
 
 
@@ -1228,6 +1236,11 @@ img {
 	height: auto;
 }
 
+ .chipstack {
+	width: 60px;
+	align-self: center;
+	margin: 2px;
+}
 
 
 

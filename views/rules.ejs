@@ -26,31 +26,33 @@
 <title>Blackjack</title>
 
 <body>
-	<header class="header-container">
-		<h1 class="header-title">Strategic</h1><br>
-		<h1 class="header-title">   Blackjack!</h1>
-		<!--  <img src="assets/table-images/header-cards-1.jpg" alt="blackjack cards image" id="header-cards-2"> -->
-	</header>
+  <header class="header-container">
+    <h1 class="header-title">Strategic</h1><br>
+    <h1 class="header-title">   Blackjack!</h1>
+    <!--  <img src="assets/table-images/header-cards-1.jpg" alt="blackjack cards image" id="header-cards-2"> -->
+  </header>
 
-	<nav>
-		<a href="./home.html">Home</a>
-		<a href="<%= userBarId %>">My Account</a>
-		<a href="./rules.html">Rules</a>
-		<a href="./about.html">About</a>
-		<a href="/user/login.html">Login</a>
-		<a href="/user/register.html">Sign Up</a>
-		<a href="/user/logout.html">Logout</a>
-	</nav>
-
-	<div class="container body-content">
-		<footer class="footer">
-			<small>&copy petermccallmurray, 2019</small>
-		</footer>
-	</div>
+  <nav>
+    <a href="./home.html">Home</a>
+    <a href="<%= userBarId %>">My Account</a>
+    <a href="./rules.html">Rules</a>
+    <a href="./about.html">About</a>
+    <a href="/user/login.html">Login</a>
+    <a href="/user/register.html">Sign Up</a>
+    <a href="/user/logout.html">Logout</a>
+  </nav>
+    <br><span><%= messageDev %></span>
+    <br><span class="" id="#session-message-span"><%= message %></span>
+  <div class="container body-content">
+    <footer class="footer">
+      <small>&copy petermccallmurray, 2019</small>
+    </footer>
+  </div>
 </body>
-<!--   	<script src="assets/table-images/black:green-fade-2.jpeg"></script>
+<!--    <script src="assets/table-images/black:green-fade-2.jpeg"></script>
  --><script src="card-images.mjs"></script>
-	<script data-main="scripts/main" src="js/scripts/require.js"></script>
-	<script src="js/app.mjs" type="module"></script>
-	<script src="js/start.js" type="module"></script>
+  <script data-main="scripts/main" src="js/scripts/require.js"></script>
+  <script src="../../node_modules/ejs/ejs.js"></script>  
+  <script src="js/app.mjs" type="module"></script>
+  <script src="js/start.js" type="module"></script>
 </html>

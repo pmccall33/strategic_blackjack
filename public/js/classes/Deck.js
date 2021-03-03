@@ -1,11 +1,11 @@
 import { Card } from './Card.js';
 
-/*  <<<================================================================>>> 
-								Deck Class 	
+/*  <<<================================================================>>>
+								Deck Class
 	<<<================================================================>>> */
 
-class Deck {	
-	
+class Deck {
+
 	constructor() {
 		this.deck = [];
 		this.numOfDecks = 1;
@@ -32,16 +32,16 @@ class Deck {
 	    }
 
 	    //set reverse card images
-	    this.deck[52] = `assets/PNG-cards-1.3/52`;
-	    this.deck[53] = `assets/PNG-cards-1.3/53`; // alternate reverse img
-	    this.deck[54] = `assets/PNG-cards-1.3/54`; // alternate reverse img
+	    // this.deck[52] = `assets/PNG-cards-1.3/52`;
+	    // this.deck[53] = `assets/PNG-cards-1.3/53`; // alternate reverse img
+	    // this.deck[54] = `assets/PNG-cards-1.3/54`; // alternate reverse img
 	}
 
 	shuffleCards () {
 		// create new array of randomized cards from deck
-		
+
 		let randomIndex = Math.floor(Math.random() * this.deck.length);
-		
+
 		// console.log(this.deck);
 		const shuffledDeck = [];
 		let x = 0;
@@ -49,6 +49,7 @@ class Deck {
 			shuffledDeck.push(this.deck.splice(Math.floor(Math.random() * this.deck.length), 1)[0]);
 		}
 		this.deck = shuffledDeck;
+		console.log(this.deck.length, '--this.deck.lemgth at shuffle.....…');
 	}
 
 	dealCard () {

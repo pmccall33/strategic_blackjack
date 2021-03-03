@@ -17,11 +17,11 @@ class Strategy {
 		this.playerBustOdds = 0,
 		this.playerHasAce = false,
 		this.playerBustRating = hf.createEnumFromObjOfStrings({
-			'GREAT' : ' 👍 💰 Go for it. Zero chance of busting.',
-			'GOOD' : ' ✅ Pretty darn Good.',
-			'AVERAGE' : ' ↔️ Just about even odds.',
-			'FAIR' : ' ⚠️ Cuidado, Not super swell.',
-			'POOR' : '  ❌ Wouldn\'t advise it.'
+			'GREAT' : ' 👍 💰 ZERO chance of busting. Go for it. ',
+			'GOOD' : ' ✅ Pretty darn LOW chance.',
+			'AVERAGE' : ' ↔️ Just about EVEN odds.',
+			'FAIR' : ' ⚠️ On the HIGH side, Cuidado.',
+			'POOR' : '  ❌ EXTREMELY likely. Would. Not. Advise.'
 		})
 	}
 
@@ -138,20 +138,23 @@ class Strategy {
 
 			// console.log(this.correctPlay, 'correctPlay with a pair');
 			return this.correctPlay;
-		};  									// end if stmnt for pairs.
+		};  									// -------------------------------------   end switch stmnt for pairs.
 
 		// Player has one ace. (soft totals).
 
 		if (player.playerHasAce) {
-			console.log(player.playerHasAce, 'playerHasAce in soft totals');
+			console.log(player.playerHasAce, this.playerHandValue, 'playerHasAce in soft totals');
 			switch (this.playerHandValue) {     // switch 2
 				case 21:
+				case 11:
 					return 'You got 21, Buddy. Relax and take your dough.';
 					break;
 				case 20:
+				case 10:
 					return 'You should Stay';
 					break;
 				case 19:
+				case 9:
 					return this.this.dealerUpCardValue === 6 ? 'Double Down!' : 'Stand Pat';
 
 					// if (this.dealerUpCardValue === 6) {
@@ -161,6 +164,7 @@ class Strategy {
 					// };
 					break;
 				case 18:
+				case 8:
 					return this.dealerUpCardValue < 7 ? 'Double Down Here'
 						: this.dealerupCardValue === 7 ? 'You should Stay'
 						: this.dealerUpCardValue === 8 ? 'Hit now' :
@@ -175,6 +179,7 @@ class Strategy {
 					// };
 					break;
 				case 17:
+				case 7:
 					return (this.dealerUpcardValue === 2 || 6 < this.dealerUpCardValue) ? 'Hit on this' : 'Double Down, My Friend'
 
 					// if (this.dealerUpCardValue === 2 || 7 || 8 || 9 || 10 || 11) {
@@ -185,6 +190,8 @@ class Strategy {
 					break;
 				case 15:
 				case 16:
+				case 5:
+				case 6:
 					return ( 3 < this.dealerUpCardValue < 7 ) ? 'Double it Up' : 'Hit';
 
 					// if (this.dealerUpCardValue === 4 || 5 || 6) {
@@ -195,6 +202,8 @@ class Strategy {
 					break;
 				case 13:
 				case 14:
+				case 3:
+				case 4:
 					return ( this.dealerUpCardValue === 5 || this.dealerUpCardValue === 6 ) ? 'Double' : 'Hit it';
 
 					// if (this.dealerUpCardValue === 5 || 6) {
@@ -209,7 +218,7 @@ class Strategy {
 			};  							// end soft total switch
 			console.log(this.correctPlay, ' - for soft total');
 			return this.correctPlay;
-		}; 									// End if for one ace/soft hands.
+		}; 									//  -----------------------------    End switch for one ace/soft hands.
 
 		// No pair/No ace in players hand. (Hard totals).
 		if ((this.playerHand[0] !== this.playerHand[1]) && (!player.playerHasAce)) {
@@ -332,84 +341,86 @@ class Strategy {
 						break;
 				};
 			};
-		}; 									// end if hardTotals/ no ace
+		}; 									// -------------------------------    end switch hardTotals/ no ace
 		return 'Error in getting Strategy';
-	} 											// end getBasicStrategicPlay()
+	} 																		// ----------------  end getBasicStrategicPlay() ------------
 
-	getOdds(player, dealer, countedCardsArr, currentCountOdds) {
+	getOdds(player, dealer, countedCardsArr, currentCountOdds) { 				// ++++++++++ START getOdds() +++
 		let dealerUpCardValue = dealer.currentHand[0].value;
 		this.player = player;
 		let playerHasAce = this.player.playerHasAce;
 		currentCountOdds = 0;
 
-		this.possibleHandValuesArr = this.player.getPossibleHandValuesArr();
 		let playerHand = this.player.currentTally;
 		let playerBustOdds = 0;
 		let handOdds = currentCountOdds += currentCountOdds
 
-		console.log(playerHasAce, 'playerHas ACCCCCCE');
-		// this.player.playerHandValue = player.currentTally;
+		this.possibleHandValuesArr = this.player.getPossibleHandValuesArr();
+
 		// Get odds against dealerUpCard
 		const getDealerUpCardOdds = function() {
+			let dealerCountOdds = 0;
 			switch (dealerUpCardValue) {			// DealerUpCard switch
 				case 11:
-					currentCountOdds -= 16.0;
+					dealerCountOdds -= 16.0;
 					break;
 				case 10:
-					currentCountOdds -= 16.9;
+					dealerCountOdds -= 16.9;
 					break;
 				case 9:
-					currentCountOdds -= 4.3;
+					dealerCountOdds -= 4.3;
 					break;
 				case 8:
-					currentCountOdds += 5.4;
+					dealerCountOdds += 5.4;
 					break;
 				case 7:
-					currentCountOdds += 14.3;
+					dealerCountOdds += 14.3;
 					break;
 				case 6:
-					currentCountOdds += 23.9;
+					dealerCountOdds += 23.9;
 					break;
 				case 5:
-					currentCountOdds += 23.2;
+					dealerCountOdds += 23.2;
 					break;
 				case 4:
-					currentCountOdds += 18.0;
+					dealerCountOdds += 18.0;
 					break;
 				case 3:
-					currentCountOdds += 13.4;
+					dealerCountOdds += 13.4;
 					break;
 				case 2:
-					currentCountOdds += 9.8;
+					dealerCountOdds += 9.8;
 					break;
 				default:
-					currentCountOdds = 0;
+					dealerCountOdds = 0;
 					console.log('Error in getDealerUpCardOdds switch, try again later.');
 					break;
 			};
-			return currentCountOdds;
+			console.log(dealerCountOdds,'dealerCountOdds ++++<<<');
+			return dealerCountOdds;
 		};										// End dealerUpCardOdds()
 
 		// Adjust and display odds for dealt/counted cards
-		const adjustOddsForCountedCards = (currentCountOdds) => {
+		const adjustOddsForCountedCards = function(odds) {
 			countedCardsArr.forEach( card => {
-				currentCountOdds += card.oddsValue;
+				odds += card.oddsValue;
 			});
+			const adjOdds = odds;
+			console.log(adjOdds, 'adjOdds in adjust-------≤≤≤');
+			return adjOdds;
 		};
 
 		// Get odds of player busting with next hit
-		const getPlayerBustOdds = (player) => {
+		const getPlayerBustOdds = (player, odds) => {
 			let currentBustRating = this.playerBustRating.GREAT;
-
-			console.log(playerHand, this.possibleHandValuesArr, 'playerHand, possible values arr ----before ++');
+			let tblOdds = odds;
 
 			// If player has ace use the lowest hand value to get bust chances
 			if (playerHasAce) {
 				playerHand = this.possibleHandValuesArr[this.possibleHandValuesArr.length - 1];
-				console.log(playerHand, ' has ace hand Value')
 			}
-			console.log(playerHand, this.possibleHandValuesArr, 'playerHand, possible values arr ----after');
 
+			// Switch to determmine total player odds of busting on a hit card
 			if (playerHand < 12) {
 				playerBustOdds = 0;
 				currentBustRating = this.playerBustRating.GREAT;
@@ -457,41 +468,56 @@ class Strategy {
 							break;
 						default:
 							playerBustOdds = NaN;
-							console.log('Error getting bust odds at this time. Check back later.');
+							console.log('OOPS. Error getting bust odds at this time. Check back later.');
 							break
 						};
 				};
-				console.log(playerBustOdds, '- playerBustOdds');
-				console.log(currentBustRating.toString(), '- currentBustRating');
-				return playerBustOdds, currentBustRating;
+				console.log(tblOdds, ': tblOdds', playerBustOdds, ': playerBustOdds', currentBustRating.descrption, ': currentBustRating.descrption');
+
+				// adjust for current count and dealer up card, adjust for Ace and format to 4 sigdigs
+				let totalPlayerBustOdds;
+				(this.player.playerHasAce && this.player.currentHand.length < 3)
+						? totalPlayerBustOdds = 0
+						: totalPlayerBustOdds = Math.floor(((playerBustOdds += tblOdds) * 1000) / 1000 );
+
+
+				const resArr = [ playerBustOdds, currentBustRating ];
+				return resArr;
 		};
 
-		// const messagePlayerOdds () => {
+													// ----------------    		End playerBustOdds -----------
 
-		// }
+		// Take all KNOWn table factors and compute odds
+		let adjustedTableOdds = adjustOddsForCountedCards(getDealerUpCardOdds());
+		adjustedTableOdds = Math.floor((adjustedTableOdds * 1000) / 1000 );
 
-													// End playerBustOdds
+		let sign = '+';
+		(adjustedTableOdds > 0) ? sign : sign = '';
 
-		getDealerUpCardOdds();
-		adjustOddsForCountedCards(currentCountOdds);
-		getPlayerBustOdds();
+		// console.log(adjustedTableOdds, 'adjTblOdds  $$$$$$$');
+		// Get players total current odds and bust rating symbol
+		const bustOddsAndRating = getPlayerBustOdds(this.player, adjustedTableOdds);
+		// console.log(bustOddsAndRating, 'bustOddsAndRating *^*^*^*^*^*^*^8');
 
-		// console.log(currentCountOdds, playerBustOdds, '- currentCountOdds, playerBustOdds');
-		return currentCountOdds, playerBustOdds;
-	} 														// end getOdds().
+		const res = `playerAdvantage: ${sign}${adjustedTableOdds}%,\nplayerBustOdds: ${bustOddsAndRating[0]}%,\n ${bustOddsAndRating[1].description}`;
+		return res;
+	} 														//	-------------------- 			 end getOdds(). ================
 
 	getCount(dealer, countedCardsArr, currentCountOdds) {
 		this.countedCardsArr = countedCardsArr;
 		this.currentCountOdds = currentCountOdds;
 		this.dealer = dealer;
 
-		const countedRanksArr = this.countedCardsArr.map(function(card) {
-			return card.rank;
-		});
+		// Get Arr of cards already played to return to player
+		const countedRanksArr = this.countedCardsArr.map((card) => card.rank);
 
-		console.log(`Your current count should be ${this.currentCountOdds}.\n Here are the cards played thusfar: \n
-			${countedRanksArr}.`);
+		// Adjust count odds here
+
+		const res = `Your current count should be ${this.currentCountOdds}.\n Here are the cards played thusfar: \n
+			${countedRanksArr}.`;
+		console.log(res);
+		return res;
 	}
-}; 														// end class Strategy
+}; 														// ---------------- 					end class Strategy
 
 export { Strategy };

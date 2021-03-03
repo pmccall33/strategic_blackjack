@@ -31,30 +31,26 @@
 		<h1 class="header-title">   Blackjack!</h1>
 		<!--  <img src="assets/table-images/header-cards-1.jpg" alt="blackjack cards image" id="header-cards-2"> -->
 	</header>
-
 	<nav>
-		<a href="./home.html">Home</a>
-		<a href="<%= userBarId %>" id="user-link">My Account</a>
-		<a href="./rules.html">Rules</a>
-		<a href="./about.html">About</a>
-		<div class="login-link">
-			<a href="/user/register.html" id="register-link">Login/Sign Up</a>
-			<a href="/user/logout.html"id="login-link">Logout</a>
-		</div>
+		<a href="../">Home</a>
+		<a href="../<%= userBarId %>">My Account</a>
+		<a href="../rules">Rules</a>
+		<a href="../about">About</a>
+		<a href="/user/login">Login</a>
+		<a href="/user/register">Sign Up</a>
+		<a href="/user/logout">Logout</a>
 	</nav>
-	<div class="dealer-container">
-		<div class="dealer-image-container">
-			<img id="dealer-image" src="https://thumbs.dreamstime.com/b/handsome-dealer-shuffling-playing-cards-deck-chips-green-table-casino-gambling-poker-people-entertainment-concept-109414284.jpg" alt="Dealer image"></img>
-		</div>
-		<div class="message-container" id="home-message-container">
-			<div class="message-container" id="home-message-container-one">
-				<div class="message-box" id="home-message-box-left"></div>
-			</div>
-			<div class="message-container" id="home-message-container-two">
-				<div class="message-box" id="home-message-box-right"></div>
-			</div>
-		</div>
-	</div>
+  <div class="login-box-container">
+      <div class="login-box">
+        <form action="/user/login" method="POST">
+          <input type="text" name="username" placeholder="username" /><br />
+          <input type="password" name="password" placeholder="password" /><br />
+          <button>Log in</button>
+        </form>
+        <%=message%><br>
+        <small><a href="/user/register">Sign Up!</a></small>
+      </div>
+  </div>
 	<div class="container body-content">
 		<footer class="footer">
 			<small>&copy petermccallmurray, 2019</small>
@@ -62,8 +58,9 @@
 	</div>
 </body>
 <!--   	<script src="assets/table-images/black:green-fade-2.jpeg"></script>
- --><script src="card-images.mjs"></script>
-	<script data-main="scripts/main" src="js/scripts/require.js"></script>
-	<script src="js/app.mjs" type="module"></script>
-	<script src="js/start.js" type="module"></script>
+ --><script src="../card-images.mjs"></script>
+	<script data-main="scripts/main" src="../js/scripts/require.js"></script>
+  <script src="../../node_modules/ejs/ejs.js"></script>  
+	<script src="../js/app.mjs" type="module"></script>
+	<script src="../js/start.js" type="module"></script>
 </html>
