@@ -32,7 +32,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "joi": "^17.3.0",
-    "luxon": "^1.25.0",
+    "luxon": "^2.5.2",
     "method-override": "^3.0.0",
     "mongodb": "^3.6.3",
     "mongoose": "^5.11.11",
